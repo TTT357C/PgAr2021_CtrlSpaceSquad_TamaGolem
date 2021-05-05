@@ -10,7 +10,7 @@ import java.util.Deque;
  */
 public class TamaGolem {
 
-    Deque<Pietra> pietre = new ArrayDeque<>();
+    private Deque<Pietra> pietre = new ArrayDeque<>();
     private int salute = 100;
 
     public Deque<Pietra> getPietre() {

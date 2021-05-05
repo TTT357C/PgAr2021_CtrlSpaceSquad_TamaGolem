@@ -6,7 +6,7 @@ package it.unibs.ing.fp.tamagolem;
  * @author Rossi Mirko
  */
 public class Pietra {
-    Tipo tipo_pietra;
+    private Tipo tipo_pietra;
 
     public Tipo getTipo_pietra() {
         return tipo_pietra;
