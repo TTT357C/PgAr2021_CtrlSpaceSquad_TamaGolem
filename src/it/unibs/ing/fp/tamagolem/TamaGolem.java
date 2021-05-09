@@ -10,15 +10,23 @@ import java.util.Deque;
  */
 public class TamaGolem {
 
+    private final static int SALUTE = 100;
+
     private Deque<Pietra> pietre = new ArrayDeque<>();
-    private int salute = 100;
+    private int salute;
+
+    public TamaGolem(){
+
+        this.salute = SALUTE;
+
+    }
 
     public Deque<Pietra> getPietre() {
         return pietre;
     }
 
-    public void setPietre(Deque<Pietra> pietre) {
-        this.pietre = pietre;
+    public void setPietre(Pietra pietra) {
+        this.pietre.add(pietra);
     }
 
     public int getSalute(){
