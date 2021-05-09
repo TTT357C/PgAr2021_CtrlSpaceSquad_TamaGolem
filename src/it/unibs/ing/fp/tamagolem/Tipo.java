@@ -6,14 +6,29 @@ package it.unibs.ing.fp.tamagolem;
  * @author Rossi Mirko
  */
 public enum Tipo {
-    FUOCO,
-    ACQUA,
-    ARIA,
-    TERRA,
-    ELETTRO,
-    LUCE,
-    BUIO,
-    GHIACCIO,
-    MAGNETICO,
-    PSICO
+
+
+    FUOCO(false),
+    ACQUA(false),
+    ARIA(false),
+    TERRA(false),
+    ELETTRO(false),
+    LUCE(false),
+    BUIO(false),
+    GHIACCIO(false),
+    MAGNETICO(false),
+    PSICO(false);
+
+    private  boolean ePresente;
+    Tipo( boolean stato) {
+        this.ePresente = stato;
+    }
+
+    public void setM(boolean modifica){
+       this.ePresente = modifica;
+    }
+
+    public boolean getM() {
+        return ePresente;
+    }
 }
