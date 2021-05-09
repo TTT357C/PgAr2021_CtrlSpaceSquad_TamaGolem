@@ -16,6 +16,10 @@ public class Pietra {
 
     }
 
+    public Pietra(Tipo tipo){
+        tipo_pietra = tipo;
+    }
+
     public Tipo getTipo_pietra() {
         return tipo_pietra;
     }
