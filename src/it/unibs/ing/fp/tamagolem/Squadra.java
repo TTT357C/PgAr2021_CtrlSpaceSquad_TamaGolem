@@ -9,11 +9,21 @@ public class Squadra {
 
     /**
      * Metodo costruttore della squadra
-     * @param tamagolem Stack di tamagolem
      * @param combattente Classe combattente che lo identifica
      */
-    public Squadra(Stack<TamaGolem> tamagolem, Combattente combattente) {
-        this.tamagolem = tamagolem;
+    public Squadra(Combattente combattente) {
         this.combattente = combattente;
+    }
+
+    public void creaTama(){
+        tamagolem.addElement(new TamaGolem());
+    }
+
+    public Stack<TamaGolem> getTamagolem() {
+        return tamagolem;
+    }
+
+    public Combattente getCombattente() {
+        return combattente;
     }
 }

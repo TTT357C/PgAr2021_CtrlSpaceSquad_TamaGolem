@@ -2,6 +2,7 @@ package it.unibs.ing.fp.tamagolem;
 
 import it.unibs.ing.fp.mylib.InputGame;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Partita {
@@ -34,6 +35,10 @@ public class Partita {
         //S Quantita di pietre nella scorta comune
         int S = ((2 * G * P) / N) * N +N;
 
+        //inizializzazione tamagolem
+        inizializzaTama(G);
+
+
         /*
         System.out.println(N);
         System.out.println(G);
@@ -44,12 +49,20 @@ public class Partita {
         //Todo
 
         //creazione Set di pietre comuni
-        boolean[][] set_pietre_comuni = new boolean[N][S/N];
-        creazioneSet(set_pietre_comuni);
-        //creare un altro array con i nomi parallelo a setpietrecomuni Todo
+        ArrayList<Pietra> scorta_comune = new ArrayList<>();
+        for (Tipo dir : Tipo.values()) {
+            if(dir.getM()){
+                scorta_comune.add(new Pietra(dir,(S/N)));
+            }
+        }
+        /*for (int i = 0; i < scorta_comune.size(); i++) {
+            System.out.println(scorta_comune.get(i).getQuantita_pietra() + " " + scorta_comune.get(i).getTipo_pietra());
+        }*/
 
         //Inizio scontro Todo
+        do{
 
+        }while(squadra_uno.getTamagolem().size()>0 || squadra_due.getTamagolem().size()>0);
 
         //Dichiara vincitore Todo
 
@@ -58,17 +71,13 @@ public class Partita {
     }
 
     /**
-     * Metodo utilizzato per l'inizializzazione del set di pietre comuni
-     * Metto true = non utilizzata
-     * Poi quando verrà presa mettero false
-     * @param set_pietre_comuni Matrice booleana
+     * Metodo che inizializza i golem delle squadre
+     * @param nGolem Numero di golem per squadra
      */
-    private void creazioneSet(boolean[][] set_pietre_comuni) {
-        for (int i = 0; i < set_pietre_comuni.length; i++) {
-            for (int j = 0; j < set_pietre_comuni[0].length; j++) {
-                set_pietre_comuni[i][j]=true;
-            }
-
+    private void inizializzaTama(int nGolem){
+        for (int i = 0; i < nGolem; i++) {
+            squadra_uno.creaTama();
+            squadra_due.creaTama();
         }
     }
 
