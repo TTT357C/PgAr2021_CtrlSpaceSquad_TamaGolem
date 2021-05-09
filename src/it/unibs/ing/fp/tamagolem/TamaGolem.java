@@ -33,8 +33,10 @@ public class TamaGolem {
         return salute;
     }
 
-    public void setSalute(int salute){
-        this.salute = salute;
+    public void setSaluteDanno(int danno){
+
+        this.salute -= danno;
+
     }
 
     /**
