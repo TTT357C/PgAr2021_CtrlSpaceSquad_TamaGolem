@@ -62,12 +62,16 @@ public class Partita {
         //Inizio scontro Todo
         do{
 
-        }while(squadra_uno.getTamagolem().size()>0 || squadra_due.getTamagolem().size()>0);
+        }while(isTerminata());
 
         //Dichiara vincitore Todo
 
         //Visualizza equilibrio Todo
 
+    }
+
+    private boolean isTerminata() {
+        return squadra_uno.getTamagolem().size() > 0 || squadra_due.getTamagolem().size() > 0;
     }
 
     /**
