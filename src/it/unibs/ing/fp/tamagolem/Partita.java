@@ -1,5 +1,6 @@
 package it.unibs.ing.fp.tamagolem;
 
+import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.InputGame;
 
 import java.util.ArrayList;
@@ -55,25 +56,26 @@ public class Partita {
             }
         }*/
 
-        /*for (int i = 0; i < scorta_comune.size(); i++) {
-            System.out.println(scorta_comune.get(i).getQuantita_pietra() + " " + scorta_comune.get(i).getTipo_pietra());
-        }*/
-
-        squadra_uno.getTamagolem().addTipoPietra(new Pietra(Tipo.ACQUA));
-        squadra_uno.getTamagolem().addTipoPietra(new Pietra(Tipo.ARIA));
-        squadra_uno.getTamagolem().addTipoPietra(new Pietra(Tipo.BUIO));
+        ArrayList <Tipo> t = new ArrayList<>();
+        t.add(Tipo.LUCE);
+        t.add(Tipo.ACQUA);
+        t.add(Tipo.ARIA);
+        t.add(Tipo.FUOCO);t.add(Tipo.PSICO);
 
 
-        System.out.println(squadra_uno.getTamagolem().getPietre().getTipo_pietra().name());
-        squadra_uno.getTamagolem().cambioPietra();
-        System.out.println(squadra_uno.getTamagolem().getPietre().getTipo_pietra().name());
+        for (int i = 0; i < N; i++) {
+            scorta_comune.add(new Pietra(t.get(i),S/N));
+        }
+        evoluzione(squadra_uno,scorta_comune,P);
+        evoluzione(squadra_due,scorta_comune,P);
 
         //Inizio scontro Todo
-        /*
+
         do{
 
+
         }while(isTerminata());
-        */
+
 
         //Dichiarazione vincitore
         Combattente vincitore;
@@ -93,6 +95,40 @@ public class Partita {
 
         //Visualizza equilibrio Todo
 
+    }
+
+    /**
+     *
+     * @param squadra Squadra che deve scegliere i tipi di pietra per il golem
+     * @param scorta_comune ArrayList con la scorta di pietre che è possibile scegliere
+     * @param p Numero di pietre per ogni golem
+     */
+    private void evoluzione(Squadra squadra, ArrayList<Pietra> scorta_comune, int p) {
+        System.out.println("Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
+        for (int i = 0; i < p; i++) {
+            stampaScorte(scorta_comune);
+            int pietra_scelta;
+            do {
+                pietra_scelta = InputDati.leggiIntero("Scegli il numero della pietra da mettere nel golem: ", 0, scorta_comune.size() - 1);
+            }while(scorta_comune.get(pietra_scelta).getQuantita_pietra()< 1);
+            squadra.getTamagolem().addTipoPietra(new Pietra(scorta_comune.get(pietra_scelta).getTipo_pietra()));
+            scorta_comune.get(pietra_scelta).decrementaQuantitaPietra();
+            System.out.println();
+        }
+    }
+
+    /**
+     * Metodo che stampa la scorte comune di pietre disponibili
+     * @param scorta_comune Arraylist di pietre
+     */
+    private void stampaScorte(ArrayList<Pietra> scorta_comune) {
+        System.out.println("======================================================");
+        System.out.println("\tNUMERO \t NOME \t QUANTITA'");
+        for (int i = 0; i < scorta_comune.size(); i++) {
+
+            System.out.println("\t"+i+" \t\t "+ scorta_comune.get(i).getTipo_pietra().name() + " \t\t " + scorta_comune.get(i).getQuantita_pietra());
+        }
+        System.out.println("======================================================");
     }
 
     /**
