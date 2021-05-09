@@ -1,4 +1,6 @@
 package it.unibs.ing.fp.mylib;
+import it.unibs.ing.fp.tamagolem.Combattente;
+
 import java.util.*;
 
 public class InputGame {
@@ -12,6 +14,10 @@ public class InputGame {
         return creato;
     }
 
+    /**
+     * Metodo scelta difficolta
+     * @return INTERO
+     */
     public static int scegliDifficolta(){
         boolean finito = false;
         int valoreLetto = 0;
@@ -39,6 +45,17 @@ public class InputGame {
 
         } while (!finito);
         return valoreLetto;
+    }
+
+    public static void stampaVittoria(Combattente vincitore){
+        if(vincitore != null){
+            //String nome_vincitore = vincitore.getNome_combattente();
+            System.out.format("Il vincitore è %s %n COMPLIMENTI!!!!",vincitore.getNome_combattente());
+        }
+        else{
+            System.out.format("La partita e' finita in pareggio!");
+        }
+
     }
 
 }

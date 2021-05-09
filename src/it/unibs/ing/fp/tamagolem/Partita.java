@@ -64,12 +64,30 @@ public class Partita {
 
         }while(isTerminata());
 
-        //Dichiara vincitore Todo
+        //Dichiara vincitore
+        Combattente vincitore = null;
+        if(squadra_uno.getTamagolem().size() == 0){
+            //VITTORIA SQUADRA DUE
+            vincitore = squadra_due.getCombattente();
+        }
+        else if(squadra_due.getTamagolem().size() == 0){
+            //VITTORIA SQUADRA UNO
+            vincitore = squadra_uno.getCombattente();
+        }
+        else{
+            //PAREGGIO
+            vincitore = null;
+        }
+        InputGame.stampaVittoria(vincitore);
 
         //Visualizza equilibrio Todo
 
     }
 
+    /**
+     * Metodo che calcola se la partita è terminata
+     * @return Ritorna true se NON è termianta
+     */
     private boolean isTerminata() {
         return squadra_uno.getTamagolem().size() > 0 || squadra_due.getTamagolem().size() > 0;
     }
@@ -92,7 +110,7 @@ public class Partita {
     private int setN(){
         Random rand = new Random();
         int difficolta = InputGame.scegliDifficolta();
-        int n_elementi=0,max=0,min=0;
+        int n_elementi,max=0,min=0;
         switch (difficolta){
             //Facile
             case 0:
