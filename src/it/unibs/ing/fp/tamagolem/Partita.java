@@ -46,13 +46,15 @@ public class Partita {
         // CREARE EQUILIBRIO PASSANDO N
         //Todo
 
-        //creazione Set di pietre comuni
+        //creazione Set di pietre comuni Todo
         ArrayList<Pietra> scorta_comune = new ArrayList<>();
-        for (Tipo dir : Tipo.values()) {
+        //TIPI INDICA L'ARRAYLIST DI THOMAS con i TIPI PRESENTI Todo
+        for (Tipo dir : tipi) {
             if(dir.getM()){
                 scorta_comune.add(new Pietra(dir,(S/N)));
             }
         }
+
         /*for (int i = 0; i < scorta_comune.size(); i++) {
             System.out.println(scorta_comune.get(i).getQuantita_pietra() + " " + scorta_comune.get(i).getTipo_pietra());
         }*/
