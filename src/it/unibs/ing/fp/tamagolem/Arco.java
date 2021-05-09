@@ -1,3 +1,5 @@
+package it.unibs.ing.fp.tamagolem;
+
 public class Arco {
     Boolean senso;
 
