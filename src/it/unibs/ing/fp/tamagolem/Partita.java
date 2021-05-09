@@ -34,16 +34,14 @@ public class Partita {
         int G =  (N - 1)*(N - 2) / (2 * P);
         //S Quantita di pietre nella scorta comune
         int S = ((2 * G * P) / N) * N +N;
-
-        //inizializzazione tamagolem
-        inizializzaTama(G);
-
-
         /*
         System.out.println(N);
         System.out.println(G);
         System.out.println(P);
         System.out.println(S);*/
+
+        //inizializzazione tamagolem
+        inizializzaTama(G);
 
         // CREARE EQUILIBRIO PASSANDO N
         //Todo
@@ -64,8 +62,8 @@ public class Partita {
 
         }while(isTerminata());
 
-        //Dichiara vincitore
-        Combattente vincitore = null;
+        //Dichiarazione vincitore
+        Combattente vincitore;
         if(squadra_uno.getTamagolem().size() == 0){
             //VITTORIA SQUADRA DUE
             vincitore = squadra_due.getCombattente();
