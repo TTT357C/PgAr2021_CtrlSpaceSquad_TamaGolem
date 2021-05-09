@@ -22,6 +22,7 @@ public enum Tipo implements Comparable <Tipo>{
 
 
     //Boolean = senso, Integer = valore
+    private int n_true;
     private Map <Integer, Arco> archi = new TreeMap<>();
     private boolean ePresente;
 
@@ -39,6 +40,20 @@ public enum Tipo implements Comparable <Tipo>{
 
     public Map<Integer, Arco> getArchi() {
         return archi;
+    }
+
+    public void calcoloTrue(){
+        int cont=0;
+        for (Arco arco:archi.values()) {
+            if (arco.getSenso() == true) {
+                cont++;
+            }
+        }
+        n_true=cont;
+    }
+
+    public int getN_true() {
+        return n_true;
     }
 
     @Override
