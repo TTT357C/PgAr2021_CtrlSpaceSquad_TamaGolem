@@ -30,9 +30,12 @@ public class Pietra {
 
     }
 
-    public void setQuantita_pietra(int quantita_pietra) {
+    /**
+     * Decrementa
+     */
+    public void decrementaQuantitaPietra() {
 
-        this.quantita_pietra = quantita_pietra;
+        this.quantita_pietra--;
 
     }
 
