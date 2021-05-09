@@ -1,12 +1,13 @@
 package it.unibs.ing.fp.tamagolem;
 
+import java.util.*;
+
 /**
  * Enum dei tipi di forze naturali dello scontro tra TamaGolem
  *
  * @author Rossi Mirko
  */
-public enum Tipo {
-
+public enum Tipo implements Comparable <Tipo>{
 
     FUOCO(false),
     ACQUA(false),
@@ -19,9 +20,13 @@ public enum Tipo {
     MAGNETICO(false),
     PSICO(false);
 
-    private  boolean ePresente;
-    Tipo( boolean stato) {
-        this.ePresente = stato;
+
+    //Boolean = senso, Integer = valore
+    private Map <Integer, Arco> archi = new TreeMap<>();
+    private boolean ePresente;
+
+    Tipo( boolean e_presente) {
+        this.ePresente = e_presente;
     }
 
     public void setM(boolean modifica){
@@ -30,5 +35,17 @@ public enum Tipo {
 
     public boolean getM() {
         return ePresente;
+    }
+
+    public Map<Integer, Arco> getArchi() {
+        return archi;
+    }
+
+    @Override
+    public String toString() {
+        return this.name()+":\n " +
+                "\n archi=" + archi +
+                "\n ePresente=" + ePresente +
+                '}';
     }
 }
