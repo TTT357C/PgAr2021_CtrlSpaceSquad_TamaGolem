@@ -59,18 +59,29 @@ public class Partita {
             System.out.println(scorta_comune.get(i).getQuantita_pietra() + " " + scorta_comune.get(i).getTipo_pietra());
         }*/
 
+        squadra_uno.getTamagolem().addTipoPietra(new Pietra(Tipo.ACQUA));
+        squadra_uno.getTamagolem().addTipoPietra(new Pietra(Tipo.ARIA));
+        squadra_uno.getTamagolem().addTipoPietra(new Pietra(Tipo.BUIO));
+
+
+        System.out.println(squadra_uno.getTamagolem().getPietre().getTipo_pietra().name());
+        squadra_uno.getTamagolem().cambioPietra();
+        System.out.println(squadra_uno.getTamagolem().getPietre().getTipo_pietra().name());
+
         //Inizio scontro Todo
+        /*
         do{
 
         }while(isTerminata());
+        */
 
         //Dichiarazione vincitore
         Combattente vincitore;
-        if(squadra_uno.getTamagolem().size() == 0){
+        if(squadra_uno.getTamagolems().size() == 0){
             //VITTORIA SQUADRA DUE
             vincitore = squadra_due.getCombattente();
         }
-        else if(squadra_due.getTamagolem().size() == 0){
+        else if(squadra_due.getTamagolems().size() == 0){
             //VITTORIA SQUADRA UNO
             vincitore = squadra_uno.getCombattente();
         }
@@ -89,7 +100,7 @@ public class Partita {
      * @return Ritorna true se NON è termianta
      */
     private boolean isTerminata() {
-        return squadra_uno.getTamagolem().size() > 0 || squadra_due.getTamagolem().size() > 0;
+        return squadra_uno.getTamagolems().size() > 0 || squadra_due.getTamagolems().size() > 0;
     }
 
     /**

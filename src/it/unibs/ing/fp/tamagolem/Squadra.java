@@ -1,10 +1,12 @@
 package it.unibs.ing.fp.tamagolem;
 
-import java.util.Stack;
+import java.util.*;
+
 
 public class Squadra {
 
-    private Stack<TamaGolem> tamagolem ;
+    //private Stack<TamaGolem> tamagolem = new Stack<>();
+    private Deque<TamaGolem> tamagolem = new ArrayDeque<>();
     private Combattente combattente;
 
     /**
@@ -16,11 +18,14 @@ public class Squadra {
     }
 
     public void creaTama(){
-        tamagolem.addElement(new TamaGolem());
+        tamagolem.addFirst(new TamaGolem());
     }
 
-    public Stack<TamaGolem> getTamagolem() {
+    public Deque<TamaGolem> getTamagolems() {
         return tamagolem;
+    }
+    public TamaGolem getTamagolem() {
+        return tamagolem.getFirst();
     }
 
     public Combattente getCombattente() {

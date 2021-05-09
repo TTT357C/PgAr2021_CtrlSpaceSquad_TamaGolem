@@ -21,13 +21,10 @@ public class TamaGolem {
 
     }
 
-    public Deque<Pietra> getPietre() {
-        return pietre;
+    public Pietra getPietre() {
+        return pietre.getFirst();
     }
 
-    public void setPietre(Pietra pietra) {
-        this.pietre.add(pietra);
-    }
 
     public int getSalute(){
         return salute;
@@ -46,7 +43,7 @@ public class TamaGolem {
      * @author Rossi Mirko
      */
     public void addTipoPietra(Pietra pietra){
-        pietre.add(pietra);
+        this.pietre.addLast(pietra);
     }
 
     /**
