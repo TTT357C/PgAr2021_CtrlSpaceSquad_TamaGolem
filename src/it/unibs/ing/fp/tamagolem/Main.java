@@ -5,20 +5,21 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        final int NUMERO_ELEMENTI = 6;
-        final int VALORE_MAX = 8;
+        final int NUMERO_ELEMENTI = 5;
+        final int VALORE_MAX = 12;
         Random rand = new Random();
         ArrayList<Tipo> tipi = new ArrayList<>();
         boolean[] array = new boolean[100];
 
         //tutti
+        ArrayList<Tipo> tipi_temp = new ArrayList<>();
         for (Tipo dir : Tipo.values()) {
-            tipi.add(dir);
+            tipi_temp.add(dir);
         }
-        //elimino in piu'
-        int arr_lenght = tipi.size();
-        for (int i = 0; i < (arr_lenght - NUMERO_ELEMENTI); i++) {
-            tipi.remove(0);
+        //elimino in piu' aggiungendo a secondo array solo quelli che servono
+        int arr_lenght = tipi_temp.size();
+        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+            tipi.add(tipi_temp.get(i));
         }
         //setto a true quelli da utilizzare
         for (Tipo dir : tipi) {
@@ -31,7 +32,7 @@ public class Main {
         int cont_true=0;
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
 
-            //parte da i + 1 per evitare doppioni
+            //Parte da i + 1 per evitare doppioni
             for (int j = i + 1; j < NUMERO_ELEMENTI; j++) {
                 //Creo i sensi delle frecce del grafo
 
@@ -63,6 +64,123 @@ public class Main {
             System.out.println(dir);
         }
 
+        //=================================================
+        // Calcolo valori archi
+        //=================================================
 
+        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+            //=================================================
+            //trovo il numero di archi "dominanti"
+            tipi.get(i).calcoloTrue();
+            //=================================================
+        }
+
+        //==================================================================================================
+
+        for (int i = 0; i < NUMERO_ELEMENTI-1; i++) {
+
+            int nFalse=(NUMERO_ELEMENTI-tipi.get(i).getN_true()-1);
+
+            //contatori
+            int cont_f=nFalse;
+            int cont_t=tipi.get(i).getN_true();
+
+            int temp_max_false2 = 0;
+            int temp_max_true2 = 0;
+
+            //aggiorno se gia presenti valori da iterazioni precedenti
+            for (int j = 0; j < tipi.get(i).getArchi().size()+1; j++) {
+                if (j != i) {
+                    if (tipi.get(i).getArchi().get(j).getSenso()==false && tipi.get(i).getArchi().get(j).getValore()!=-1){
+                        temp_max_false2 += tipi.get(i).getArchi().get(j).getValore();
+                        cont_f--;
+                    }
+                    else if (tipi.get(i).getArchi().get(j).getSenso()==true && tipi.get(i).getArchi().get(j).getValore()!=-1){
+                        temp_max_true2 += tipi.get(i).getArchi().get(j).getValore();
+                        cont_t--;
+                    }
+                }
+            }
+
+            int a; //minimo
+
+            if (nFalse >= tipi.get(i).getN_true()) {
+                a=nFalse;
+            }
+            else {
+                a=tipi.get(i).getN_true(); // numero minimo
+            }
+
+            int b = VALORE_MAX; // numero massimo
+            int c = ((b-a) + 1);
+            //Numero da cui estrarre gli altri numeri delle frecce del grafo es: 10 = 5 + 3 + 2 + 1
+
+
+            int temp_max = rand.nextInt(c) + a;
+
+
+            System.out.println(" nTrue "+tipi.get(i).getN_true());
+            System.out.println(" nFalse"+nFalse);
+
+            int temp_max_false = temp_max-temp_max_false2;
+            int temp_max_true = temp_max-temp_max_true2;
+
+
+            int cont_numeri_false=0;
+            int cont_numeri_true=0;
+
+            System.out.println(" eee= "+temp_max_false);
+            int[] numeri_false = RandomNumSum(temp_max_false,cont_f);
+            System.out.println(" eee= "+temp_max_true);
+            int[] numeri_true = RandomNumSum(temp_max_true,cont_t);
+            for (int j = 0; j < tipi.get(i).getArchi().size()+1; j++) {
+
+                if (j != i) {
+                    if (tipi.get(i).getArchi().get(j).getSenso()==false && tipi.get(i).getArchi().get(j).getValore()==-1) {
+                        tipi.get(i).getArchi().get(j).setValore(numeri_false[cont_numeri_false]);
+                        tipi.get(j).getArchi().get(i).setValore(numeri_false[cont_numeri_false]);
+                        cont_numeri_false++;
+                    }
+                    if (tipi.get(i).getArchi().get(j).getSenso()==true && tipi.get(i).getArchi().get(j).getValore()==-1) {
+                        tipi.get(i).getArchi().get(j).setValore(numeri_true[cont_numeri_true]);
+                        tipi.get(j).getArchi().get(i).setValore(numeri_true[cont_numeri_true]);
+                        cont_numeri_true++;
+                    }
+                }
+            }
+        }
+
+        for (Tipo dir : tipi) {
+            System.out.println(dir);
+        }
+    }
+
+    public static int[] RandomNumSum(int num_max, int parti){
+        Random rand = new Random();
+        int[] numeri = new int[parti];
+
+        int temp = 0;
+        int sum = 0;
+        for (int i = 0; i < parti; i++) {
+            if (!((i+1) == parti)) {
+                temp = rand.nextInt((num_max - sum) / (parti - (i+1))) + 1;
+                numeri[i]=temp;
+                sum += temp;
+
+            } else {
+                int last = (num_max - sum);
+                if (last == 0) {
+                    //TODO controlla
+                    numeri[parti-2]=(numeri[parti-2]-1);
+                    last++;
+                    sum--;
+                }
+
+                numeri[i]=last;
+                sum += last;
+            }
+        }
+
+        return numeri;
     }
 }

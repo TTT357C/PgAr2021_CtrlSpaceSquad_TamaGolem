@@ -3,8 +3,8 @@ package it.unibs.ing.fp.tamagolem;
 import java.util.Objects;
 
 public class Arco implements Comparable <Arco>{
-    Boolean senso; // true e' dominante
-    int valore; // il valore dell' arco
+    private Boolean senso; // true e' dominante
+    private int valore; // il valore dell' arco
 
     public Arco(Boolean senso) {
         this.senso = senso;
@@ -13,6 +13,22 @@ public class Arco implements Comparable <Arco>{
 
     public Arco(Boolean senso, int valore) {
         this.senso = senso;
+        this.valore = valore;
+    }
+
+    public Boolean getSenso() {
+        return senso;
+    }
+
+    public int getValore() {
+        return valore;
+    }
+
+    public void setSenso(Boolean senso) {
+        this.senso = senso;
+    }
+
+    public void setValore(int valore) {
         this.valore = valore;
     }
 
@@ -31,7 +47,7 @@ public class Arco implements Comparable <Arco>{
 
     @Override
     public String toString() {
-        return "\n  Arco: " + "\n\tsenso=" + senso + "\n\tvalore=" + valore+";\n";
+        return "\n  Arco: " + "\n\tsenso=" + senso + " - valore=" + valore+";\n";
     }
 
     @Override
