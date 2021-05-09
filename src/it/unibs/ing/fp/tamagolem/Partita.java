@@ -49,11 +49,11 @@ public class Partita {
         //creazione Set di pietre comuni Todo
         ArrayList<Pietra> scorta_comune = new ArrayList<>();
         //TIPI INDICA L'ARRAYLIST DI THOMAS con i TIPI PRESENTI Todo
-        for (Tipo dir : tipi) {
+        /*for (Tipo dir : tipi) {
             if(dir.getM()){
                 scorta_comune.add(new Pietra(dir,(S/N)));
             }
-        }
+        }*/
 
         /*for (int i = 0; i < scorta_comune.size(); i++) {
             System.out.println(scorta_comune.get(i).getQuantita_pietra() + " " + scorta_comune.get(i).getTipo_pietra());
