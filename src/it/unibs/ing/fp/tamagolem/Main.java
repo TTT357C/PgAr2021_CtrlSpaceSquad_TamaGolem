@@ -6,17 +6,28 @@ import java.util.Random;
 
 public class Main {
 
-    private static final int NUMERO_ELEMENTI = 5;
+    private static final int NUMERO_ELEMENTI = 10;
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
     public static void main(String[] args) {
+        ArrayList<Tipo> tipi = equilibrio();
+    }
+
+    /**
+     * <h1> equilibrio </h1>
+     * @author Thomas Causetti
+     * <b> Metodo di generazione dell' equilibrio </b>
+     */
+    public static ArrayList<Tipo> equilibrio(){
+
+        ArrayList<Tipo> tipi = new ArrayList<>();
 
         int matrice[][];
         do {
-            matrice=Equilibrio();
+            matrice= equilibrioMatrice();
         }while(matrice[0][0]==-1);
 
-        ArrayList<Tipo> tipi = new ArrayList<>();
+
 
         //tutti
         ArrayList<Tipo> tipi_temp = new ArrayList<>();
@@ -50,25 +61,56 @@ public class Main {
         for (Tipo dir : tipi) {
             System.out.println(dir);
         }
+
+        return tipi;
     }
 
     /**
+     * <h1> equilibrioMatrice </h1>
+     * <p>Metodo che crea la matrice necessaria per generare l'equilibrio</p>
+     * <p>
+     * Primo passo:
+     *
+     *  Crea una matrice di questo tipo:
+     *  (Quadrata di ordine NUMERO_ELEMENTI, simmetrica)
+     *
+     *  0	-3	1	2	1	-3	2
+     *  -3	0	-1	1	3	3	-3
+     *  1	-1	0	-3	-1	3	1
+     *  2	1	-3	0	-3	1	2
+     *  1	3	-1	-3	0	-1	1
+     *  -3	3	3	1	-1	0	-3
+     *  2	-3  1	2	1	-3	0
+     *
+     *  Secondo passo:
+     *  Converte la matrice in una matrice di adiacenza
+     *
+     *  0	3	0	0	0	3	0
+     *  0	0	1	0	0	3	3
+     *  1	0	0	3	1	0	0
+     *  2	1	0	0	3	0	0
+     *  1	3	0	0	0	1	0
+     *  0	0	3	1	0	0	3
+     *  2	0	1	2	1	0	0
+     *
+     *  Terzo passo:
+     *  Si assicura che la matrice sia corretta altrimenti il primo elemento della matrice viene
+     *  portato a -1
+     *  </p>
+     *  <b> Nota: Funziona solo se richiamato da equilibrio </b>
+     *
      * @author Thomas Causetti
      * @return int[][] se matrice non corretta int[0][0]=-1
      */
 
-    public static int[][] Equilibrio(){
+    public static int[][] equilibrioMatrice(){
 
+        //=================================================
+        //Inizializzo generatore N random
         Random rand = new Random();
 
-        /*  0   -13	1	11	1	0
-            -13	0	-1	3	11	0
-            1   -1	0	-1	1	0
-            11	3	-1	0	-13	0
-            1   11	1	-13	0	0
-            0	0	0	0	0	0
-            */
-
+        //=================================================
+        //Creo nuova matrice
         int [][] matrice = new int[NUMERO_ELEMENTI][NUMERO_ELEMENTI];
 
         //=================================================
@@ -77,26 +119,25 @@ public class Main {
             matrice[i][i]=0;
         }
         //=================================================
-
+        //Genero la matrice partendo dal bordo esterno fino a quelli piu' interni. (Nota: non funziona nel verso opposto)
         for (int i = 0; i < (NUMERO_ELEMENTI/2); i++) {
             generatoreBordoMatrice(rand, matrice, i);
         }
+        //=================================================
 
-        //Visualizza
-        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
-            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
-                System.out.print(" "+matrice[i][j]+"\t");
-            }
-            System.out.print("\n");
-        }
+        //=================================================
+        //Visualizzo (Utile per Debug) :P
+        //visualizzaMatrice(matrice);
+        //System.out.print("\n");
+        //=================================================
 
-        System.out.print("\n");
-
+        //Creo una nuova matrice (Adiacenza)
         int [][] matrice_adia = new int[NUMERO_ELEMENTI][NUMERO_ELEMENTI];
 
-        //converto la matrice dal mio generatore a matrice adiacenza
+        //Converto la matrice dal mio generatore a matrice adiacenza
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
             for (int j = 0; j < NUMERO_ELEMENTI; j++) {
+                //Triangolo inferiore
                 if (i>j){
                     if (matrice[i][j]>0) {
                         matrice_adia[i][j]=matrice[i][j];
@@ -105,6 +146,7 @@ public class Main {
                         matrice_adia[i][j]=0;
                     }
                 }
+                //Triangolo superiore
                 else if (i<j){
                     if (matrice[i][j]<0) {
                         matrice_adia[i][j]=Math.abs(matrice[i][j]);
@@ -113,6 +155,7 @@ public class Main {
                         matrice_adia[i][j]=0;
                     }
                 }
+                //Diagonale
                 else {
                     matrice_adia[i][j]=0;
                 }
@@ -120,8 +163,9 @@ public class Main {
         }
 
 
-
-        //Fix 2 column
+        //=======================================================================
+        //Fix 2 column (Per fare in modo che tutte le somme siano giuste)
+        //=======================================================================
 
         int somma=0;
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
@@ -131,16 +175,15 @@ public class Main {
             somma+=matrice_adia[1][i];
         }
 
-        System.out.println(somma);
+        //System.out.println(somma);
 
         //Visualizza
-        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
-            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
-                System.out.print(" "+matrice_adia[i][j]+"\t");
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
+        //visualizzaMatrice(matrice_adia);
+        //System.out.print("\n");
+
+        //=======================================================================
+        //Controllo numero collegamenti
+        //=======================================================================
 
         if(matrice_adia[1][NUMERO_ELEMENTI-2]==0){
             matrice_adia[NUMERO_ELEMENTI-2][1]+=somma;
@@ -160,12 +203,7 @@ public class Main {
         }
 
         //Visualizza
-        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
-            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
-                System.out.print(" "+matrice_adia[i][j]+"\t");
-            }
-            System.out.print("\n");
-        }
+        visualizzaMatrice(matrice_adia);
 
 
         somma=0;
@@ -180,16 +218,40 @@ public class Main {
                 }
             }
         }
-        System.out.println(cont);
+        //System.out.println(cont);
         if(cont!=somma){
             matrice_adia[0][0]=-1;
         }
+        //=======================================================================
 
-
+        //=======================================================================
+        //Return matrice Adiacenza
         return matrice_adia;
+        //=======================================================================
     }
 
+    private static void visualizzaMatrice(int[][] matrice) {
+        //Visualizza
+        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
+                System.out.print(" " + matrice[i][j] + "\t");
+            }
+            System.out.print("\n");
+        }
+    }
+
+    /**
+     * <h1> generatoreBordoMatrice </h1>
+     * <p> Metodo che genera il bordo della matrice seguendo uno schema prefissato </p>
+     * <b> Nota: Funziona solo dall' esterno verso l' interno </b>
+     * @author Thomas Causetti
+     * @param rand java.util.Random
+     * @param matrice e' la matrice da modificare
+     * @param dim_rig_col Indica la se ci sono state iterazioni precedenti di questo metodo e quindi il metodo deve fare un bordo piu'
+     *                    interno.
+     */
     private static void generatoreBordoMatrice(Random rand, int[][] matrice, int dim_rig_col) {
+
         //=================================================
         final int UNO_P=1+dim_rig_col;
         final int ZERO_P=0+dim_rig_col;
