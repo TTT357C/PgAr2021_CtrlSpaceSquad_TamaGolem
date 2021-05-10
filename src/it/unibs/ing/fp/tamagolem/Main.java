@@ -6,11 +6,39 @@ import java.util.Random;
 
 public class Main {
 
-    private static final int NUMERO_ELEMENTI = 7; //Mai Minore di 3
+    private static final int NUMERO_ELEMENTI = 9; //Mai Minore di 3
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
     public static void main(String[] args) {
         ArrayList<Tipo> tipi = equilibrio();
+
+        int matrice[][];
+        int cont=0;
+        for (int i = 0; i < 1000; i++) {
+            matrice=equilibrioMatrice();
+            visualizzaMatrice(matrice);
+            int somma1;
+            for (int k = 0; k < NUMERO_ELEMENTI; k++) {
+                somma1=0;
+                for (int j = 0; j < NUMERO_ELEMENTI; j++) {
+                    somma1-=matrice[k][j];
+                }
+                for (int j = 0; j < NUMERO_ELEMENTI;j++) {
+                    somma1+=matrice[j][k];
+                }
+                if(somma1!=0){
+                    cont++;
+                    System.out.println("errore");
+                    break;
+                }
+            }
+            System.out.println();
+
+            if(matrice[0][0]==-1){
+               cont++;
+            }
+        }
+        System.out.println(cont);
     }
 
     /**
@@ -120,14 +148,20 @@ public class Main {
         }
         //=================================================
         //Genero la matrice partendo dal bordo esterno fino a quelli piu' interni. (Nota: non funziona nel verso opposto)
-        for (int i = 0; i < (NUMERO_ELEMENTI/2); i++) {
-            generatoreBordoMatrice(rand, matrice, i);
-        }
+        boolean bool=true;
+        do {
+            for (int i = 0; i < (NUMERO_ELEMENTI/2); i++) {
+                    bool=generatoreBordoMatrice(rand, matrice, i);
+                if (bool == false) {
+                    break;
+                }
+            }
+        }while(!bool);
         //=================================================
 
         //=================================================
         //Visualizzo (Utile per Debug) :P
-        //visualizzaMatrice(matrice);
+        visualizzaMatrice(matrice);
         //System.out.print("\n");
         //=================================================
 
@@ -181,9 +215,12 @@ public class Main {
         //visualizzaMatrice(matrice_adia);
         //System.out.print("\n");
 
-        //=======================================================================
-        //Controllo numero collegamenti
-        //=======================================================================
+
+        //matrice_adia[][];
+
+
+
+        //visualizzaMatrice(matrice_adia);
 
         if(matrice_adia[1][NUMERO_ELEMENTI-2]==0){
             matrice_adia[NUMERO_ELEMENTI-2][1]+=somma;
@@ -203,8 +240,44 @@ public class Main {
         }
 
         //Visualizza
-        visualizzaMatrice(matrice_adia);
+        //visualizzaMatrice(matrice_adia);
+        /*
+        for (int i = 0; i < NUMERO_ELEMENTI/2; i++) {
+            //System.out.println(matrice_adia[(NUMERO_ELEMENTI-1)-i][i]+"+"+matrice_adia[i][(NUMERO_ELEMENTI-1)-i]);
+            if(matrice_adia[(NUMERO_ELEMENTI-1)-i][i]==matrice_adia[i][(NUMERO_ELEMENTI-1)-i]){
+                if(matrice_adia[((NUMERO_ELEMENTI-1)-i)-1][i]==0){
+                    matrice_adia[((NUMERO_ELEMENTI-1)-i)-1][i]=1;
+                    matrice_adia[((NUMERO_ELEMENTI-1)-i)][i+1]=1;
+                    matrice_adia[i][(NUMERO_ELEMENTI-1)-i]=1;
+                }
+                else {
+                    matrice_adia[i][((NUMERO_ELEMENTI-1)-i)-1]=matrice_adia[((NUMERO_ELEMENTI-1)-i)-1][i];
+                    matrice_adia[i+1][((NUMERO_ELEMENTI-1)-i)]=matrice_adia[((NUMERO_ELEMENTI-1)-i)][i+1];
+                    matrice_adia[((NUMERO_ELEMENTI-1)-i)-1][i]=0;
+                    matrice_adia[((NUMERO_ELEMENTI-1)-i)][i+1]=0;
 
+                    int somma1=0;
+                    for (int j = 0; j < NUMERO_ELEMENTI; j++) {
+                        somma1-=matrice_adia[j][(NUMERO_ELEMENTI-1)-i];
+                    }
+                    for (int j = 0; j < NUMERO_ELEMENTI;j++) {
+                        somma1+=matrice_adia[(NUMERO_ELEMENTI-1)-i][j];
+                    }
+
+                    matrice_adia[(NUMERO_ELEMENTI-1)-i][i]+=somma1;
+
+                    if(matrice_adia[(NUMERO_ELEMENTI-1)-i][i]<0){
+                        matrice_adia[i][(NUMERO_ELEMENTI-1)-i]=matrice_adia[(NUMERO_ELEMENTI-1)-i][i];
+                        matrice_adia[(NUMERO_ELEMENTI-1)-i][i]=0;
+                    }
+                }
+            }
+        }
+        */
+
+        //=======================================================================
+        //Controllo numero collegamenti
+        //=======================================================================
 
         somma=0;
         for (int i = 1; i < NUMERO_ELEMENTI; i++) {
@@ -250,7 +323,7 @@ public class Main {
      * @param dim_rig_col Indica la se ci sono state iterazioni precedenti di questo metodo e quindi il metodo deve fare un bordo piu'
      *                    interno.
      */
-    private static void generatoreBordoMatrice(Random rand, int[][] matrice, int dim_rig_col) {
+    private static boolean generatoreBordoMatrice(Random rand, int[][] matrice, int dim_rig_col) {
 
         //=================================================
         final int UNO_P=1+dim_rig_col;
@@ -258,21 +331,40 @@ public class Main {
         final int NUMERO_ELEMENTI_P=NUMERO_ELEMENTI-dim_rig_col;
         //Generatore numeri casuali
         int somma=0; //somma numeri (serve per dopo)
+        int temp_somma=0;
         for (int i = NUMERO_ELEMENTI_P-1; i > (1+dim_rig_col); i--) {
             //Da + VALORE_MAX_RANDOM_NUM a - VALORE_MAX_RANDOM_NUM
-            matrice[i][ZERO_P]= rand.nextInt((2*VALORE_MAX_RANDOM_NUM) + 1)- VALORE_MAX_RANDOM_NUM;
+            int temp;
+
+            //Controlla che il numero random sia diverso da 0
+            do {
+                temp=rand.nextInt((2 * VALORE_MAX_RANDOM_NUM) + 1) - VALORE_MAX_RANDOM_NUM;
+                temp_somma+=temp;
+            } while(temp==0);
+
+            //se bordo esterno e somma == 0 e i == al ultimo valore
+            //per evitare che la somma dei numeri random = 0
+            if(temp_somma==0 && i==(2+dim_rig_col)){
+                //Inverto segno
+                temp=0-temp;
+            }
+
+            matrice[i][ZERO_P] = temp;
+
             if (matrice[i][ZERO_P] == 0) {
                 matrice[i][ZERO_P]=1;
             }
             //Rendi simmetrica
             matrice[ZERO_P][i]= matrice[i][ZERO_P];
-            System.out.println((NUMERO_ELEMENTI_P-1)+" + "+((NUMERO_ELEMENTI_P-1)-i));
+            //System.out.println((NUMERO_ELEMENTI_P-1)+" + "+((NUMERO_ELEMENTI_P-1)-i));
             matrice[NUMERO_ELEMENTI_P-1][(NUMERO_ELEMENTI_P-1+dim_rig_col)-i]= matrice[i][ZERO_P];
-            System.out.println(((NUMERO_ELEMENTI_P-1)-i)+" + "+(NUMERO_ELEMENTI_P-1));
+            //System.out.println(((NUMERO_ELEMENTI_P-1)-i)+" + "+(NUMERO_ELEMENTI_P-1));
             matrice[(NUMERO_ELEMENTI_P-1+dim_rig_col)-i][NUMERO_ELEMENTI_P-1]= matrice[i][ZERO_P];
 
             somma+= matrice[i][ZERO_P];
         }
+
+
         //=================================================
 
 
@@ -285,6 +377,13 @@ public class Main {
                 cont++;
             }while(cont < ZERO_P);
         }
+
+        if (somma==0){
+            //non corretto
+            return false;
+        }
+
+
         //=================================================
         //Calcolo primo valore colonna
         matrice[UNO_P][ZERO_P]=0;
@@ -296,6 +395,7 @@ public class Main {
 
         somma=0;
 
+        //TODO
         if (dim_rig_col!=0) {
             matrice[NUMERO_ELEMENTI_P-1][ZERO_P]=0;
             for (int i = 0; i < NUMERO_ELEMENTI; i++) {
@@ -303,7 +403,27 @@ public class Main {
             }
             matrice[NUMERO_ELEMENTI_P-1][ZERO_P]=-somma;
             matrice[ZERO_P][NUMERO_ELEMENTI_P-1]=matrice[NUMERO_ELEMENTI_P-1][ZERO_P];
+            if (somma==0){
+                //non corretto
+                return false;
+            }
         }
+
+        somma=0;
+        if (dim_rig_col==1){
+            somma=(0-matrice[1][0]);
+            for (int i = UNO_P; i < NUMERO_ELEMENTI; i++) {
+                somma+=matrice[i][1];
+            }
+            if(somma==matrice[NUMERO_ELEMENTI-2][1]){
+                //non corretto
+                return false;
+            }
+        }
+
+
+
+        return true;
     }
 
 }
