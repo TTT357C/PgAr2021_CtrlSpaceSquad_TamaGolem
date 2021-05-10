@@ -3,184 +3,106 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+
 public class Main {
+
+    private static final int NUMERO_ELEMENTI = 8;
+    private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
+
     public static void main(String[] args) {
-        final int NUMERO_ELEMENTI = 5;
-        final int VALORE_MAX = 12;
+        Equilibrio();
+    }
+
+    public static void Equilibrio(){
+
         Random rand = new Random();
-        ArrayList<Tipo> tipi = new ArrayList<>();
-        boolean[] array = new boolean[100];
 
-        //tutti
-        ArrayList<Tipo> tipi_temp = new ArrayList<>();
-        for (Tipo dir : Tipo.values()) {
-            tipi_temp.add(dir);
-        }
-        //elimino in piu' aggiungendo a secondo array solo quelli che servono
-        int arr_lenght = tipi_temp.size();
+        /*  0   -13	1	11	1	0
+            -13	0	-1	3	11	0
+            1   -1	0	-1	1	0
+            11	3	-1	0	-13	0
+            1   11	1	-13	0	0
+            0	0	0	0	0	0
+            */
+
+        int [][] matrice = new int[NUMERO_ELEMENTI][NUMERO_ELEMENTI];
+
+        //=================================================
+        //Diagonale di zeri
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
-            tipi.add(tipi_temp.get(i));
+            matrice[i][i]=0;
         }
-        //setto a true quelli da utilizzare
-        for (Tipo dir : tipi) {
-            dir.setM(true);
+        //=================================================
+
+        for (int i = 0; i < (NUMERO_ELEMENTI/2); i++) {
+            generatoreBordoMatrice(rand, matrice, i);
         }
 
-        System.out.println(tipi);
-
-        int cont = 0;
-        int cont_true=0;
+        //Visualizza
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
+                System.out.print(" "+matrice[i][j]+"\t");
+            }
+            System.out.print("\n");
+        }
 
-            //Parte da i + 1 per evitare doppioni
-            for (int j = i + 1; j < NUMERO_ELEMENTI; j++) {
-                //Creo i sensi delle frecce del grafo
 
-                //Random
-                boolean temp = rand.nextBoolean();
 
-                //Per evitare tutti true
-                //=================================================
-                if (temp == true) {
-                    cont_true++;
-                }
-                if (cont_true >= NUMERO_ELEMENTI-(i+1)){
-                    temp=false;
-                }
-                //=================================================
+    }
 
-                //Aggiungo i sensi al TreeMap di Tipo e del Tipo unito dall' arco
-                tipi.get(i).getArchi().put(tipi.get(j).ordinal(), (new Arco(temp)));
-                //L' arco avra' il senso al contrario perche' cambia il punto di vista
-                tipi.get(j).getArchi().put(tipi.get(i).ordinal(), new Arco(!temp));
+    private static void generatoreBordoMatrice(Random rand, int[][] matrice, int dim_rig_col) {
+        //=================================================
+        final int UNO_P=1+dim_rig_col;
+        final int ZERO_P=0+dim_rig_col;
+        final int NUMERO_ELEMENTI_P=NUMERO_ELEMENTI-dim_rig_col;
+        //Generatore numeri casuali
+        int somma=0; //somma numeri (serve per dopo)
+        for (int i = NUMERO_ELEMENTI_P-1; i > (1+dim_rig_col); i--) {
+            //Da + VALORE_MAX_RANDOM_NUM a - VALORE_MAX_RANDOM_NUM
+            matrice[i][ZERO_P]= rand.nextInt((2*VALORE_MAX_RANDOM_NUM) + 1)- VALORE_MAX_RANDOM_NUM;
+            if (matrice[i][ZERO_P] == 0) {
+                matrice[i][ZERO_P]=1;
+            }
+            //Rendi simmetrica
+            matrice[ZERO_P][i]= matrice[i][ZERO_P];
+            System.out.println((NUMERO_ELEMENTI_P-1)+" + "+((NUMERO_ELEMENTI_P-1)-i));
+            matrice[NUMERO_ELEMENTI_P-1][(NUMERO_ELEMENTI_P-1+dim_rig_col)-i]= matrice[i][ZERO_P];
+            System.out.println(((NUMERO_ELEMENTI_P-1)-i)+" + "+(NUMERO_ELEMENTI_P-1));
+            matrice[(NUMERO_ELEMENTI_P-1+dim_rig_col)-i][NUMERO_ELEMENTI_P-1]= matrice[i][ZERO_P];
 
+            somma+= matrice[i][ZERO_P];
+        }
+        //=================================================
+
+
+        if (dim_rig_col!=0) {
+            somma=0;
+            //ZERO_P-1 Colonna precedente
+            int cont=0;
+            do {
+                somma+=matrice[UNO_P][cont];
                 cont++;
-            }
-            //reset contatore true
-            cont_true=0;
+            }while(cont < ZERO_P);
         }
-
-        for (Tipo dir : tipi) {
-            System.out.println(dir);
-        }
-
         //=================================================
-        // Calcolo valori archi
+        //Calcolo primo valore colonna
+        matrice[UNO_P][ZERO_P]=0;
+        matrice[UNO_P][ZERO_P]-=somma;
+        matrice[ZERO_P][UNO_P]= matrice[UNO_P][ZERO_P];
+        matrice[(NUMERO_ELEMENTI_P-2)][NUMERO_ELEMENTI_P-1]= matrice[UNO_P][ZERO_P];
+        matrice[(NUMERO_ELEMENTI_P-1)][NUMERO_ELEMENTI_P-2]= matrice[UNO_P][ZERO_P];
         //=================================================
 
-        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
-            //=================================================
-            //trovo il numero di archi "dominanti"
-            tipi.get(i).calcoloTrue();
-            //=================================================
-        }
+        somma=0;
 
-        //==================================================================================================
-
-        for (int i = 0; i < NUMERO_ELEMENTI-1; i++) {
-
-            int nFalse=(NUMERO_ELEMENTI-tipi.get(i).getN_true()-1);
-
-            //contatori
-            int cont_f=nFalse;
-            int cont_t=tipi.get(i).getN_true();
-
-            int temp_max_false2 = 0;
-            int temp_max_true2 = 0;
-
-            //aggiorno se gia presenti valori da iterazioni precedenti
-            for (int j = 0; j < tipi.get(i).getArchi().size()+1; j++) {
-                if (j != i) {
-                    if (tipi.get(i).getArchi().get(j).getSenso()==false && tipi.get(i).getArchi().get(j).getValore()!=-1){
-                        temp_max_false2 += tipi.get(i).getArchi().get(j).getValore();
-                        cont_f--;
-                    }
-                    else if (tipi.get(i).getArchi().get(j).getSenso()==true && tipi.get(i).getArchi().get(j).getValore()!=-1){
-                        temp_max_true2 += tipi.get(i).getArchi().get(j).getValore();
-                        cont_t--;
-                    }
-                }
+        if (dim_rig_col!=0) {
+            matrice[NUMERO_ELEMENTI_P-1][ZERO_P]=0;
+            for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+                somma+=matrice[i][ZERO_P];
             }
-
-            int a; //minimo
-
-            if (nFalse >= tipi.get(i).getN_true()) {
-                a=nFalse;
-            }
-            else {
-                a=tipi.get(i).getN_true(); // numero minimo
-            }
-
-            int b = VALORE_MAX; // numero massimo
-            int c = ((b-a) + 1);
-            //Numero da cui estrarre gli altri numeri delle frecce del grafo es: 10 = 5 + 3 + 2 + 1
-
-
-            int temp_max = rand.nextInt(c) + a;
-
-
-            System.out.println(" nTrue "+tipi.get(i).getN_true());
-            System.out.println(" nFalse"+nFalse);
-
-            int temp_max_false = temp_max-temp_max_false2;
-            int temp_max_true = temp_max-temp_max_true2;
-
-
-            int cont_numeri_false=0;
-            int cont_numeri_true=0;
-
-            System.out.println(" eee= "+temp_max_false);
-            int[] numeri_false = RandomNumSum(temp_max_false,cont_f);
-            System.out.println(" eee= "+temp_max_true);
-            int[] numeri_true = RandomNumSum(temp_max_true,cont_t);
-            for (int j = 0; j < tipi.get(i).getArchi().size()+1; j++) {
-
-                if (j != i) {
-                    if (tipi.get(i).getArchi().get(j).getSenso()==false && tipi.get(i).getArchi().get(j).getValore()==-1) {
-                        tipi.get(i).getArchi().get(j).setValore(numeri_false[cont_numeri_false]);
-                        tipi.get(j).getArchi().get(i).setValore(numeri_false[cont_numeri_false]);
-                        cont_numeri_false++;
-                    }
-                    if (tipi.get(i).getArchi().get(j).getSenso()==true && tipi.get(i).getArchi().get(j).getValore()==-1) {
-                        tipi.get(i).getArchi().get(j).setValore(numeri_true[cont_numeri_true]);
-                        tipi.get(j).getArchi().get(i).setValore(numeri_true[cont_numeri_true]);
-                        cont_numeri_true++;
-                    }
-                }
-            }
-        }
-
-        for (Tipo dir : tipi) {
-            System.out.println(dir);
+            matrice[NUMERO_ELEMENTI_P-1][ZERO_P]=-somma;
+            matrice[ZERO_P][NUMERO_ELEMENTI_P-1]=matrice[NUMERO_ELEMENTI_P-1][ZERO_P];
         }
     }
 
-    public static int[] RandomNumSum(int num_max, int parti){
-        Random rand = new Random();
-        int[] numeri = new int[parti];
-
-        int temp = 0;
-        int sum = 0;
-        for (int i = 0; i < parti; i++) {
-            if (!((i+1) == parti)) {
-                temp = rand.nextInt((num_max - sum) / (parti - (i+1))) + 1;
-                numeri[i]=temp;
-                sum += temp;
-
-            } else {
-                int last = (num_max - sum);
-                if (last == 0) {
-                    //TODO controlla
-                    numeri[parti-2]=(numeri[parti-2]-1);
-                    last++;
-                    sum--;
-                }
-
-                numeri[i]=last;
-                sum += last;
-            }
-        }
-
-        return numeri;
-    }
 }
