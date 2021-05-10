@@ -10,7 +10,7 @@ import java.util.Deque;
  */
 public class TamaGolem {
 
-    private final static int SALUTE = 100;
+    private final static int SALUTE = 15;
     private Deque<Pietra> pietre = new ArrayDeque<>();
     private int salute;
 
@@ -19,6 +19,10 @@ public class TamaGolem {
      */
     public TamaGolem(){
         this.salute = SALUTE;
+    }
+
+    public Deque<Pietra> getPietreArray(){
+        return pietre;
     }
 
     /**
@@ -41,7 +45,7 @@ public class TamaGolem {
      * @param danno intero che rappresenta il danno subito
      */
     public void setSaluteDanno(int danno){
-        this.salute -= danno;
+        this.salute = Math.max(0,this.salute-danno);
     }
 
     /**
@@ -63,6 +67,6 @@ public class TamaGolem {
         Pietra pietra_aus = pietre.getFirst();
         pietre.removeFirst();
         pietre.addLast(pietra_aus);
-
     }
+
 }
