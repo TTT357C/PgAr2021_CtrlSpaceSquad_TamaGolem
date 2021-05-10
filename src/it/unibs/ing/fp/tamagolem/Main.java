@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Main {
 
-    private static final int NUMERO_ELEMENTI = 10;
+    private static final int NUMERO_ELEMENTI = 7; //Mai Minore di 3
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
     public static void main(String[] args) {
