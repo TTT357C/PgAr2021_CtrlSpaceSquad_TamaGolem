@@ -127,10 +127,13 @@ public class Partita {
                     check_finisch=false;
                 }
             }
+            //TODO
         }while(!check_finisch);
         //Dichiarazione vincitore
         stampaVincitore();
         //Visualizza equilibrio Todo
+
+        System.out.println(tipi);
 
     }
 
