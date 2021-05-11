@@ -10,33 +10,49 @@ public class Pietra {
     private final Tipo tipo_pietra;
     private int quantita_pietra;
 
+    /**
+     * Metodo costruttore di pietra usato per l'array list della scorta comune
+     * @param tipo Tipo di pietra
+     * @param quantita Intero che indica la quantita di pietre
+     */
     public Pietra(Tipo tipo, int quantita){
             tipo_pietra = tipo;
             quantita_pietra = quantita;
 
     }
 
+    /**
+     * Metodo costuttore
+     * @param tipo Tipo del tipo di pietro
+     */
     public Pietra(Tipo tipo){
         tipo_pietra = tipo;
     }
 
+    /**
+     * @return Ritorna un oggetto di tipo Tipo della pietra
+     */
     public Tipo getTipo_pietra() {
         return tipo_pietra;
     }
 
+    /**
+     *
+     * @return Ritorna un intero che indica la quantita di pietre presenti nella scorta di questo tipo
+     */
     public int getQuantita_pietra() {
         return quantita_pietra;
     }
 
     /**
-     * AUMENTA quantita
+     * AUMENTA quantita di un unita
      */
     public void aumentaQuantitaPietra() {
         this.quantita_pietra++;
     }
 
     /**
-     * Decrementa
+     * Decrementa la quantita di un unita
      */
     public void decrementaQuantitaPietra() {
 

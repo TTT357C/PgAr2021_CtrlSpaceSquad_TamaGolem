@@ -1,5 +1,10 @@
 package it.unibs.ing.fp.tamagolem;
 
+/**
+ * Classe Combattente
+ *
+ * @author Visini Mattia
+ */
 public class Combattente {
 
     private String nome_combattente;

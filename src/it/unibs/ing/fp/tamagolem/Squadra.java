@@ -2,7 +2,11 @@ package it.unibs.ing.fp.tamagolem;
 
 import java.util.*;
 
-
+/**
+ * Classe Squadra
+ *
+ * @author Visini Mattia
+ */
 public class Squadra {
 
     private Deque<TamaGolem> tamagolem = new ArrayDeque<>();
