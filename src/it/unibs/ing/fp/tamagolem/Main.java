@@ -8,6 +8,7 @@ public class Main {
     public static final String MSG_PRIMO_ALLENATORE = "Inserisci il nome del primo allenatore: ";
     public static final String MSG_SECONDO_ALLENATORE = "Inserisci il nome del secondo allenatore: ";
     public static final String MSG_EXIT = "Grazie per aver giocato \n Arrivederci!!";
+    public static final String CORNICE = "--------------------------------";
 
     public static void main(String[] args) {
 
@@ -19,6 +20,7 @@ public class Main {
         String p1,p2;
         int scelta = m1.scegli();
         if(scelta == 1){
+            System.out.println(CORNICE);
             p1 = InputDati.leggiStringaNonVuota(MSG_PRIMO_ALLENATORE);
             p2 = InputDati.leggiStringaNonVuota(MSG_SECONDO_ALLENATORE);
             Squadra q1 = new Squadra(new Combattente(p1));
@@ -34,6 +36,7 @@ public class Main {
                         break;
                     case 2:
                         //Nuova partita
+                        System.out.println(CORNICE);
                         p1 = InputDati.leggiStringaNonVuota(MSG_PRIMO_ALLENATORE);
                         p2 = InputDati.leggiStringaNonVuota(MSG_SECONDO_ALLENATORE);
                         a.startGame();

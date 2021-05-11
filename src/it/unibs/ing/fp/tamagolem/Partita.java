@@ -132,7 +132,7 @@ public class Partita {
         //Dichiarazione vincitore
         stampaVincitore();
         //Visualizza equilibrio
-        System.out.println(stringaEquilibrio(tipi));
+        System.out.println("\n" + stringaEquilibrio(tipi));
     }
 
     /**
@@ -142,18 +142,17 @@ public class Partita {
      * @return Ritorna una stringa per la visualizzazione dell'equilibrio
      */
     private String stringaEquilibrio(ArrayList<Tipo> tipi ){
-        String equilibrio=null;
+        String equilibrio="";
         for (int i = 0; i < tipi.size(); i++) {
             equilibrio += tipi.get(i).name() + " predomina su: ";
             for (int j = 0; j < tipi.size(); j++) {
                 if(i!=j){
                     if(tipi.get(i).getArchi().get(j).getSenso()){
-                        equilibrio +="\t"+ tipi.get(j).name()+" valore danno: "+ tipi.get(i).getArchi().get(j).getValore();
+                        equilibrio +="\t"+ tipi.get(j).name()+" valore danno: "+ tipi.get(i).getArchi().get(j).getValore() + "\n";
                     }
                 }
-
-
             }
+            equilibrio+="\n";
         }
         return equilibrio;
     }
