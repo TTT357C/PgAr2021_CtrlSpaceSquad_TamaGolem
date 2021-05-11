@@ -4,13 +4,17 @@ import java.util.Random;
 
 
 
-public class Main {
+public class GestoreEquilibrio {
 
-    private static final int NUMERO_ELEMENTI = 10; //Mai Minore di 3
+    private static final int NUMERO_ELEMENTI = 7; //Mai Minore di 5
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
+    /**
+     * Test main
+     * @param args
+     */
     public static void main(String[] args) {
-        ArrayList<Tipo> tipi = equilibrio();
+       // ArrayList<Tipo> tipi = equilibrio();
 
         int matrice[][];
         int cont=0;
@@ -152,7 +156,6 @@ public class Main {
         do {
             for (int i = 0; i < (NUMERO_ELEMENTI/2); i++) {
                     bool=generatoreBordoMatrice(rand, matrice, i);
-                    System.out.println("E");
                 if (bool == false) {
                     break;
                 }
@@ -381,6 +384,7 @@ public class Main {
 
         if (somma==0){
             //non corretto
+            System.out.println("E1");
             return false;
         }
 
@@ -404,21 +408,31 @@ public class Main {
             }
             matrice[NUMERO_ELEMENTI_P-1][ZERO_P]=-somma;
             matrice[ZERO_P][NUMERO_ELEMENTI_P-1]=matrice[NUMERO_ELEMENTI_P-1][ZERO_P];
-            if (somma==0){
+            if (somma==0 && NUMERO_ELEMENTI>5 ){
                 //non corretto
+                System.out.println("E2");
                 return false;
             }
         }
 
-        somma=0;
-        if (dim_rig_col==1){
+
+        int temp=somma;
+        //TODO controlla 3 - 4
+        if (((dim_rig_col!=0 && somma==0) || (dim_rig_col==1)) && NUMERO_ELEMENTI>4 ){
             somma=(0-matrice[1][0]);
             for (int i = UNO_P; i < NUMERO_ELEMENTI; i++) {
                 somma+=matrice[i][1];
             }
-            if(somma==matrice[NUMERO_ELEMENTI-2][1]){
+            if(somma==matrice[NUMERO_ELEMENTI-2][1] || temp==0){
                 //non corretto
-                return false;
+                int index1=NUMERO_ELEMENTI_P-2;
+                int index2=NUMERO_ELEMENTI_P-1;
+                matrice[index1][ZERO_P]=(0-matrice[index1][1]);
+                matrice[index2][ZERO_P+1]=matrice[index1][1];
+                matrice[ZERO_P][index1]=matrice[index1][1];
+                matrice[ZERO_P+1][index2]=matrice[index1][1];
+                System.out.println("E3");
+                //return false;
             }
         }
 
