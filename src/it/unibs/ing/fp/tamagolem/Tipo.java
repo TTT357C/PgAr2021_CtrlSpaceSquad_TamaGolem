@@ -16,7 +16,7 @@ public enum Tipo implements Comparable <Tipo>{
     ELETTRO(false),
     LUCE(false),
     BUIO(false),
-    GHIACCIO(false),
+    ERBA(false),
     MAGNETICO(false),
     PSICO(false);
 

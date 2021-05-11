@@ -1,6 +1,7 @@
 package it.unibs.ing.fp.gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
@@ -16,22 +17,23 @@ public class FinestraPrincipale extends JFrame {
     private JPanel p2;
     private JProgressBar progressBar_2;
     private JProgressBar progressBar_1;
-    private JButton button3;
-    private JButton button4;
-    private JButton button1;
-    private JButton button2;
-    private JButton button5;
-    private JButton attack2;
+    private JButton freccia_destra;
     private JButton attack1;
-    private JButton button8;
+    private JButton freccia_sinistra;
     private JLabel nomeGiocatore2;
     private JLabel nomeGiocatore1;
     private JButton menu;
     private JPanel p1_ui;
     private JPanel p2_ui;
-    private JPanel p1_buttons;
-    private JPanel p2_buttons;
     private JToolBar menu_principale;
+    private JLabel pietra1;
+    private JLabel testo;
+    private JPanel testo_panel;
+    private JButton freccia_sinistra2;
+    private JButton freccia_destra2;
+    private JLabel pietra2;
+
+    private int pietra_attuale;
 
     public FinestraPrincipale() {
 
@@ -47,9 +49,15 @@ public class FinestraPrincipale extends JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
-        this.setMinimumSize(new Dimension(1200, 700));
+        this.setMinimumSize(new Dimension(1200, 800));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TamaGolem");
+
+        //set default
+        disableAll();
+        pietra_attuale = -1;
+        setPietraP1(pietra_attuale);
+
 
         //Colori
         mainPanel.setBackground(Color.GRAY);
@@ -57,17 +65,16 @@ public class FinestraPrincipale extends JFrame {
         progressBar_2.setForeground(Color.RED);
         p1.setBackground(Color.LIGHT_GRAY);
         p2.setBackground(Color.LIGHT_GRAY);
-        attack1.setForeground(Color.red);
-        attack2.setForeground(Color.red);
+        attack1.setBackground(Color.red);
+        attack1.setForeground(Color.white);
+        menu_principale.setBackground(Color.LIGHT_GRAY);
 
-        //Bottoni disabilitati
-        attack2.setEnabled(false);
+        //bordi
+        Border blackline = BorderFactory.createLineBorder(Color.black);
+        pietra1.setBorder(blackline);
+        testo_panel.setBorder(blackline);
 
-        ImageIcon img1 = new ImageIcon("Immagini/1__.gif");
-        player1_img.setIcon(img1);
-
-        ImageIcon img2 = new ImageIcon("Immagini/2__.gif");
-        player2_img.setIcon(img2);
+        setImgTama();
 
         progressBar_1.setValue(70);
         progressBar_2.setValue(70);
@@ -82,22 +89,44 @@ public class FinestraPrincipale extends JFrame {
                 ImageIcon img2 = new ImageIcon("Immagini/2__.gif");
                 player2_img.setIcon(img2);
                 attack1.setEnabled(false);
-                attack2.setEnabled(true);
             }
         });
-        attack2.addActionListener(new ActionListener() {
+
+
+        freccia_sinistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ImageIcon img2 = new ImageIcon("Immagini/2_.gif");
-                player2_img.setIcon(img2);
-                ImageIcon img1 = new ImageIcon("Immagini/1__.gif");
-                player1_img.setIcon(img1);
-                attack2.setEnabled(false);
-                attack1.setEnabled(true);
+                pietra_attuale--;
+                setPietraP1(pietra_attuale);
+            }
+        });
+        freccia_destra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pietra_attuale++;
+                setPietraP1(pietra_attuale);
             }
         });
     }
 
+    private void setImgTama() {
+        ImageIcon img1 = new ImageIcon("Immagini/1__.gif");
+        player1_img.setIcon(img1);
+
+        ImageIcon img2 = new ImageIcon("Immagini/2__.gif");
+        player2_img.setIcon(img2);
+    }
+
+    private void setPietraP1(int numero) {
+        String nomefile = "Immagini/pietre/" + numero + ".gif";
+        ImageIcon img = new ImageIcon(nomefile);
+        pietra1.setIcon(img);
+    }
+
+    private void disableAll() {
+        p1.setEnabled(false);
+        p2.setEnabled(false);
+    }
 
 
     {
@@ -122,8 +151,9 @@ public class FinestraPrincipale extends JFrame {
         p1.setLayout(new GridBagLayout());
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.gridheight = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
@@ -191,11 +221,48 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
         p1_ui.add(spacer4, gbc);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        p1.add(panel1, gbc);
+        freccia_sinistra = new JButton();
+        freccia_sinistra.setText("<");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(freccia_sinistra, gbc);
+        final JPanel spacer5 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        panel1.add(spacer5, gbc);
+        freccia_destra = new JButton();
+        freccia_destra.setText(">");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(freccia_destra, gbc);
+        pietra1 = new JLabel();
+        pietra1.setText("Label");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 10;
+        gbc.ipady = 10;
+        panel1.add(pietra1, gbc);
         p2 = new JPanel();
         p2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 2;
         gbc.gridy = 1;
+        gbc.gridheight = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
@@ -236,165 +303,78 @@ public class FinestraPrincipale extends JFrame {
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
         p2_ui.add(nomeGiocatore2, gbc);
-        final JPanel spacer5 = new JPanel();
+        final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 40.0;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 20;
-        p2_ui.add(spacer5, gbc);
-        final JPanel spacer6 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 10;
         p2_ui.add(spacer6, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p2_ui.add(spacer7, gbc);
         final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 10;
-        p2_ui.add(spacer8, gbc);
-        p1_buttons = new JPanel();
-        p1_buttons.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(p1_buttons, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipadx = 10;
+        p2_ui.add(spacer8, gbc);
         final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 20;
-        p1_buttons.add(spacer9, gbc);
-        button4 = new JButton();
-        button4.setText("Button");
+        gbc.ipady = 10;
+        p2_ui.add(spacer9, gbc);
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p1_buttons.add(button4, gbc);
-        button2 = new JButton();
-        button2.setText("Button");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p1_buttons.add(button2, gbc);
-        attack1 = new JButton();
-        attack1.setText("ATTACCO");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p1_buttons.add(attack1, gbc);
-        button8 = new JButton();
-        button8.setText("Button");
+        gbc.fill = GridBagConstraints.BOTH;
+        p2.add(panel2, gbc);
+        freccia_sinistra2 = new JButton();
+        freccia_sinistra2.setText("<");
         gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        p1_buttons.add(button8, gbc);
+        panel2.add(freccia_sinistra2, gbc);
         final JPanel spacer10 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 10;
-        p1_buttons.add(spacer10, gbc);
-        p2_buttons = new JPanel();
-        p2_buttons.setLayout(new GridBagLayout());
+        panel2.add(spacer10, gbc);
+        freccia_destra2 = new JButton();
+        freccia_destra2.setText(">");
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(p2_buttons, gbc);
-        final JPanel spacer11 = new JPanel();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel2.add(freccia_destra2, gbc);
+        pietra2 = new JLabel();
+        pietra2.setText("Label");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 20;
-        p2_buttons.add(spacer11, gbc);
-        button3 = new JButton();
-        button3.setText("Button");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p2_buttons.add(button3, gbc);
-        button1 = new JButton();
-        button1.setText("Button");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p2_buttons.add(button1, gbc);
-        button5 = new JButton();
-        button5.setText("Button");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p2_buttons.add(button5, gbc);
-        attack2 = new JButton();
-        attack2.setText("ATTACCO");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        p2_buttons.add(attack2, gbc);
-        final JPanel spacer12 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 10;
         gbc.ipady = 10;
-        p2_buttons.add(spacer12, gbc);
-        final JPanel spacer13 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 70;
-        mainPanel.add(spacer13, gbc);
-        final JPanel spacer14 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 30;
-        mainPanel.add(spacer14, gbc);
-        final JPanel spacer15 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 30;
-        mainPanel.add(spacer15, gbc);
+        panel2.add(pietra2, gbc);
         menu_principale = new JToolBar();
+        menu_principale.setBorderPainted(false);
         menu_principale.setFloatable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 5;
+        gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         gbc.ipady = 5;
@@ -402,6 +382,33 @@ public class FinestraPrincipale extends JFrame {
         menu = new JButton();
         menu.setText("Partita");
         menu_principale.add(menu);
+        testo_panel = new JPanel();
+        testo_panel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.ipady = 50;
+        mainPanel.add(testo_panel, gbc);
+        testo = new JLabel();
+        testo.setText("Label");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        testo_panel.add(testo, gbc);
+        attack1 = new JButton();
+        Font attack1Font = this.$$$getFont$$$("Dungeon", -1, 18, attack1.getFont());
+        if (attack1Font != null) attack1.setFont(attack1Font);
+        attack1.setText("ATTACCO");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipadx = 20;
+        gbc.ipady = 20;
+        mainPanel.add(attack1, gbc);
     }
 
     /**
