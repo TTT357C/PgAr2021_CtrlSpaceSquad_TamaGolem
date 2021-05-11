@@ -431,7 +431,7 @@ public class GestoreEquilibrio {
                 matrice[index2][ZERO_P+1]=matrice[index1][1];
                 matrice[ZERO_P][index1]=matrice[index1][1];
                 matrice[ZERO_P+1][index2]=matrice[index1][1];
-                System.out.println("E3");
+                //System.out.println("E3");
                 //return false;
             }
         }
