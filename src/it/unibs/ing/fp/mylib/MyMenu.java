@@ -36,9 +36,7 @@ public class MyMenu
 	 {
 	  System.out.println( (i+1) + "\t" + voci[i]);
 	 }
-    System.out.println();
 	System.out.println(VOCE_USCITA);
-    System.out.println();
   }
 		
 }
