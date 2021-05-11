@@ -131,10 +131,30 @@ public class Partita {
         }while(!check_finisch);
         //Dichiarazione vincitore
         stampaVincitore();
-        //Visualizza equilibrio Todo
+        //Visualizza equilibrio
+        System.out.println("\n" + stringaEquilibrio(tipi));
+    }
 
-        System.out.println(tipi);
-
+    /**
+     * Metodo che crea una stringa che rappresenta l'equilibrio
+     * Ritorna una stringa che verra poi visualizzata
+     * @param tipi Arralist con l'equilibrio
+     * @return Ritorna una stringa per la visualizzazione dell'equilibrio
+     */
+    private String stringaEquilibrio(ArrayList<Tipo> tipi ) {
+        String equilibrio = "";
+        for (int i = 0; i < tipi.size(); i++) {
+            equilibrio += tipi.get(i).name() + " predomina su: ";
+            for (int j = 0; j < tipi.size(); j++) {
+                if (i != j) {
+                    if (tipi.get(i).getArchi().get(j).getSenso()) {
+                        equilibrio += "\t" + tipi.get(j).name() + " valore danno: " + tipi.get(i).getArchi().get(j).getValore() + "\n";
+                    }
+                }
+            }
+            equilibrio += "\n";
+        }
+        return equilibrio;
     }
 
     /**
