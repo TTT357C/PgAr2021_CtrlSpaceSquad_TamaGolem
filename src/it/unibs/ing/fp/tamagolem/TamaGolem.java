@@ -14,6 +14,10 @@ public class TamaGolem {
     private Deque<Pietra> pietre = new ArrayDeque<>();
     private int salute;
 
+
+    public void rimuoviPrimaPietra() {
+        pietre.removeFirst();
+    }
     /**
      * Metodo costruttore
      */

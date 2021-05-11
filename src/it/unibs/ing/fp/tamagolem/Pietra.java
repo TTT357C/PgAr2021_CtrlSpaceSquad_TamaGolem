@@ -25,9 +25,14 @@ public class Pietra {
     }
 
     public int getQuantita_pietra() {
-
         return quantita_pietra;
+    }
 
+    /**
+     * AUMENTA quantita
+     */
+    public void aumentaQuantitaPietra() {
+        this.quantita_pietra++;
     }
 
     /**
