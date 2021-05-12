@@ -525,7 +525,7 @@ public class GestoreEquilibrio {
 
         }
 
-        //TODO
+        //Caso particolare fixer
         if (matrice[NUMERO_ELEMENTI - 2][NUMERO_ELEMENTI - 1]==0 && matrice[NUMERO_ELEMENTI - 1][NUMERO_ELEMENTI - 2]==0) {
 
             int temp_somma;
@@ -574,7 +574,8 @@ public class GestoreEquilibrio {
             }
         }
 
-        controlloNumeroCollegamenti(matrice);
+        //TODO controlla
+        //controlloNumeroCollegamenti(matrice);
         return matrice;
 
     }
