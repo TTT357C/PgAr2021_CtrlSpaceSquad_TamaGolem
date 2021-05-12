@@ -145,7 +145,7 @@ public class FinestraPrincipale extends JFrame {
                 //====================================================
 
                 String[] buttons = {"Facile", "Medio", "Difficile", "Caotico"};
-                int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE, 0, null, buttons, buttons[0]);
+                int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", "Nuova Partita", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
                 System.out.println(returnValue);
 
                 int numero_ele;
@@ -186,7 +186,7 @@ public class FinestraPrincipale extends JFrame {
                 pietra_attuale2++;
 
                 //mi salvo il numero degli elementi
-                numero_elementi = partita.NUMERO_ELEMENTI;
+                numero_elementi = numero_ele;
 
                 //attivo bottoni necessari
                 abilitaBottoniP1();
@@ -306,6 +306,7 @@ public class FinestraPrincipale extends JFrame {
                     cont_pietre = 0;
                     progressBar_1.setValue(100);
                     progressBar_2.setValue(100);
+                    attack1.setEnabled(true);
                 }
             }
         });
