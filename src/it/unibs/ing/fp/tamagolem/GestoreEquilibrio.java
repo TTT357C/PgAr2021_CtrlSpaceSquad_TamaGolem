@@ -1,5 +1,6 @@
 package it.unibs.ing.fp.tamagolem;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 
@@ -88,6 +89,7 @@ public class GestoreEquilibrio {
         }
 
 
+        Collections.shuffle(tipi);
 
         //Parte da i + 1 per evitare doppioni
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
@@ -101,9 +103,11 @@ public class GestoreEquilibrio {
             }
         }
 
-        for (Tipo dir : tipi) {
+
+
+        /*for (Tipo dir : tipi) {
             System.out.println(dir);
-        }
+        }*/
 
         return tipi;
     }

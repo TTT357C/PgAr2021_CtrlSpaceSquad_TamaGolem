@@ -67,17 +67,23 @@ public class FinestraPrincipale extends JFrame {
     private ArrayList<Pietra> scorta_comune;
     //=========================================================================================
 
+    private boolean fase_inizial;
 
     /**
      * <h1> Finestra Principale </h1>
      * <p> Metodo che crea la finestra principale della GUI </p>
      * <p><b> Nota: parte del codice della finestra e' stato generato da Intellij IDEA</b></p>
+     *
      * @author Thomas Causetti
      */
     public FinestraPrincipale() {
 
-        //Inizializza tema
-        inizializzaTema();
+        fase_inizial = true;
+
+        inizializzaTema("Metal");
+
+        //TODO controlla se pietre uguali
+
 
         //Inizializza finestra
         inizializzaFinestra();
@@ -88,8 +94,8 @@ public class FinestraPrincipale extends JFrame {
         //set default immagine
         pietra_attuale = -1;
         pietra_attuale2 = -1;
-        setPietraP1Img(pietra_attuale);
-        setPietraP2Img(pietra_attuale);
+        setPietraP1Img(pietra_attuale + "");
+        setPietraP2Img(pietra_attuale + "");
 
         //Colori
         setColori();
@@ -109,6 +115,8 @@ public class FinestraPrincipale extends JFrame {
 
         //rendo visibile
         this.setVisible(true);
+
+        inizializzaTema("Nimbus");
 
         //====================================================
 
@@ -141,7 +149,7 @@ public class FinestraPrincipale extends JFrame {
                 partita = new Partita(q1, q2);
 
                 //====================================================
-                //JoptionPane con 4 bottoni per scelta difficolta
+                //JoptionPane con 4 bottoni per scelta difficolta'
                 //====================================================
 
                 String[] buttons = {"Facile", "Medio", "Difficile", "Caotico"};
@@ -175,6 +183,7 @@ public class FinestraPrincipale extends JFrame {
                 //Creo Equilibrio
                 GestoreEquilibrio g_equilibrio = new GestoreEquilibrio(numero_ele);
                 tipi = g_equilibrio.equilibrio();
+
                 //====================================================
 
                 //====================================================
@@ -206,7 +215,7 @@ public class FinestraPrincipale extends JFrame {
                 if (pietra_attuale < 0) {
                     pietra_attuale = numero_elementi - 1;
                 }
-                setPietraP1(pietra_attuale);
+                setPietraP1(tipi.get(pietra_attuale).name());
 
             }
         });
@@ -217,7 +226,7 @@ public class FinestraPrincipale extends JFrame {
                 if (pietra_attuale >= numero_elementi) {
                     pietra_attuale = 0;
                 }
-                setPietraP1(pietra_attuale);
+                setPietraP1(tipi.get(pietra_attuale).name());
             }
         });
         freccia_sinistra2.addActionListener(new ActionListener() {
@@ -227,7 +236,7 @@ public class FinestraPrincipale extends JFrame {
                 if (pietra_attuale2 < 0) {
                     pietra_attuale2 = numero_elementi - 1;
                 }
-                setPietraP2(pietra_attuale2);
+                setPietraP2(tipi.get(pietra_attuale2).name());
             }
         });
         freccia_destra2.addActionListener(new ActionListener() {
@@ -237,7 +246,7 @@ public class FinestraPrincipale extends JFrame {
                 if (pietra_attuale2 >= numero_elementi) {
                     pietra_attuale2 = 0;
                 }
-                setPietraP2(pietra_attuale2);
+                setPietraP2(tipi.get(pietra_attuale2).name());
             }
         });
         //=======================================================================
@@ -272,19 +281,24 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 evoluzioneGUI(partita.getSquadra_uno(), pietra_attuale);
-                setPietraP1(pietra_attuale);
+                setPietraP1(tipi.get(pietra_attuale).name());
                 cont_pietre++;
                 //Se tutte pietre sono state inserite
                 if (cont_pietre == partita.PIETRE_PER_GOLEM) {
                     freccia_sinistra.setEnabled(false);
                     freccia_destra.setEnabled(false);
                     conferma1.setEnabled(false);
-                    //Disabilito visualizzazione pietra
-                    setPietraP1Img(-1);
-                    pietra1.setText("Pietre");
-                    abilitaBottoniP2();
+                    attack1.setEnabled(true);
                     cont_pietre = 0;
+                    if (fase_inizial == true) {
+                        //Disabilito visualizzazione pietra
+                        setPietraP1Img(-1 + "");
+                        pietra1.setText("Pietre");
+                        abilitaBottoniP2();
+                        attack1.setEnabled(false);
+                    }
                 }
+
             }
         });
         //=======================================================================
@@ -295,20 +309,25 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 evoluzioneGUI(partita.getSquadra_due(), pietra_attuale2);
-                setPietraP2(pietra_attuale2);
+                setPietraP2(tipi.get(pietra_attuale2).name());
                 cont_pietre++;
                 //Se tutte pietre sono state inserite
                 if (cont_pietre == partita.PIETRE_PER_GOLEM) {
                     freccia_sinistra2.setEnabled(false);
                     freccia_destra2.setEnabled(false);
                     conferma2.setEnabled(false);
-                    //Disabilito visualizzazione pietra
-                    setPietraP1(pietra_attuale);
-                    cont_pietre = 0;
-                    progressBar_1.setValue(100);
-                    progressBar_2.setValue(100);
                     attack1.setEnabled(true);
+                    cont_pietre = 0;
+                    if (fase_inizial == true) {
+                        //Disabilito visualizzazione pietra
+                        setPietraP1(tipi.get(pietra_attuale).name());
+                        progressBar_1.setValue(100);
+                        progressBar_2.setValue(100);
+                        attack1.setEnabled(true);
+                        fase_inizial = false;
+                    }
                 }
+
             }
         });
         //=======================================================================
@@ -353,13 +372,13 @@ public class FinestraPrincipale extends JFrame {
 
                 //effettuo cambio pietre
                 partita.cambioPietre();
-                setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().ordinal());
+                setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
                 pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
-                setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().ordinal());
+                setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
                 pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
 
                 //controllo vita dei due tamagolem
-                partita.controllaVita2Tama(scorta_comune);
+                controllaVita2TamaGUI(partita);
 
                 check_finish = partita.isTerminata();
 
@@ -371,21 +390,27 @@ public class FinestraPrincipale extends JFrame {
                         }
                     }
                     if (a_zero == scorta_comune.size()) {
-                        //Dichiarazione vincitore
-                        JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
-                        //Visualizza equilibrio
-                        JOptionPane.showMessageDialog(null, partita.stringaEquilibrio(tipi), "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
-
-                        //Reset
-                        disableAllButtons();
-                        setPietraP1Img(-1);
-                        pietra1.setText("Pietra");
-                        setPietraP2Img(-1);
-                        pietra2.setText("Pietra");
+                        check_finish = false;
                     }
+                }
+
+                if (check_finish) {
+                    //Dichiarazione vincitore
+                    JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
+                    //Visualizza equilibrio
+                    JOptionPane.showMessageDialog(null, partita.stringaEquilibrio(tipi), "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
+
+                    //Reset
+                    creaNuova();
                 }
             }
         });
+    }
+
+    private void creaNuova() {
+        inizializzaTema("Metal");
+        FinestraPrincipale finestraPrincipale = new FinestraPrincipale();
+        this.dispose();
     }
 
     private void abilitaBottoniP1() {
@@ -432,11 +457,11 @@ public class FinestraPrincipale extends JFrame {
         this.setTitle("TamaGolem");
     }
 
-    private void inizializzaTema() {
+    public void inizializzaTema(String stringa) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 System.out.println(info.getName());
-                if ("Nimbus".equals(info.getName())) {
+                if (stringa.equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -451,7 +476,30 @@ public class FinestraPrincipale extends JFrame {
         testo.setText(" Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
         squadra.getTamagolem().addTipoPietra(new Pietra(scorta_comune.get(pietra_scelta).getTipo_pietra()));
         scorta_comune.get(pietra_scelta).decrementaQuantitaPietra();
-        testo.setText(" Pietra aggiunta (Tot:" + cont_pietre + ")");
+        testo.setText(" Pietra aggiunta (Tot:" + (cont_pietre + 1) + ")");
+    }
+
+    public void controllaVita2TamaGUI(Partita partita) {
+        controlloVitaGUI(partita.getSquadra_uno(), 1);
+        controlloVitaGUI(partita.getSquadra_due(), 2);
+    }
+
+    private void controlloVitaGUI(Squadra squadra, int numero) {
+        if (squadra.getTamagolem().getSalute() <= 0) {
+            squadra.removeTama();
+            //disabilito tasto attacco
+            attack1.setEnabled(false);
+            if (squadra.getTamagolems().size() > 0) {
+                if (numero == 1) {
+                    //squadra i tama eliminato
+                    JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
+                    abilitaBottoniP1();
+                } else {
+                    JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
+                    abilitaBottoniP2();
+                }
+            }
+        }
     }
 
     private void visualizzaStoria() {
@@ -491,25 +539,25 @@ public class FinestraPrincipale extends JFrame {
         player2_img.setIcon(img2);
     }
 
-    private void setPietraP1Img(int numero) {
-        String nomefile = "Immagini/pietre/" + numero + ".gif";
+    private void setPietraP1Img(String nome) {
+        String nomefile = "Immagini/pietre/" + nome + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra1.setIcon(img);
     }
 
-    private void setPietraP1(int numero) {
-        setPietraP1Img(numero);
+    private void setPietraP1(String nome) {
+        setPietraP1Img(nome);
         pietra1.setText(" " + scorta_comune.get(pietra_attuale).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale).getQuantita_pietra() + "");
     }
 
-    private void setPietraP2Img(int numero) {
-        String nomefile = "Immagini/pietre/" + numero + ".gif";
+    private void setPietraP2Img(String nome) {
+        String nomefile = "Immagini/pietre/" + nome + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra2.setIcon(img);
     }
 
-    private void setPietraP2(int numero) {
-        setPietraP2Img(numero);
+    private void setPietraP2(String nome) {
+        setPietraP2Img(nome);
         pietra2.setText(" " + scorta_comune.get(pietra_attuale2).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale2).getQuantita_pietra() + "");
     }
 
