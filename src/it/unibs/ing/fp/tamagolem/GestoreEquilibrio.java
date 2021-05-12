@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class GestoreEquilibrio {
 
-    private static final int NUMERO_ELEMENTI = 5; //Mai Minore di 5
+    private static final int NUMERO_ELEMENTI = 10; //Mai Minore di 5
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
     /**
@@ -19,6 +19,7 @@ public class GestoreEquilibrio {
         int matrice[][];
         int cont=0;
         for (int i = 0; i < 1000; i++) {
+            //TODO controllo disattivato per efficienza
             matrice=equilibrioMatrice1();
             visualizzaMatrice(matrice);
             int somma1;
