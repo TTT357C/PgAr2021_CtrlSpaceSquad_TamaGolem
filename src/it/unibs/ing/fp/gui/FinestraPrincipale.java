@@ -173,7 +173,8 @@ public class FinestraPrincipale extends JFrame {
 
                 //====================================================
                 //Creo Equilibrio
-                tipi = partita.equilibrio();
+                GestoreEquilibrio g_equilibrio = new GestoreEquilibrio(numero_ele);
+                tipi = g_equilibrio.equilibrio();
                 //====================================================
 
                 //====================================================
