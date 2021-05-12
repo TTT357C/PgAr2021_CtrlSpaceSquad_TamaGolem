@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class GestoreEquilibrio {
 
-    private static final int NUMERO_ELEMENTI = 7; //Mai Minore di 5
+    private static final int NUMERO_ELEMENTI = 5; //Mai Minore di 5
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
     /**
@@ -19,7 +19,7 @@ public class GestoreEquilibrio {
         int matrice[][];
         int cont=0;
         for (int i = 0; i < 1000; i++) {
-            matrice=equilibrioMatrice();
+            matrice=equilibrioMatrice1();
             visualizzaMatrice(matrice);
             int somma1;
             for (int k = 0; k < NUMERO_ELEMENTI; k++) {
@@ -56,7 +56,7 @@ public class GestoreEquilibrio {
 
         int matrice[][];
         do {
-            matrice= equilibrioMatrice();
+            matrice = equilibrioMatrice();
         }while(matrice[0][0]==-1);
 
 
@@ -283,6 +283,17 @@ public class GestoreEquilibrio {
         //Controllo numero collegamenti
         //=======================================================================
 
+        controlloNumeroCollegamenti(matrice_adia);
+        //=======================================================================
+
+        //=======================================================================
+        //Return matrice Adiacenza
+        return matrice_adia;
+        //=======================================================================
+    }
+
+    private static void controlloNumeroCollegamenti(int[][] matrice_adia) {
+        int somma;
         somma=0;
         for (int i = 1; i < NUMERO_ELEMENTI; i++) {
             somma+=i;
@@ -299,12 +310,6 @@ public class GestoreEquilibrio {
         if(cont!=somma){
             matrice_adia[0][0]=-1;
         }
-        //=======================================================================
-
-        //=======================================================================
-        //Return matrice Adiacenza
-        return matrice_adia;
-        //=======================================================================
     }
 
     private static void visualizzaMatrice(int[][] matrice) {
@@ -439,6 +444,139 @@ public class GestoreEquilibrio {
 
 
         return true;
+    }
+
+    //Nuovo generatore Test
+    public static int[][] equilibrioMatrice1() {
+
+        //=================================================
+        //Inizializzo generatore N random
+        Random rand = new Random();
+
+        //=================================================
+        //Creo nuova matrice
+        int[][] matrice = new int[NUMERO_ELEMENTI][NUMERO_ELEMENTI];
+
+        //=================================================
+        //Diagonale di zeri e calcolo
+
+        for (int i = 0; i < NUMERO_ELEMENTI-1; i++) {
+            int temp_somma = 0;
+            //Diagonale di zeri
+            matrice[i][i] = 0;
+
+
+            for (int j = 0; j < (i + 1); j++) {
+                temp_somma -= matrice[i][j];
+            }
+            for (int j = 0; j < (i + 1); j++) {
+                temp_somma += matrice[j][i];
+            }
+
+            for (int k = 1 + i; k < NUMERO_ELEMENTI - 2; k++) {
+                int temp;
+                do {
+                    temp = rand.nextInt((2 * VALORE_MAX_RANDOM_NUM) + 1) - VALORE_MAX_RANDOM_NUM;
+                    temp_somma += temp;
+                } while (temp == 0);
+                if (temp < 0) {
+                    matrice[i][k] = Math.abs(temp);
+                    matrice[k][i] = 0;
+                } else {
+                    matrice[k][i] = Math.abs(temp);
+                    matrice[i][k] = 0;
+                }
+            }
+
+            int temp;
+            if (i!=NUMERO_ELEMENTI-2){
+
+                //controllo no somma zero
+                int temp_somma1;
+                do {
+                    temp_somma1 = temp_somma;
+
+                    do {
+                        temp = rand.nextInt((2 * VALORE_MAX_RANDOM_NUM) + 1) - VALORE_MAX_RANDOM_NUM;
+                        temp_somma1 += temp;
+                    } while (temp == 0);
+
+                } while (temp_somma1 == 0);
+                temp_somma += temp;
+
+                if (temp < 0) {
+                    matrice[i][NUMERO_ELEMENTI - 2] = Math.abs(temp);
+                    matrice[NUMERO_ELEMENTI - 2][i] = 0;
+                } else {
+                    matrice[NUMERO_ELEMENTI - 2][i] = Math.abs(temp);
+                    matrice[i][NUMERO_ELEMENTI - 2] = 0;
+                }
+            }
+
+
+            //Ultimo valore
+            if (temp_somma > 0) {
+                matrice[i][NUMERO_ELEMENTI - 1] = Math.abs(temp_somma);
+                matrice[NUMERO_ELEMENTI - 1][i] = 0;
+            } else if (temp_somma < 0) {
+                matrice[NUMERO_ELEMENTI - 1][i] = Math.abs(temp_somma);
+                matrice[i][NUMERO_ELEMENTI - 1] = 0;
+            }
+
+        }
+
+        //TODO
+        if (matrice[NUMERO_ELEMENTI - 2][NUMERO_ELEMENTI - 1]==0 && matrice[NUMERO_ELEMENTI - 1][NUMERO_ELEMENTI - 2]==0) {
+
+            int temp_somma;
+            do {
+                if (matrice[NUMERO_ELEMENTI - 2][0] == 0) {
+                    matrice[0][NUMERO_ELEMENTI - 2]++;
+                } else if (matrice[0][NUMERO_ELEMENTI - 2] == 0) {
+                    matrice[NUMERO_ELEMENTI - 2][0]++;
+                }
+
+                temp_somma = 0;
+
+                for (int j = 0; j < NUMERO_ELEMENTI - 1; j++) {
+                    temp_somma -= matrice[0][j];
+                }
+                for (int j = 0; j < NUMERO_ELEMENTI - 1; j++) {
+                    temp_somma += matrice[j][0];
+                }
+            }while(temp_somma==0);
+
+            //Ultimo valore prima riga
+            if (temp_somma > 0) {
+                matrice[0][NUMERO_ELEMENTI - 1] = Math.abs(temp_somma);
+                matrice[NUMERO_ELEMENTI - 1][0] = 0;
+            } else if (temp_somma < 0) {
+                matrice[NUMERO_ELEMENTI - 1][0] = Math.abs(temp_somma);
+                matrice[0][NUMERO_ELEMENTI - 1] = 0;
+            }
+
+            temp_somma=0;
+
+            for (int j = 0; j < NUMERO_ELEMENTI-1; j++) {
+                temp_somma -= matrice[NUMERO_ELEMENTI-2][j];
+            }
+            for (int j = 0; j < NUMERO_ELEMENTI-1; j++) {
+                temp_somma += matrice[j][NUMERO_ELEMENTI-2];
+            }
+
+            //Ultimo valore penultima riga
+            if (temp_somma > 0) {
+                matrice[NUMERO_ELEMENTI-2][NUMERO_ELEMENTI - 1] = Math.abs(temp_somma);
+                matrice[NUMERO_ELEMENTI - 1][NUMERO_ELEMENTI-2] = 0;
+            } else if (temp_somma < 0) {
+                matrice[NUMERO_ELEMENTI - 1][NUMERO_ELEMENTI-2] = Math.abs(temp_somma);
+                matrice[NUMERO_ELEMENTI-2][NUMERO_ELEMENTI - 1] = 0;
+            }
+        }
+
+        controlloNumeroCollegamenti(matrice);
+        return matrice;
+
     }
 
 }
