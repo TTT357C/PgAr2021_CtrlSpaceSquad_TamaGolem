@@ -175,7 +175,7 @@ public class Partita {
     public String stringaEquilibrio(ArrayList<Tipo> tipi) {
         String equilibrio = "";
         for (int i = 0; i < tipi.size(); i++) {
-            equilibrio += tipi.get(i).name() + " predomina su: ";
+            equilibrio += tipi.get(i).name() + " predomina su:\n";
             for (int j = 0; j < tipi.size(); j++) {
                 if (i != j) {
                     if (tipi.get(i).getArchi().get(j).getSenso()) {
