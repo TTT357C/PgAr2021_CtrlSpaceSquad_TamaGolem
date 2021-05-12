@@ -17,114 +17,109 @@ import java.util.Scanner;
  * @author Thomas Causetti
  */
 public class FinestraPrincipale extends JFrame {
-    private JLabel player1_img;
-    private JLabel player2_img;
+
+    //=========================================================================================
+    //Componenti interfaccia
+    //=========================================================================================
     private JPanel mainPanel;
     private JPanel p1;
     private JPanel p2;
+    private JLabel player1_img;
+    private JLabel player2_img;
     private JProgressBar progressBar_2;
     private JProgressBar progressBar_1;
-    private JButton freccia_destra;
     private JButton attack1;
+    private JButton freccia_destra;
     private JButton freccia_sinistra;
+    private JButton freccia_destra2;
+    private JButton freccia_sinistra2;
     private JLabel nomeGiocatore2;
     private JLabel nomeGiocatore1;
-    private JButton menu;
     private JPanel p1_ui;
     private JPanel p2_ui;
     private JToolBar menu_principale;
     private JLabel pietra1;
+    private JLabel pietra2;
     private JLabel testo;
     private JPanel testo_panel;
-    private JButton freccia_sinistra2;
-    private JButton freccia_destra2;
-    private JLabel pietra2;
+    private JButton menu;
     private JButton menu2;
     private JButton menu3;
     private JButton conferma1;
     private JButton conferma2;
+    //=========================================================================================
 
+    //=========================================================================================
+    //Numero elementi
     private int numero_elementi = 0;
+    //=========================================================================================
 
+    //=========================================================================================
+    //Variabili per pietre
     private int pietra_attuale;
     private int pietra_attuale2;
     private int cont_pietre;
+    //=========================================================================================
 
+    //=========================================================================================
+    //Variabili per partita
     private Partita partita;
     private ArrayList<Tipo> tipi;
-
     private ArrayList<Pietra> scorta_comune;
+    //=========================================================================================
 
+
+    /**
+     * <h1> Finestra Principale </h1>
+     * <p> Metodo che crea la finestra principale della GUI </p>
+     * <p><b> Nota: parte del codice della finestra e' stato generato da Intellij IDEA</b></p>
+     * @author Thomas Causetti
+     */
     public FinestraPrincipale() {
 
-        //Inizializzatore tema
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                System.out.println(info.getName());
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
+        //Inizializza tema
+        inizializzaTema();
 
+        //Inizializza finestra
+        inizializzaFinestra();
 
-        this.setMinimumSize(new Dimension(1200, 800));
-
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-        this.setLocation(x, y);
-
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle("TamaGolem");
-
-        //set default
+        //disabilito tutti i bottoni non necessari all' avvio
         disableAll();
+
+        //set default immagine
         pietra_attuale = -1;
         pietra_attuale2 = -1;
         setPietraP1Img(pietra_attuale);
         setPietraP2Img(pietra_attuale);
 
-        freccia_sinistra.setEnabled(false);
-        freccia_destra.setEnabled(false);
-        conferma1.setEnabled(false);
-
-        freccia_sinistra2.setEnabled(false);
-        freccia_destra2.setEnabled(false);
-        conferma2.setEnabled(false);
-
-
         //Colori
-        mainPanel.setBackground(Color.GRAY);
-        progressBar_1.setForeground(Color.RED);
-        progressBar_2.setForeground(Color.RED);
-        p1.setBackground(Color.LIGHT_GRAY);
-        p2.setBackground(Color.LIGHT_GRAY);
-        attack1.setBackground(Color.RED);
-        attack1.setForeground(Color.WHITE);
-        menu_principale.setBackground(Color.LIGHT_GRAY);
-        testo_panel.setBackground(Color.DARK_GRAY);
-        testo.setForeground(Color.WHITE);
+        setColori();
 
         //bordi
-        Border line = BorderFactory.createLineBorder(Color.gray);
-        pietra1.setBorder(line);
-        pietra2.setBorder(line);
-        testo_panel.setBorder(line);
+        setBordi();
 
-
+        //set Immagini Tamagolem
         setImgTama();
 
+        //set progressbar
         progressBar_1.setValue(0);
         progressBar_2.setValue(0);
+
+        //aggiungo tutti i componenti a finestra
         this.add(mainPanel);
+
+        //rendo visibile
         this.setVisible(true);
+
+        //====================================================
 
         //Finestra di benvenuto/spiegazione
         JOptionPane.showMessageDialog(this, " Per iniziare una nuova partita puoi selezionare - nuova partita - dal menu qui sopra", "Benvenuto!", JOptionPane.INFORMATION_MESSAGE);
+
+
+        //=======================================================================
+        //Inizio ActionListener
+        //=======================================================================
 
         //=======================================================================
         //Nuova Partita
@@ -139,9 +134,16 @@ public class FinestraPrincipale extends JFrame {
                 nomeGiocatore1.setText(nome1);
                 nomeGiocatore2.setText(nome2);
 
+                //Creo Squadre
                 Squadra q1 = new Squadra(new Combattente(nome1));
                 Squadra q2 = new Squadra(new Combattente(nome2));
+
+                //Creo Partita
                 partita = new Partita(q1, q2);
+
+                //====================================================
+                //JoptionPane con 4 bottoni per scelta difficolta
+                //====================================================
 
                 String[] buttons = {"Facile", "Medio", "Difficile", "Caotico"};
                 int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE, 0, null, buttons, buttons[0]);
@@ -162,15 +164,23 @@ public class FinestraPrincipale extends JFrame {
                         numero_ele = 10;
                         break;
                     default:
-                        numero_ele = 7;
+                        numero_ele = 6;
                         break;
                 }
 
+                //====================================================
+                //Inizializzo costanti gioco
                 partita.inizializzazioneGUI(numero_ele);
 
+                //====================================================
+                //Creo Equilibrio
                 tipi = partita.equilibrio();
+                //====================================================
 
+                //====================================================
+                //Creo la scorta comune
                 scorta_comune = partita.generaScortaComune(tipi);
+                //====================================================
 
                 //porto le pietre a zero prima -1
                 pietra_attuale++;
@@ -378,6 +388,52 @@ public class FinestraPrincipale extends JFrame {
         });
     }
 
+    private void setBordi() {
+        Border line = BorderFactory.createLineBorder(Color.gray);
+        pietra1.setBorder(line);
+        pietra2.setBorder(line);
+        testo_panel.setBorder(line);
+    }
+
+    private void setColori() {
+        mainPanel.setBackground(Color.GRAY);
+        progressBar_1.setForeground(Color.RED);
+        progressBar_2.setForeground(Color.RED);
+        p1.setBackground(Color.LIGHT_GRAY);
+        p2.setBackground(Color.LIGHT_GRAY);
+        attack1.setBackground(Color.RED);
+        attack1.setForeground(Color.WHITE);
+        menu_principale.setBackground(Color.LIGHT_GRAY);
+        testo_panel.setBackground(Color.DARK_GRAY);
+        testo.setForeground(Color.WHITE);
+    }
+
+    private void inizializzaFinestra() {
+        this.setMinimumSize(new Dimension(1200, 800));
+
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+        this.setLocation(x, y);
+
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setTitle("TamaGolem");
+    }
+
+    private void inizializzaTema() {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                System.out.println(info.getName());
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+    }
+
 
     private void evoluzioneGUI(Squadra squadra, int pietra_scelta) {
         testo.setText(" Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
@@ -446,8 +502,15 @@ public class FinestraPrincipale extends JFrame {
     }
 
     private void disableAll() {
-        p1.setEnabled(false);
-        p2.setEnabled(false);
+        freccia_sinistra.setEnabled(false);
+        freccia_destra.setEnabled(false);
+        conferma1.setEnabled(false);
+
+        freccia_sinistra2.setEnabled(false);
+        freccia_destra2.setEnabled(false);
+        conferma2.setEnabled(false);
+
+        attack1.setEnabled(false);
     }
 
 
