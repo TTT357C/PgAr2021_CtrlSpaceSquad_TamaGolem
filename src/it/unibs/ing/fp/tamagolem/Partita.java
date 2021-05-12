@@ -33,13 +33,21 @@ public class Partita {
         this.squadra_due = squadra_due;
     }
 
-    public void startGame(){
+    public void inizializzazione(){
         //Metodo che calcola costati di gioco
         calcoloCostatiDiGioco();
         //inizializzazione tamagolem
         inizializzaTama(GOLEM_PER_PLAYER);
-        // CREARE EQUILIBRIO PASSANDO NUMERO_ELEMENTI Todo
-        ArrayList<Tipo> tipi = equilibrio();
+    }
+
+    public void inizializzazioneGUI(int numero_elementi){
+        //Metodo che calcola costati di gioco
+        calcoloCostatiDiGiocoGUI(numero_elementi);
+        //inizializzazione tamagolem
+        inizializzaTama(GOLEM_PER_PLAYER);
+    }
+
+    public ArrayList<Pietra> generaScortaComune(ArrayList<Tipo> tipi){
         //creazione Set di pietre comuni
         ArrayList<Pietra> scorta_comune = new ArrayList<>();
         //TIPI INDICA L'ARRAYLIST con i TIPI PRESENTI
@@ -48,9 +56,27 @@ public class Partita {
                 scorta_comune.add(new Pietra(appoggio,(ELEMENTI_IN_SCORTA /NUMERO_ELEMENTI)));
             }
         }
+
+
+        return scorta_comune;
+    }
+
+    /**
+     * Work in CUI
+     */
+    public void startGame(){
+
+        inizializzazione();
+
+        // CREARE EQUILIBRIO PASSANDO NUMERO_ELEMENTI Todo
+        ArrayList<Tipo> tipi = equilibrio();
+
+        ArrayList<Pietra> scorta_comune = generaScortaComune(tipi);
+
         //Evoluzione del primo tamagolem delle due squadre
         evoluzione(squadra_uno,scorta_comune, PIETRE_PER_GOLEM);
         evoluzione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
+
         //Inizio scontro Todo
         boolean check_finisch;
         do{
@@ -112,8 +138,7 @@ public class Partita {
             //effettuo cambio pietre
             cambioPietre();
             //controllo vita dei due tamagolem
-            controlloVita(scorta_comune, PIETRE_PER_GOLEM, squadra_uno);
-            controlloVita(scorta_comune, PIETRE_PER_GOLEM, squadra_due);
+            controllaVita2Tama(scorta_comune);
             check_finisch = isTerminata();
 
             if(check_finisch){
@@ -135,13 +160,18 @@ public class Partita {
         System.out.println("\n" + stringaEquilibrio(tipi));
     }
 
+    public void controllaVita2Tama(ArrayList<Pietra> scorta_comune) {
+        controlloVita(scorta_comune, PIETRE_PER_GOLEM, squadra_uno);
+        controlloVita(scorta_comune, PIETRE_PER_GOLEM, squadra_due);
+    }
+
     /**
      * Metodo che crea una stringa che rappresenta l'equilibrio
      * Ritorna una stringa che verra poi visualizzata
      * @param tipi Arralist con l'equilibrio
      * @return Ritorna una stringa per la visualizzazione dell'equilibrio
      */
-    private String stringaEquilibrio(ArrayList<Tipo> tipi ) {
+    public String stringaEquilibrio(ArrayList<Tipo> tipi) {
         String equilibrio = "";
         for (int i = 0; i < tipi.size(); i++) {
             equilibrio += tipi.get(i).name() + " predomina su: ";
@@ -172,12 +202,26 @@ public class Partita {
     }
 
     /**
+     * Metodo che calcola le costati di gioco necessarie per avviare la partita (GUI)
+     */
+    private void calcoloCostatiDiGiocoGUI(int numero_elementi) {
+        //NUMERO_ELEMENTI = Numero di elementi nell'equilibrio
+        NUMERO_ELEMENTI = numero_elementi;
+        //P Numero di pietre per ogni golem
+        PIETRE_PER_GOLEM = ((NUMERO_ELEMENTI+1)/3)+1;
+        // G Numero di golem per partita
+        GOLEM_PER_PLAYER =  (NUMERO_ELEMENTI - 1)*(NUMERO_ELEMENTI - 2) / (2 * PIETRE_PER_GOLEM);
+        //S Quantita di pietre nella scorta comune
+        ELEMENTI_IN_SCORTA = ((2 * GOLEM_PER_PLAYER * PIETRE_PER_GOLEM) / NUMERO_ELEMENTI) * NUMERO_ELEMENTI +NUMERO_ELEMENTI;
+    }
+
+    /**
      *
      * @param tipi Array dei tipi presenti nell'equilibrio
      * @param squadra Riferimento della squadra
      * @return Ritorna la posizione nell'array tipi della pietra attiva
      */
-    private int posPietra(ArrayList<Tipo> tipi, Squadra squadra) {
+    public int posPietra(ArrayList<Tipo> tipi, Squadra squadra) {
         int pos=0;
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
             if (squadra.getTamagolem().getPietre().getTipo_pietra().name().equals(tipi.get(i).name())) {
@@ -206,7 +250,7 @@ public class Partita {
     /**
      * Metodo che effettua la rotazione delle pietre
      */
-    private void cambioPietre() {
+    public void cambioPietre() {
         squadra_uno.getTamagolem().cambioPietra();
         squadra_due.getTamagolem().cambioPietra();
     }
@@ -231,6 +275,11 @@ public class Partita {
      * Viene poi invocato un metodo che stampa a video il nome del combattente vincitore
      */
     private void stampaVincitore() {
+        Combattente vincitore = getCombattenteVincente();
+        InputGame.stampaVittoria(vincitore);
+    }
+
+    public Combattente getCombattenteVincente() {
         Combattente vincitore;
         if(squadra_uno.getTamagolems().size()== 0){
             //VITTORIA SQUADRA DUE
@@ -244,7 +293,7 @@ public class Partita {
             //PAREGGIO
             vincitore = null;
         }
-        InputGame.stampaVittoria(vincitore);
+        return vincitore;
     }
 
     /**
@@ -285,7 +334,7 @@ public class Partita {
      * Metodo che calcola se la partita è terminata
      * @return Ritorna true se NON è termianta
      */
-    private boolean isTerminata() {
+    public boolean isTerminata() {
         return (squadra_uno.getTamagolems().size() == 0 || squadra_due.getTamagolems().size() == 0);
     }
 
@@ -722,4 +771,11 @@ public class Partita {
         return true;
     }
 
+    public Squadra getSquadra_uno() {
+        return squadra_uno;
+    }
+
+    public Squadra getSquadra_due() {
+        return squadra_due;
+    }
 }

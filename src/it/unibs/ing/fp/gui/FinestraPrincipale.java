@@ -1,5 +1,7 @@
 package it.unibs.ing.fp.gui;
 
+import it.unibs.ing.fp.tamagolem.*;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.FontUIResource;
@@ -7,7 +9,9 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * @author Thomas Causetti
@@ -37,9 +41,19 @@ public class FinestraPrincipale extends JFrame {
     private JLabel pietra2;
     private JButton menu2;
     private JButton menu3;
+    private JButton conferma1;
+    private JButton conferma2;
+
+    private int numero_elementi = 0;
 
     private int pietra_attuale;
     private int pietra_attuale2;
+    private int cont_pietre;
+
+    private Partita partita;
+    private ArrayList<Tipo> tipi;
+
+    private ArrayList<Pietra> scorta_comune;
 
     public FinestraPrincipale() {
 
@@ -71,8 +85,16 @@ public class FinestraPrincipale extends JFrame {
         disableAll();
         pietra_attuale = -1;
         pietra_attuale2 = -1;
-        setPietraP1(pietra_attuale);
-        setPietraP2(pietra_attuale);
+        setPietraP1Img(pietra_attuale);
+        setPietraP2Img(pietra_attuale);
+
+        freccia_sinistra.setEnabled(false);
+        freccia_destra.setEnabled(false);
+        conferma1.setEnabled(false);
+
+        freccia_sinistra2.setEnabled(false);
+        freccia_destra2.setEnabled(false);
+        conferma2.setEnabled(false);
 
 
         //Colori
@@ -81,15 +103,18 @@ public class FinestraPrincipale extends JFrame {
         progressBar_2.setForeground(Color.RED);
         p1.setBackground(Color.LIGHT_GRAY);
         p2.setBackground(Color.LIGHT_GRAY);
-        attack1.setBackground(Color.red);
-        attack1.setForeground(Color.white);
+        attack1.setBackground(Color.RED);
+        attack1.setForeground(Color.WHITE);
         menu_principale.setBackground(Color.LIGHT_GRAY);
+        testo_panel.setBackground(Color.DARK_GRAY);
+        testo.setForeground(Color.WHITE);
 
         //bordi
         Border line = BorderFactory.createLineBorder(Color.gray);
         pietra1.setBorder(line);
         pietra2.setBorder(line);
         testo_panel.setBorder(line);
+
 
         setImgTama();
 
@@ -100,6 +125,65 @@ public class FinestraPrincipale extends JFrame {
 
         //Finestra di benvenuto/spiegazione
         JOptionPane.showMessageDialog(this, " Per iniziare una nuova partita puoi selezionare - nuova partita - dal menu qui sopra", "Benvenuto!", JOptionPane.INFORMATION_MESSAGE);
+
+        //=======================================================================
+        //Nuova Partita
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menu.setEnabled(false);
+                String nome1 = JOptionPane.showInputDialog(null, "Dimmi il nome del giocatore1: ", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE);
+                String nome2 = JOptionPane.showInputDialog(null, "Dimmi il nome del giocatore2: ", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE);
+
+                //Set GUI nomi giocatori
+                nomeGiocatore1.setText(nome1);
+                nomeGiocatore2.setText(nome2);
+
+                Squadra q1 = new Squadra(new Combattente(nome1));
+                Squadra q2 = new Squadra(new Combattente(nome2));
+                partita = new Partita(q1, q2);
+
+                String[] buttons = {"Facile", "Medio", "Difficile", "Caotico"};
+                int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE, 0, null, buttons, buttons[0]);
+                System.out.println(returnValue);
+
+                int numero_ele;
+                switch (returnValue) {
+                    case 0:
+                        numero_ele = 5;
+                        break;
+                    case 1:
+                        numero_ele = 7;
+                        break;
+                    case 2:
+                        numero_ele = 9;
+                        break;
+                    case 3:
+                        numero_ele = 10;
+                        break;
+                    default:
+                        numero_ele = 7;
+                        break;
+                }
+
+                partita.inizializzazioneGUI(numero_ele);
+
+                tipi = partita.equilibrio();
+
+                scorta_comune = partita.generaScortaComune(tipi);
+
+                //porto le pietre a zero prima -1
+                pietra_attuale++;
+                pietra_attuale2++;
+
+                numero_elementi = partita.NUMERO_ELEMENTI;
+
+                freccia_sinistra.setEnabled(true);
+                freccia_destra.setEnabled(true);
+                conferma1.setEnabled(true);
+            }
+        });
+        //=======================================================================
 
         attack1.addActionListener(new ActionListener() {
             @Override
@@ -117,14 +201,22 @@ public class FinestraPrincipale extends JFrame {
         freccia_sinistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 pietra_attuale--;
+                if (pietra_attuale < 0) {
+                    pietra_attuale = numero_elementi - 1;
+                }
                 setPietraP1(pietra_attuale);
+
             }
         });
         freccia_destra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pietra_attuale++;
+                if (pietra_attuale >= numero_elementi) {
+                    pietra_attuale = 0;
+                }
                 setPietraP1(pietra_attuale);
             }
         });
@@ -132,6 +224,9 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pietra_attuale2--;
+                if (pietra_attuale2 < 0) {
+                    pietra_attuale2 = numero_elementi - 1;
+                }
                 setPietraP2(pietra_attuale2);
             }
         });
@@ -139,6 +234,9 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pietra_attuale2++;
+                if (pietra_attuale2 >= numero_elementi) {
+                    pietra_attuale2 = 0;
+                }
                 setPietraP2(pietra_attuale2);
             }
         });
@@ -168,15 +266,117 @@ public class FinestraPrincipale extends JFrame {
         });
         //=======================================================================
 
-        //=======================================================================
-        //Nuova Partita
-        menu.addActionListener(new ActionListener() {
+        //Pietra Scelta 1
+        conferma1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                evoluzioneGUI(partita.getSquadra_uno(), pietra_attuale);
+                setPietraP1(pietra_attuale);
+                cont_pietre++;
+                //Se tutte pietre sono state inserite
+                if (cont_pietre == partita.PIETRE_PER_GOLEM) {
+                    freccia_sinistra.setEnabled(false);
+                    freccia_destra.setEnabled(false);
+                    conferma1.setEnabled(false);
+                    //Disabilito visualizzazione pietra
+                    setPietraP1Img(-1);
+                    pietra1.setText("Pietre");
+                    freccia_sinistra2.setEnabled(true);
+                    freccia_destra2.setEnabled(true);
+                    conferma2.setEnabled(true);
+                    cont_pietre = 0;
+                }
+            }
+        });
+
+        //Pietra Scelta 2
+        conferma2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                evoluzioneGUI(partita.getSquadra_uno(), pietra_attuale2);
+                setPietraP2(pietra_attuale2);
+                cont_pietre++;
+                //Se tutte pietre sono state inserite
+                if (cont_pietre == partita.PIETRE_PER_GOLEM) {
+                    freccia_sinistra2.setEnabled(false);
+                    freccia_destra2.setEnabled(false);
+                    conferma2.setEnabled(false);
+                    //Disabilito visualizzazione pietra
+                    setPietraP1(pietra_attuale);
+                    cont_pietre = 0;
+                }
+            }
+        });
+
+        attack1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                boolean check_finisch;
+
+                int posp = partita.posPietra(tipi, partita.getSquadra_uno());
+                int posq = partita.posPietra(tipi, partita.getSquadra_due());
+                if(tipi.get(posp).name().equals(tipi.get(posq).name())){
+                    testo.setText("AVETE USATO LO STESSO TIPO E NON HA CREATO CONSEGUENZE");
+                }
+                else{
+                    if(tipi.get(posp).getArchi().get(posq).getSenso()){
+                        //uno predomina
+                        //System.out.println("TOLGO A DUE : "+  tipi.get(posp).getArchi().get(posq).getValore());
+                        partita.getSquadra_due().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
+                    }
+                    if(!(tipi.get(posp).getArchi().get(posq).getSenso())){
+                        //due predomina
+                        //System.out.println("TOLGO A UNO : "+tipi.get(posp).getArchi().get(posq).getValore());
+                        partita.getSquadra_uno().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
+                    }
+                }
+                testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente()+ " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: "+ partita.getSquadra_uno().getTamagolem().getSalute()+"\n"+
+                partita.getSquadra_due().getCombattente().getNome_combattente()+ " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: "+ partita.getSquadra_due().getTamagolem().getSalute() );
+
+                //effettuo cambio pietre
+                partita.cambioPietre();
+                //controllo vita dei due tamagolem
+                partita.controllaVita2Tama(scorta_comune);
+
+                check_finisch = partita.isTerminata();
+
+                if(check_finisch){
+                    int a_zero=0;
+                    for (int i = 0; i < scorta_comune.size(); i++) {
+                        if(scorta_comune.get(i).getQuantita_pietra()==0){
+                            a_zero++;
+                        }
+                    }
+                    if(a_zero==scorta_comune.size()){
+                        //Dichiarazione vincitore
+                        JOptionPane.showMessageDialog(null, " Il vincitore e' "+partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
+                        //Visualizza equilibrio
+                        JOptionPane.showMessageDialog(null, partita.stringaEquilibrio(tipi), "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
+
+                        //Reset
+                        freccia_sinistra.setEnabled(false);
+                        freccia_destra.setEnabled(false);
+                        conferma1.setEnabled(false);
+                        freccia_sinistra2.setEnabled(false);
+                        freccia_destra2.setEnabled(false);
+                        conferma2.setEnabled(false);
+                        setPietraP1Img(-1);
+                        pietra1.setText("Pietra");
+                        setPietraP2Img(-1);
+                        pietra2.setText("Pietra");
+                    }
+                }
             }
         });
-        //=======================================================================
+    }
+
+
+    private void evoluzioneGUI(Squadra squadra, int pietra_scelta) {
+        testo.setText(" Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
+        squadra.getTamagolem().addTipoPietra(new Pietra(scorta_comune.get(pietra_scelta).getTipo_pietra()));
+        scorta_comune.get(pietra_scelta).decrementaQuantitaPietra();
+        testo.setText(" Pietra aggiunta (Tot:" + cont_pietre + ")");
     }
 
     private void visualizzaStoria() {
@@ -216,16 +416,26 @@ public class FinestraPrincipale extends JFrame {
         player2_img.setIcon(img2);
     }
 
-    private void setPietraP1(int numero) {
+    private void setPietraP1Img(int numero) {
         String nomefile = "Immagini/pietre/" + numero + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra1.setIcon(img);
     }
 
-    private void setPietraP2(int numero) {
+    private void setPietraP1(int numero) {
+        setPietraP1Img(numero);
+        pietra1.setText(" " + scorta_comune.get(pietra_attuale).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale).getQuantita_pietra() + "");
+    }
+
+    private void setPietraP2Img(int numero) {
         String nomefile = "Immagini/pietre/" + numero + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra2.setIcon(img);
+    }
+
+    private void setPietraP2(int numero) {
+        setPietraP2Img(numero);
+        pietra2.setText(" " + scorta_comune.get(pietra_attuale2).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale2).getQuantita_pietra() + "");
     }
 
     private void disableAll() {
@@ -354,14 +564,28 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(freccia_destra, gbc);
         pietra1 = new JLabel();
-        pietra1.setText("Label");
+        pietra1.setText("Pietra");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.ipadx = 10;
+        gbc.ipadx = 30;
         gbc.ipady = 10;
         panel1.add(pietra1, gbc);
+        conferma1 = new JButton();
+        conferma1.setText("Conferma");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(conferma1, gbc);
+        final JPanel spacer6 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.ipady = 3;
+        panel1.add(spacer6, gbc);
         p2 = new JPanel();
         p2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -398,35 +622,35 @@ public class FinestraPrincipale extends JFrame {
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         p2_ui.add(progressBar_2, gbc);
-        final JPanel spacer6 = new JPanel();
+        final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 40.0;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
-        p2_ui.add(spacer6, gbc);
-        final JPanel spacer7 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 10;
         p2_ui.add(spacer7, gbc);
         final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p2_ui.add(spacer8, gbc);
         final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipadx = 10;
+        p2_ui.add(spacer9, gbc);
+        final JPanel spacer10 = new JPanel();
+        gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
-        p2_ui.add(spacer9, gbc);
+        p2_ui.add(spacer10, gbc);
         nomeGiocatore2 = new JLabel();
         Font nomeGiocatore2Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore2.getFont());
         if (nomeGiocatore2Font != null) nomeGiocatore2.setFont(nomeGiocatore2Font);
@@ -451,12 +675,12 @@ public class FinestraPrincipale extends JFrame {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(freccia_sinistra2, gbc);
-        final JPanel spacer10 = new JPanel();
+        final JPanel spacer11 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel2.add(spacer10, gbc);
+        panel2.add(spacer11, gbc);
         freccia_destra2 = new JButton();
         freccia_destra2.setText(">");
         gbc = new GridBagConstraints();
@@ -465,14 +689,28 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(freccia_destra2, gbc);
         pietra2 = new JLabel();
-        pietra2.setText("Label");
+        pietra2.setText("Pietra");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.ipadx = 10;
+        gbc.ipadx = 30;
         gbc.ipady = 10;
         panel2.add(pietra2, gbc);
+        conferma2 = new JButton();
+        conferma2.setText("Conferma");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel2.add(conferma2, gbc);
+        final JPanel spacer12 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.ipady = 3;
+        panel2.add(spacer12, gbc);
         menu_principale = new JToolBar();
         menu_principale.setBorderPainted(false);
         menu_principale.setFloatable(false);
@@ -509,7 +747,7 @@ public class FinestraPrincipale extends JFrame {
         gbc.ipady = 50;
         mainPanel.add(testo_panel, gbc);
         testo = new JLabel();
-        testo.setText("Label");
+        testo.setText("...");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
