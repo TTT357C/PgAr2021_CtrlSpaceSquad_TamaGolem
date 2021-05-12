@@ -398,7 +398,12 @@ public class FinestraPrincipale extends JFrame {
                     //Dichiarazione vincitore
                     JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
                     //Visualizza equilibrio
-                    JOptionPane.showMessageDialog(null, partita.stringaEquilibrio(tipi), "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
+                    JTextArea textArea = new JTextArea(partita.stringaEquilibrio(tipi));
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    textArea.setLineWrap(true);
+                    textArea.setWrapStyleWord(true);
+                    scrollPane.setPreferredSize(new Dimension(400, 300));
+                    JOptionPane.showMessageDialog(null, scrollPane, "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
 
                     //Reset
                     creaNuova();
