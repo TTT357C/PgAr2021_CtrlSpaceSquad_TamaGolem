@@ -185,17 +185,6 @@ public class FinestraPrincipale extends JFrame {
         });
         //=======================================================================
 
-        attack1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ImageIcon img1 = new ImageIcon("Immagini/1_.gif");
-                player1_img.setIcon(img1);
-                ImageIcon img2 = new ImageIcon("Immagini/2__.gif");
-                player2_img.setIcon(img2);
-                attack1.setEnabled(false);
-            }
-        });
-
         //GESTISCI visualizzatore pietre
         //=======================================================================
         freccia_sinistra.addActionListener(new ActionListener() {
@@ -293,7 +282,7 @@ public class FinestraPrincipale extends JFrame {
         conferma2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                evoluzioneGUI(partita.getSquadra_uno(), pietra_attuale2);
+                evoluzioneGUI(partita.getSquadra_due(), pietra_attuale2);
                 setPietraP2(pietra_attuale2);
                 cont_pietre++;
                 //Se tutte pietre sono state inserite
@@ -304,6 +293,8 @@ public class FinestraPrincipale extends JFrame {
                     //Disabilito visualizzazione pietra
                     setPietraP1(pietra_attuale);
                     cont_pietre = 0;
+                    progressBar_1.setValue(100);
+                    progressBar_2.setValue(100);
                 }
             }
         });
@@ -312,27 +303,39 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
                 boolean check_finisch;
 
                 int posp = partita.posPietra(tipi, partita.getSquadra_uno());
                 int posq = partita.posPietra(tipi, partita.getSquadra_due());
-                if(tipi.get(posp).name().equals(tipi.get(posq).name())){
+                if (tipi.get(posp).name().equals(tipi.get(posq).name())) {
                     testo.setText("AVETE USATO LO STESSO TIPO E NON HA CREATO CONSEGUENZE");
-                }
-                else{
-                    if(tipi.get(posp).getArchi().get(posq).getSenso()){
+                } else {
+                    if (tipi.get(posp).getArchi().get(posq).getSenso()) {
                         //uno predomina
                         //System.out.println("TOLGO A DUE : "+  tipi.get(posp).getArchi().get(posq).getValore());
+                        ImageIcon img1 = new ImageIcon("Immagini/1_.gif");
+                        player1_img.setIcon(img1);
+                        ImageIcon img2 = new ImageIcon("Immagini/2__.gif");
+                        player2_img.setIcon(img2);
                         partita.getSquadra_due().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
                     }
-                    if(!(tipi.get(posp).getArchi().get(posq).getSenso())){
+                    if (!(tipi.get(posp).getArchi().get(posq).getSenso())) {
                         //due predomina
                         //System.out.println("TOLGO A UNO : "+tipi.get(posp).getArchi().get(posq).getValore());
+                        ImageIcon img1 = new ImageIcon("Immagini/1__.gif");
+                        player1_img.setIcon(img1);
+                        ImageIcon img2 = new ImageIcon("Immagini/2_.gif");
+                        player2_img.setIcon(img2);
                         partita.getSquadra_uno().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
                     }
                 }
-                testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente()+ " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: "+ partita.getSquadra_uno().getTamagolem().getSalute()+"\n"+
-                partita.getSquadra_due().getCombattente().getNome_combattente()+ " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: "+ partita.getSquadra_due().getTamagolem().getSalute() );
+                testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_uno().getTamagolem().getSalute() + "\n" +
+                        partita.getSquadra_due().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_due().getTamagolem().getSalute());
+
+
+                progressBar_1.setValue((partita.getSquadra_uno().getTamagolem().getSalute() * 100) / TamaGolem.SALUTE);
+                progressBar_2.setValue((partita.getSquadra_due().getTamagolem().getSalute() * 100) / TamaGolem.SALUTE);
 
                 //effettuo cambio pietre
                 partita.cambioPietre();
@@ -341,16 +344,16 @@ public class FinestraPrincipale extends JFrame {
 
                 check_finisch = partita.isTerminata();
 
-                if(check_finisch){
-                    int a_zero=0;
+                if (check_finisch) {
+                    int a_zero = 0;
                     for (int i = 0; i < scorta_comune.size(); i++) {
-                        if(scorta_comune.get(i).getQuantita_pietra()==0){
+                        if (scorta_comune.get(i).getQuantita_pietra() == 0) {
                             a_zero++;
                         }
                     }
-                    if(a_zero==scorta_comune.size()){
+                    if (a_zero == scorta_comune.size()) {
                         //Dichiarazione vincitore
-                        JOptionPane.showMessageDialog(null, " Il vincitore e' "+partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
                         //Visualizza equilibrio
                         JOptionPane.showMessageDialog(null, partita.stringaEquilibrio(tipi), "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
 
