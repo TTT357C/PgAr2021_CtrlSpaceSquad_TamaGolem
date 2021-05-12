@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Scanner;
 
 /**
  * @author Thomas Causetti
@@ -84,7 +83,7 @@ public class FinestraPrincipale extends JFrame {
         inizializzaFinestra();
 
         //disabilito tutti i bottoni non necessari all' avvio
-        disableAll();
+        disableAllButtons();
 
         //set default immagine
         pietra_attuale = -1;
@@ -186,15 +185,16 @@ public class FinestraPrincipale extends JFrame {
                 pietra_attuale++;
                 pietra_attuale2++;
 
+                //mi salvo il numero degli elementi
                 numero_elementi = partita.NUMERO_ELEMENTI;
 
-                freccia_sinistra.setEnabled(true);
-                freccia_destra.setEnabled(true);
-                conferma1.setEnabled(true);
+                //attivo bottoni necessari
+                abilitaBottoniP1();
             }
         });
         //=======================================================================
 
+        //=======================================================================
         //GESTISCI visualizzatore pietre
         //=======================================================================
         freccia_sinistra.addActionListener(new ActionListener() {
@@ -265,6 +265,7 @@ public class FinestraPrincipale extends JFrame {
         });
         //=======================================================================
 
+        //=======================================================================
         //Pietra Scelta 1
         conferma1.addActionListener(new ActionListener() {
             @Override
@@ -280,14 +281,14 @@ public class FinestraPrincipale extends JFrame {
                     //Disabilito visualizzazione pietra
                     setPietraP1Img(-1);
                     pietra1.setText("Pietre");
-                    freccia_sinistra2.setEnabled(true);
-                    freccia_destra2.setEnabled(true);
-                    conferma2.setEnabled(true);
+                    abilitaBottoniP2();
                     cont_pietre = 0;
                 }
             }
         });
+        //=======================================================================
 
+        //=======================================================================
         //Pietra Scelta 2
         conferma2.addActionListener(new ActionListener() {
             @Override
@@ -308,13 +309,14 @@ public class FinestraPrincipale extends JFrame {
                 }
             }
         });
+        //=======================================================================
 
         attack1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
 
-                boolean check_finisch;
+                boolean check_finish;
 
                 int posp = partita.posPietra(tipi, partita.getSquadra_uno());
                 int posq = partita.posPietra(tipi, partita.getSquadra_due());
@@ -353,12 +355,13 @@ public class FinestraPrincipale extends JFrame {
                 pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
                 setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().ordinal());
                 pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
+
                 //controllo vita dei due tamagolem
                 partita.controllaVita2Tama(scorta_comune);
 
-                check_finisch = partita.isTerminata();
+                check_finish = partita.isTerminata();
 
-                if (check_finisch) {
+                if (check_finish) {
                     int a_zero = 0;
                     for (int i = 0; i < scorta_comune.size(); i++) {
                         if (scorta_comune.get(i).getQuantita_pietra() == 0) {
@@ -372,12 +375,7 @@ public class FinestraPrincipale extends JFrame {
                         JOptionPane.showMessageDialog(null, partita.stringaEquilibrio(tipi), "Equilibrio", JOptionPane.INFORMATION_MESSAGE);
 
                         //Reset
-                        freccia_sinistra.setEnabled(false);
-                        freccia_destra.setEnabled(false);
-                        conferma1.setEnabled(false);
-                        freccia_sinistra2.setEnabled(false);
-                        freccia_destra2.setEnabled(false);
-                        conferma2.setEnabled(false);
+                        disableAllButtons();
                         setPietraP1Img(-1);
                         pietra1.setText("Pietra");
                         setPietraP2Img(-1);
@@ -386,6 +384,18 @@ public class FinestraPrincipale extends JFrame {
                 }
             }
         });
+    }
+
+    private void abilitaBottoniP1() {
+        freccia_sinistra.setEnabled(true);
+        freccia_destra.setEnabled(true);
+        conferma1.setEnabled(true);
+    }
+
+    private void abilitaBottoniP2() {
+        freccia_sinistra2.setEnabled(true);
+        freccia_destra2.setEnabled(true);
+        conferma2.setEnabled(true);
     }
 
     private void setBordi() {
@@ -501,7 +511,7 @@ public class FinestraPrincipale extends JFrame {
         pietra2.setText(" " + scorta_comune.get(pietra_attuale2).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale2).getQuantita_pietra() + "");
     }
 
-    private void disableAll() {
+    private void disableAllButtons() {
         freccia_sinistra.setEnabled(false);
         freccia_destra.setEnabled(false);
         conferma1.setEnabled(false);
