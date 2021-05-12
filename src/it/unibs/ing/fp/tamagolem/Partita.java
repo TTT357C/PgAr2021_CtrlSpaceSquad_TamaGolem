@@ -190,6 +190,30 @@ public class Partita {
     }
 
     /**
+     * Metodo che crea una stringa che rappresenta l'equilibrio in html
+     * Ritorna una stringa che verra poi visualizzata
+     * @param tipi Arralist con l'equilibrio
+     * @return Ritorna una stringa per la visualizzazione dell'equilibrio
+     */
+    public String stringaEquilibrioHtml(ArrayList<Tipo> tipi) {
+        String equilibrio = "<h1> Equilibrio </h1>";
+        for (int i = 0; i < tipi.size(); i++) {
+            equilibrio += "<b><font color=\"red\">"+ tipi.get(i).name() + "</font></b> predomina su: <br>";
+            equilibrio += "<ul>";
+            for (int j = 0; j < tipi.size(); j++) {
+                if (i != j) {
+                    if (tipi.get(i).getArchi().get(j).getSenso()) {
+                        equilibrio += "<li><b>" + tipi.get(j).name() + "</b> valore danno: " + tipi.get(i).getArchi().get(j).getValore() + "</li>";
+                    }
+                }
+            }
+            equilibrio += "</ul>";
+            equilibrio += "<br>";
+        }
+        return equilibrio;
+    }
+
+    /**
      * Metodo che calcola le costati di gioco necessarie per avviare la partita
      */
     private void calcoloCostatiDiGioco() {
