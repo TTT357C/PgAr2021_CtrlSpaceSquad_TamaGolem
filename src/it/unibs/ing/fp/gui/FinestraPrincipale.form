@@ -38,7 +38,7 @@
             <children>
               <component id="3bbb9" class="javax.swing.JProgressBar" binding="progressBar_1">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="1.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -47,31 +47,21 @@
                   <stringPainted value="true"/>
                 </properties>
               </component>
-              <component id="76c1e" class="javax.swing.JLabel" binding="nomeGiocatore1">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <font name="Eras Demi ITC" size="18" style="1"/>
-                  <text value="HP"/>
-                </properties>
-              </component>
               <vspacer id="70505">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
                 </constraints>
               </vspacer>
               <hspacer id="61fad">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipadx="10"/>
                 </constraints>
               </hspacer>
               <hspacer id="1cbc7">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipadx="10"/>
                 </constraints>
               </hspacer>
@@ -81,6 +71,16 @@
                   <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
                 </constraints>
               </vspacer>
+              <component id="76c1e" class="javax.swing.JLabel" binding="nomeGiocatore1">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="Eras Demi ITC" size="18" style="1"/>
+                  <text value="HP"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="5701a" layout-manager="GridBagLayout">
@@ -157,7 +157,7 @@
             <children>
               <component id="124ba" class="javax.swing.JProgressBar" binding="progressBar_2">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="1.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -166,32 +166,21 @@
                   <stringPainted value="true"/>
                 </properties>
               </component>
-              <component id="34d54" class="javax.swing.JLabel" binding="nomeGiocatore2">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <font name="Eras Demi ITC" size="18" style="1"/>
-                  <horizontalAlignment value="11"/>
-                  <text value="HP"/>
-                </properties>
-              </component>
               <vspacer id="a6b6e">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="40.0" weighty="0.0" ipady="20"/>
+                  <gridbag weightx="40.0" weighty="0.0" ipady="10"/>
                 </constraints>
               </vspacer>
               <hspacer id="d9a50">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipadx="10"/>
                 </constraints>
               </hspacer>
               <hspacer id="365f5">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipadx="10"/>
                 </constraints>
               </hspacer>
@@ -201,6 +190,17 @@
                   <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
                 </constraints>
               </vspacer>
+              <component id="34d54" class="javax.swing.JLabel" binding="nomeGiocatore2">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="Eras Demi ITC" size="18" style="1"/>
+                  <horizontalAlignment value="11"/>
+                  <text value="HP"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="463f8" layout-manager="GridBagLayout">
@@ -261,10 +261,34 @@
         </properties>
         <border type="none"/>
         <children>
+          <component id="cc9cd" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
           <component id="acd68" class="javax.swing.JButton" binding="menu">
             <constraints/>
             <properties>
-              <text value="Partita"/>
+              <text value="Nuova Partita"/>
+            </properties>
+          </component>
+          <component id="2d24b" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="a7aa7" class="javax.swing.JButton" binding="menu2">
+            <constraints/>
+            <properties>
+              <text value="Storia"/>
+            </properties>
+          </component>
+          <component id="286f3" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="e11b6" class="javax.swing.JButton" binding="menu3">
+            <constraints/>
+            <properties>
+              <text value="Credits"/>
             </properties>
           </component>
         </children>

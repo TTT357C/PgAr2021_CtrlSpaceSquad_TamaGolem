@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 
+/**
+ * @author Thomas Causetti
+ */
 public class FinestraPrincipale extends JFrame {
     private JLabel player1_img;
     private JLabel player2_img;
@@ -32,11 +35,15 @@ public class FinestraPrincipale extends JFrame {
     private JButton freccia_sinistra2;
     private JButton freccia_destra2;
     private JLabel pietra2;
+    private JButton menu2;
+    private JButton menu3;
 
     private int pietra_attuale;
+    private int pietra_attuale2;
 
     public FinestraPrincipale() {
 
+        //Inizializzatore tema
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 System.out.println(info.getName());
@@ -49,14 +56,23 @@ public class FinestraPrincipale extends JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
+
         this.setMinimumSize(new Dimension(1200, 800));
+
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+        this.setLocation(x, y);
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TamaGolem");
 
         //set default
         disableAll();
         pietra_attuale = -1;
+        pietra_attuale2 = -1;
         setPietraP1(pietra_attuale);
+        setPietraP2(pietra_attuale);
 
 
         //Colori
@@ -70,16 +86,20 @@ public class FinestraPrincipale extends JFrame {
         menu_principale.setBackground(Color.LIGHT_GRAY);
 
         //bordi
-        Border blackline = BorderFactory.createLineBorder(Color.black);
-        pietra1.setBorder(blackline);
-        testo_panel.setBorder(blackline);
+        Border line = BorderFactory.createLineBorder(Color.gray);
+        pietra1.setBorder(line);
+        pietra2.setBorder(line);
+        testo_panel.setBorder(line);
 
         setImgTama();
 
-        progressBar_1.setValue(70);
-        progressBar_2.setValue(70);
+        progressBar_1.setValue(0);
+        progressBar_2.setValue(0);
         this.add(mainPanel);
         this.setVisible(true);
+
+        //Finestra di benvenuto/spiegazione
+        JOptionPane.showMessageDialog(this, " Per iniziare una nuova partita puoi selezionare - nuova partita - dal menu qui sopra", "Benvenuto!", JOptionPane.INFORMATION_MESSAGE);
 
         attack1.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +112,8 @@ public class FinestraPrincipale extends JFrame {
             }
         });
 
-
+        //GESTISCI visualizzatore pietre
+        //=======================================================================
         freccia_sinistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,6 +128,84 @@ public class FinestraPrincipale extends JFrame {
                 setPietraP1(pietra_attuale);
             }
         });
+        freccia_sinistra2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pietra_attuale2--;
+                setPietraP2(pietra_attuale2);
+            }
+        });
+        freccia_destra2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pietra_attuale2++;
+                setPietraP2(pietra_attuale2);
+            }
+        });
+        //=======================================================================
+
+        //=======================================================================
+        //Visualizza la storia
+        menu2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizzaStoria();
+            }
+        });
+        //=======================================================================
+
+        //=======================================================================
+        //Crediti
+        menu3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ImageIcon imageIcon = new ImageIcon("Altro/Logo CTRL_SPACE_SQUAD.jpeg"); // load the image to a imageIcon
+                Image image = imageIcon.getImage(); // transform it
+                Image newimg = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH); // scale it the smooth way
+                imageIcon = new ImageIcon(newimg);  // transform it back
+                JOptionPane.showMessageDialog(null, " Creato da Causetti Thomas, Rossi Mirko e Visini Mattia", "Credits", JOptionPane.INFORMATION_MESSAGE, imageIcon);
+            }
+        });
+        //=======================================================================
+
+        //=======================================================================
+        //Nuova Partita
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //=======================================================================
+    }
+
+    private void visualizzaStoria() {
+        JTextArea textArea = new JTextArea("Il delicato Equilibrio del Mondo si basa da sempre sull’interazione fra le diverse forze naturali, dalle più miti " +
+                "alle più distruttive. Ogni elemento in natura ha i suoi punti forti e le sue debolezze, caratteristiche che " +
+                "mantengono il nostro Universo stabile e sicuro.\n\n" +
+                "Esistono in tutto 10 elementi:\n - FUOCO\n" +
+                " - ACQUA,\n" +
+                " - ARIA,\n" +
+                " - TERRA,\n" +
+                " - ELETTRO,\n" +
+                " - LUCE,\n" +
+                " - BUIO,\n" +
+                " - ERBA,\n" +
+                " - MAGNETICO,\n" +
+                " - PSICO.\n\n" +
+                "Da migliaia di anni, L’Accademia studia le tecniche per governare tali elementi: utilizzando alcune pietre " +
+                "particolari e dandole in pasto a strane creature denominate TamaGolem, infatti, è possibile conservare il " +
+                "potere degli elementi per liberarlo al bisogno.\n\n" +
+                "Gli allievi dell’Accademia, per questo motivo, sono soliti sfidarsi in combattimenti clandestini fra " +
+                "TamaGolem. L’abilità dei combattenti, in questo caso, sta nella scelta delle giuste Pietre degli Elementi in " +
+                "modo che lo scontro abbia il risultato sperato. Tale scelta non è scontata, poiché gli Equilibri del Mondo " +
+                "sono mutevoli, e possono modificarsi radicalmente da una battaglia all’altra.\n\n" +
+                "Solamente il TamaGolem che resiste fino alla fine decreta la vittoria del proprio combattente.\n");
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+        JOptionPane.showMessageDialog(this, scrollPane, "Storia!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void setImgTama() {
@@ -121,6 +220,12 @@ public class FinestraPrincipale extends JFrame {
         String nomefile = "Immagini/pietre/" + numero + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra1.setIcon(img);
+    }
+
+    private void setPietraP2(int numero) {
+        String nomefile = "Immagini/pietre/" + numero + ".gif";
+        ImageIcon img = new ImageIcon(nomefile);
+        pietra2.setIcon(img);
     }
 
     private void disableAll() {
@@ -180,37 +285,28 @@ public class FinestraPrincipale extends JFrame {
         progressBar_1.setStringPainted(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         p1_ui.add(progressBar_1, gbc);
-        nomeGiocatore1 = new JLabel();
-        Font nomeGiocatore1Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore1.getFont());
-        if (nomeGiocatore1Font != null) nomeGiocatore1.setFont(nomeGiocatore1Font);
-        nomeGiocatore1.setText("HP");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        p1_ui.add(nomeGiocatore1, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 20;
+        gbc.ipady = 10;
         p1_ui.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p1_ui.add(spacer2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p1_ui.add(spacer3, gbc);
@@ -221,6 +317,15 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
         p1_ui.add(spacer4, gbc);
+        nomeGiocatore1 = new JLabel();
+        Font nomeGiocatore1Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore1.getFont());
+        if (nomeGiocatore1Font != null) nomeGiocatore1.setFont(nomeGiocatore1Font);
+        nomeGiocatore1.setText("HP");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        p1_ui.add(nomeGiocatore1, gbc);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -289,39 +394,29 @@ public class FinestraPrincipale extends JFrame {
         progressBar_2.setStringPainted(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         p2_ui.add(progressBar_2, gbc);
-        nomeGiocatore2 = new JLabel();
-        Font nomeGiocatore2Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore2.getFont());
-        if (nomeGiocatore2Font != null) nomeGiocatore2.setFont(nomeGiocatore2Font);
-        nomeGiocatore2.setHorizontalAlignment(11);
-        nomeGiocatore2.setText("HP");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.EAST;
-        p2_ui.add(nomeGiocatore2, gbc);
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 40.0;
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 20;
+        gbc.ipady = 10;
         p2_ui.add(spacer6, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p2_ui.add(spacer7, gbc);
         final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p2_ui.add(spacer8, gbc);
@@ -332,6 +427,16 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
         p2_ui.add(spacer9, gbc);
+        nomeGiocatore2 = new JLabel();
+        Font nomeGiocatore2Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore2.getFont());
+        if (nomeGiocatore2Font != null) nomeGiocatore2.setFont(nomeGiocatore2Font);
+        nomeGiocatore2.setHorizontalAlignment(11);
+        nomeGiocatore2.setText("HP");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        p2_ui.add(nomeGiocatore2, gbc);
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -379,9 +484,21 @@ public class FinestraPrincipale extends JFrame {
         gbc.ipadx = 10;
         gbc.ipady = 5;
         mainPanel.add(menu_principale, gbc);
+        final JToolBar.Separator toolBar$Separator1 = new JToolBar.Separator();
+        menu_principale.add(toolBar$Separator1);
         menu = new JButton();
-        menu.setText("Partita");
+        menu.setText("Nuova Partita");
         menu_principale.add(menu);
+        final JToolBar.Separator toolBar$Separator2 = new JToolBar.Separator();
+        menu_principale.add(toolBar$Separator2);
+        menu2 = new JButton();
+        menu2.setText("Storia");
+        menu_principale.add(menu2);
+        final JToolBar.Separator toolBar$Separator3 = new JToolBar.Separator();
+        menu_principale.add(toolBar$Separator3);
+        menu3 = new JButton();
+        menu3.setText("Credits");
+        menu_principale.add(menu3);
         testo_panel = new JPanel();
         testo_panel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
