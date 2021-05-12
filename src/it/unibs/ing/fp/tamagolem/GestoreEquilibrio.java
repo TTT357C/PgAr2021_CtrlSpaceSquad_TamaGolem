@@ -22,7 +22,8 @@ public class GestoreEquilibrio {
             //TODO controllo disattivato per efficienza
             matrice=equilibrioMatrice1();
             visualizzaMatrice(matrice);
-            int somma1;
+            //Controllo
+            /*int somma1;
             for (int k = 0; k < NUMERO_ELEMENTI; k++) {
                 somma1=0;
                 for (int j = 0; j < NUMERO_ELEMENTI; j++) {
@@ -36,7 +37,7 @@ public class GestoreEquilibrio {
                     System.out.println("errore");
                     break;
                 }
-            }
+            }*/
             System.out.println();
 
             if(matrice[0][0]==-1){
@@ -44,6 +45,9 @@ public class GestoreEquilibrio {
             }
         }
         System.out.println(cont);
+
+        ArrayList<Tipo> tipi = equilibrio();
+        System.out.println(tipi);
     }
 
     /**
@@ -56,9 +60,8 @@ public class GestoreEquilibrio {
         ArrayList<Tipo> tipi = new ArrayList<>();
 
         int matrice[][];
-        do {
-            matrice = equilibrioMatrice();
-        }while(matrice[0][0]==-1);
+
+        matrice = equilibrioMatrice1();
 
 
 
