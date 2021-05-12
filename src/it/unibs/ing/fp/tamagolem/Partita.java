@@ -88,6 +88,7 @@ public class Partita {
                     int j=0;
                     boolean trova=false;
                     do{
+                        //todo controlla java.util.NoSuchElementException
                         if(scorta_comune.get(j).getTipo_pietra().name().equals(squadra_due.getTamagolem().getPietre().getTipo_pietra().name())){
                             scorta_comune.get(j).aumentaQuantitaPietra();
                             squadra_due.getTamagolem().rimuoviPrimaPietra();

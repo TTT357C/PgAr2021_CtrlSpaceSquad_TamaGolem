@@ -330,7 +330,7 @@ public class FinestraPrincipale extends JFrame {
                         partita.getSquadra_uno().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
                     }
                 }
-                testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_uno().getTamagolem().getSalute() + "\n" +
+                testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_uno().getTamagolem().getSalute() + "  " +
                         partita.getSquadra_due().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_due().getTamagolem().getSalute());
 
 
@@ -339,6 +339,10 @@ public class FinestraPrincipale extends JFrame {
 
                 //effettuo cambio pietre
                 partita.cambioPietre();
+                setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().ordinal());
+                pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
+                setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().ordinal());
+                pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
                 //controllo vita dei due tamagolem
                 partita.controllaVita2Tama(scorta_comune);
 
