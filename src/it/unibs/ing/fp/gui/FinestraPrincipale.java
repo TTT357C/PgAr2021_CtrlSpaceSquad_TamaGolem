@@ -25,8 +25,9 @@ public class FinestraPrincipale extends JFrame {
     public static final String AVETE_USATO_LO_STESSO_TIPO = "AVETE USATO LO STESSO TIPO E NON HA CREATO CONSEGUENZE";
     public static final String NUOVA_PARTITA = "Nuova Partita";
     public static final String NOMI_DELLA_PARTITA_PRECEDENTE = "Vuoi usare i nomi della partita precedente?";
-    public static final String DIMMI_GIOCATORE_1 = "Dimmi il nome del giocatore1: ";
-    public static final String DIMMI_GIOCATORE_2 = "Dimmi il nome del giocatore2: ";
+    public static final String DIMMI_GIOCATORE_1 = "Dimmi il nome del giocatore 1: ";
+    public static final String DIMMI_GIOCATORE_2 = "Dimmi il nome del giocatore 2: ";
+    public static final String NOME_NON_CORRETTO = "Errore nome non corretto (Non deve contenere spazi)";
 
     //=========================================================================================
     //Componenti interfaccia
@@ -166,8 +167,9 @@ public class FinestraPrincipale extends JFrame {
                 String nome2;
 
                 if (scelta == 1) {
-                    nome1 = JOptionPane.showInputDialog(null, DIMMI_GIOCATORE_1, NUOVA_PARTITA, JOptionPane.INFORMATION_MESSAGE);
-                    nome2 = JOptionPane.showInputDialog(null, DIMMI_GIOCATORE_2, NUOVA_PARTITA, JOptionPane.INFORMATION_MESSAGE);
+
+                    nome1 = input(DIMMI_GIOCATORE_1);
+                    nome2 = input(DIMMI_GIOCATORE_2);
                     nomegiocatore1 = nome1;
                     nomegiocatore2 = nome2;
                 } else {
@@ -427,7 +429,10 @@ public class FinestraPrincipale extends JFrame {
                             j++;
                         } while (!trova);
                     }
-                    aggiornaPietre();
+                    setPietraP1Img(-1 + "");
+                    pietra1.setText("Scegli Pietra");
+                    setPietraP2Img(-1 + "");
+                    pietra2.setText("Pietre");
                     tutorialSceltaPietre();
                     disableAllButtons();
                     abilitaBottoniP1();
@@ -509,6 +514,21 @@ public class FinestraPrincipale extends JFrame {
                 }
             }
         });
+    }
+
+    private String input(String messaggio) {
+        String input;
+        Boolean controllo;
+        do {
+            controllo = true;
+            input = JOptionPane.showInputDialog(this, messaggio, NUOVA_PARTITA, JOptionPane.INFORMATION_MESSAGE);
+
+            if (input.equals("") || input.contains("\t") || input.contains(" ")) {
+                controllo = false;
+                JOptionPane.showMessageDialog(this, NOME_NON_CORRETTO, NUOVA_PARTITA, JOptionPane.ERROR_MESSAGE);
+            }
+        } while (!controllo);
+        return input;
     }
 
     private void aggiornaPietre() {
@@ -620,14 +640,20 @@ public class FinestraPrincipale extends JFrame {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama.setValue(partita.getSquadra_uno().getTamagolems().size());
                     numeroTama.setString(partita.getSquadra_uno().getTamagolems().size() + "");
-                    aggiornaPietre();
+                    setPietraP1Img(-1 + "");
+                    pietra1.setText("Scegli Pietra");
+                    setPietraP2Img(-1 + "");
+                    pietra2.setText("Pietre");
                     tutorialSceltaPietre();
                     abilitaBottoniP1();
                 } else {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama2.setValue(partita.getSquadra_due().getTamagolems().size());
                     numeroTama2.setString(partita.getSquadra_due().getTamagolems().size() + "");
-                    aggiornaPietre();
+                    setPietraP2Img(-1 + "");
+                    pietra2.setText("Scegli Pietra");
+                    setPietraP1Img(-1 + "");
+                    pietra1.setText("Pietre");
                     tutorialSceltaPietre();
                     abilitaBottoniP2();
                 }
