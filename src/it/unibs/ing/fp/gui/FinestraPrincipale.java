@@ -427,6 +427,7 @@ public class FinestraPrincipale extends JFrame {
                             j++;
                         } while (!trova);
                     }
+                    aggiornaPietre();
                     tutorialSceltaPietre();
                     disableAllButtons();
                     abilitaBottoniP1();
@@ -459,10 +460,7 @@ public class FinestraPrincipale extends JFrame {
                     }
                     testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + "  -  "
                             + partita.getSquadra_due().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + "");
-                    setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
-                    pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
-                    setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
-                    pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
+                    aggiornaPietre();
 
 
                     progressBar_1.setValue((partita.getSquadra_uno().getTamagolem().getSalute() * 100) / TamaGolem.SALUTE);
@@ -511,6 +509,13 @@ public class FinestraPrincipale extends JFrame {
                 }
             }
         });
+    }
+
+    private void aggiornaPietre() {
+        setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
+        pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
+        setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
+        pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
     }
 
     private void visualizzaVincitore() {
@@ -615,12 +620,14 @@ public class FinestraPrincipale extends JFrame {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama.setValue(partita.getSquadra_uno().getTamagolems().size());
                     numeroTama.setString(partita.getSquadra_uno().getTamagolems().size() + "");
+                    aggiornaPietre();
                     tutorialSceltaPietre();
                     abilitaBottoniP1();
                 } else {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama2.setValue(partita.getSquadra_due().getTamagolems().size());
                     numeroTama2.setString(partita.getSquadra_due().getTamagolems().size() + "");
+                    aggiornaPietre();
                     tutorialSceltaPietre();
                     abilitaBottoniP2();
                 }
