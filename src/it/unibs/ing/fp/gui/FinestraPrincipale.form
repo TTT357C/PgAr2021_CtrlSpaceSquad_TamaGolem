@@ -87,6 +87,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
+                  <font name="Dungeon"/>
                   <indeterminate value="false"/>
                   <string value=""/>
                   <stringPainted value="true"/>
@@ -233,6 +234,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
+                  <font name="Dungeon"/>
                   <string value=""/>
                   <stringPainted value="true"/>
                 </properties>

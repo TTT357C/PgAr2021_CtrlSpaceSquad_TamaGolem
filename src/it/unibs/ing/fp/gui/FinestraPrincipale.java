@@ -761,6 +761,8 @@ public class FinestraPrincipale extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         p1_ui.add(nomeGiocatore1, gbc);
         numeroTama = new JProgressBar();
+        Font numeroTamaFont = this.$$$getFont$$$("Dungeon", -1, -1, numeroTama.getFont());
+        if (numeroTamaFont != null) numeroTama.setFont(numeroTamaFont);
         numeroTama.setIndeterminate(false);
         numeroTama.setString("");
         numeroTama.setStringPainted(true);
@@ -895,6 +897,8 @@ public class FinestraPrincipale extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         p2_ui.add(nomeGiocatore2, gbc);
         numeroTama2 = new JProgressBar();
+        Font numeroTama2Font = this.$$$getFont$$$("Dungeon", -1, -1, numeroTama2.getFont());
+        if (numeroTama2Font != null) numeroTama2.setFont(numeroTama2Font);
         numeroTama2.setString("");
         numeroTama2.setStringPainted(true);
         gbc = new GridBagConstraints();
