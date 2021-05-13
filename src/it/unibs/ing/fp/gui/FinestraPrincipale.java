@@ -99,9 +99,6 @@ public class FinestraPrincipale extends JFrame {
 
         inizializzaTema("Metal");
 
-        //TODO controlla se pietre uguali
-
-
         //Inizializza finestra
         inizializzaFinestra();
 
@@ -411,7 +408,7 @@ public class FinestraPrincipale extends JFrame {
                     partita.cambioPietre();
                 }
                 if (cont == Partita.PIETRE_PER_GOLEM) {
-                    JOptionPane.showMessageDialog(null, " I tamagolem hanno le stesse pietre P1 reinserisci le tue", "Errore stesse pietre", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, " I tamagolem hanno le stesse pietre " + partita.getSquadra_uno().getCombattente().getNome_combattente() + " reinserisci le tue", "Errore stesse pietre", JOptionPane.WARNING_MESSAGE);
 
                     for (int i = 0; i < Partita.ELEMENTI_IN_SCORTA / Partita.NUMERO_ELEMENTI; i++) {
                         int j = 0;
