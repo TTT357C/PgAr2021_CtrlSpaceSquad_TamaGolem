@@ -21,8 +21,7 @@ public class FinestraPrincipale extends JFrame {
     //Costanti di Testo
     //=========================================================================================
 
-    public static final String INSERIRE_LE_PIETRE_NEL_TAMAGOLEM = "Utilizza le frecce per selezionare le pietre e \n poi il tasto conferma per inserire le pietre nel tamagolem";
-    public static final String AVVISO = "Avviso";
+    public static final String INSERIRE_LE_PIETRE_NEL_TAMAGOLEM = "Selezionare le pietre (Necessario piu' di una)";
     public static final String AVETE_USATO_LO_STESSO_TIPO = "AVETE USATO LO STESSO TIPO E NON HA CREATO CONSEGUENZE";
     public static final String NUOVA_PARTITA = "Nuova Partita";
     public static final String NOMI_DELLA_PARTITA_PRECEDENTE = "Vuoi usare i nomi della partita precedente?";
@@ -251,7 +250,7 @@ public class FinestraPrincipale extends JFrame {
                 //attivo bottoni necessari
                 abilitaBottoniP1();
                 setPietraP1(tipi.get(0).name());
-                JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
+                tutorialSceltaPietre();
             }
         });
         //=======================================================================
@@ -352,7 +351,7 @@ public class FinestraPrincipale extends JFrame {
                             abilitaBottoniP2();
                             attack1.setEnabled(false);
                             setPietraP2(tipi.get(0).name());
-                            JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
+                            tutorialSceltaPietre();
                         }
                     }
                 } else {
@@ -431,7 +430,7 @@ public class FinestraPrincipale extends JFrame {
                             j++;
                         } while (!trova);
                     }
-                    JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
+                    tutorialSceltaPietre();
                     disableAllButtons();
                     abilitaBottoniP1();
                 } else {
@@ -499,7 +498,7 @@ public class FinestraPrincipale extends JFrame {
                         numeroTama.setValue(partita.getSquadra_uno().getTamagolems().size());
                         numeroTama2.setValue(partita.getSquadra_due().getTamagolems().size());
                         //Dichiarazione vincitore
-                        JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE);
+                        visualizzaVincitore();
                         //Visualizza equilibrio
                         JTextPane textPane = new JTextPane();
                         textPane.setContentType("text/html");
@@ -517,9 +516,19 @@ public class FinestraPrincipale extends JFrame {
         });
     }
 
+    private void visualizzaVincitore() {
+        ImageIcon imageIcon = new ImageIcon("Immagini/Trofeo.gif");
+        JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE, imageIcon);
+    }
+
+    private void tutorialSceltaPietre() {
+        ImageIcon imageIcon = new ImageIcon("Immagini/Tutorial.gif");
+        JOptionPane.showMessageDialog(null, "", INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, JOptionPane.INFORMATION_MESSAGE, imageIcon);
+    }
+
     private void creaNuova() {
         inizializzaTema("Metal");
-        new FinestraPrincipale();
+        FinestraPrincipale finestraPrincipale = new FinestraPrincipale();
         this.dispose();
     }
 
@@ -609,13 +618,13 @@ public class FinestraPrincipale extends JFrame {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama.setValue(partita.getSquadra_uno().getTamagolems().size());
                     numeroTama.setString(partita.getSquadra_uno().getTamagolems().size() + "");
-                    JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
+                    tutorialSceltaPietre();
                     abilitaBottoniP1();
                 } else {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama2.setValue(partita.getSquadra_due().getTamagolems().size());
                     numeroTama2.setString(partita.getSquadra_due().getTamagolems().size() + "");
-                    JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
+                    tutorialSceltaPietre();
                     abilitaBottoniP2();
                 }
             }
@@ -1030,7 +1039,7 @@ public class FinestraPrincipale extends JFrame {
         final JToolBar.Separator toolBar$Separator1 = new JToolBar.Separator();
         menu_principale.add(toolBar$Separator1);
         menu = new JButton();
-        menu.setText(NUOVA_PARTITA);
+        menu.setText("Nuova Partita");
         menu_principale.add(menu);
         final JToolBar.Separator toolBar$Separator2 = new JToolBar.Separator();
         menu_principale.add(toolBar$Separator2);
