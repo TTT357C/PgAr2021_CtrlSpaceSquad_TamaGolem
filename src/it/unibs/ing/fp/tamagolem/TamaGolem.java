@@ -32,7 +32,7 @@ public class TamaGolem {
     /**
      * @return Ritorna la prima pietra di tipo Pietra della Deque con tutte le pietre scelte in fase di evoluzione
      */
-    public Pietra getPietre() {
+    public Pietra getPietre(){
         return pietre.getFirst();
     }
 

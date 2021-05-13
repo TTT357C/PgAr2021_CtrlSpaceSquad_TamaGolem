@@ -18,6 +18,18 @@ import java.util.Locale;
 public class FinestraPrincipale extends JFrame {
 
     //=========================================================================================
+    //Costanti di Testo
+    //=========================================================================================
+
+    public static final String INSERIRE_LE_PIETRE_NEL_TAMAGOLEM = "Utilizza le frecce per selezionare le pietre e \n poi il tasto conferma per inserire le pietre nel tamagolem";
+    public static final String AVVISO = "Avviso";
+    public static final String AVETE_USATO_LO_STESSO_TIPO = "AVETE USATO LO STESSO TIPO E NON HA CREATO CONSEGUENZE";
+    public static final String NUOVA_PARTITA = "Nuova Partita";
+    public static final String NOMI_DELLA_PARTITA_PRECEDENTE = "Vuoi usare i nomi della partita precedente?";
+    public static final String DIMMI_GIOCATORE_1 = "Dimmi il nome del giocatore1: ";
+    public static final String DIMMI_GIOCATORE_2 = "Dimmi il nome del giocatore2: ";
+
+    //=========================================================================================
     //Componenti interfaccia
     //=========================================================================================
     private JPanel mainPanel;
@@ -152,14 +164,14 @@ public class FinestraPrincipale extends JFrame {
 
                 int scelta = 1;
                 if (nomegiocatore1 != null) {
-                    scelta = JOptionPane.showConfirmDialog(null, "Vuoi usare i nomi della partita precedente?", "Nuova Partita", JOptionPane.YES_NO_OPTION);
+                    scelta = JOptionPane.showConfirmDialog(null, NOMI_DELLA_PARTITA_PRECEDENTE, NUOVA_PARTITA, JOptionPane.YES_NO_OPTION);
                 }
                 String nome1;
                 String nome2;
 
                 if (scelta == 1) {
-                    nome1 = JOptionPane.showInputDialog(null, "Dimmi il nome del giocatore1: ", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE);
-                    nome2 = JOptionPane.showInputDialog(null, "Dimmi il nome del giocatore2: ", "Nuova Partita", JOptionPane.INFORMATION_MESSAGE);
+                    nome1 = JOptionPane.showInputDialog(null, DIMMI_GIOCATORE_1, NUOVA_PARTITA, JOptionPane.INFORMATION_MESSAGE);
+                    nome2 = JOptionPane.showInputDialog(null, DIMMI_GIOCATORE_2, NUOVA_PARTITA, JOptionPane.INFORMATION_MESSAGE);
                     nomegiocatore1 = nome1;
                     nomegiocatore2 = nome2;
                 } else {
@@ -184,7 +196,7 @@ public class FinestraPrincipale extends JFrame {
                 //====================================================
 
                 String[] buttons = {"Facile", "Medio", "Difficile", "Caotico"};
-                int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", "Nuova Partita", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
+                int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", NUOVA_PARTITA, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
                 System.out.println(returnValue);
 
                 int numero_ele;
@@ -239,6 +251,7 @@ public class FinestraPrincipale extends JFrame {
                 //attivo bottoni necessari
                 abilitaBottoniP1();
                 setPietraP1(tipi.get(0).name());
+                JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
             }
         });
         //=======================================================================
@@ -339,6 +352,7 @@ public class FinestraPrincipale extends JFrame {
                             abilitaBottoniP2();
                             attack1.setEnabled(false);
                             setPietraP2(tipi.get(0).name());
+                            JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 } else {
@@ -405,14 +419,19 @@ public class FinestraPrincipale extends JFrame {
                         boolean trova = false;
                         do {
                             //todo controlla java.util.NoSuchElementException
-                            if (scorta_comune.get(j).getTipo_pietra().name().equals(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name())) {
-                                scorta_comune.get(j).aumentaQuantitaPietra();
-                                partita.getSquadra_uno().getTamagolem().rimuoviPrimaPietra();
+                            try {
+                                if (scorta_comune.get(j).getTipo_pietra().name().equals(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name())) {
+                                    scorta_comune.get(j).aumentaQuantitaPietra();
+                                    partita.getSquadra_uno().getTamagolem().rimuoviPrimaPietra();
+                                    trova = true;
+                                }
+                            } catch (Exception ex) {
                                 trova = true;
                             }
                             j++;
                         } while (!trova);
                     }
+                    JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
                     disableAllButtons();
                     abilitaBottoniP1();
                 } else {
@@ -421,7 +440,7 @@ public class FinestraPrincipale extends JFrame {
                     int posp = partita.posPietra(tipi, partita.getSquadra_uno());
                     int posq = partita.posPietra(tipi, partita.getSquadra_due());
                     if (tipi.get(posp).name().equals(tipi.get(posq).name())) {
-                        testo.setText("AVETE USATO LO STESSO TIPO E NON HA CREATO CONSEGUENZE");
+                        testo.setText(AVETE_USATO_LO_STESSO_TIPO);
                     } else {
                         if (tipi.get(posp).getArchi().get(posq).getSenso()) {
                             //uno predomina
@@ -442,8 +461,12 @@ public class FinestraPrincipale extends JFrame {
                             partita.getSquadra_uno().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
                         }
                     }
-                    testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_uno().getTamagolem().getSalute() + "  -  " +
-                            partita.getSquadra_due().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + " Vita del Tamagolem: " + partita.getSquadra_due().getTamagolem().getSalute());
+                    testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + "  -  "
+                            + partita.getSquadra_due().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + "");
+                    setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
+                    pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
+                    setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
+                    pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
 
 
                     progressBar_1.setValue((partita.getSquadra_uno().getTamagolem().getSalute() * 100) / TamaGolem.SALUTE);
@@ -451,10 +474,7 @@ public class FinestraPrincipale extends JFrame {
 
                     //effettuo cambio pietre
                     partita.cambioPietre();
-                    setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
-                    pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
-                    setPietraP2Img(partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
-                    pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
+
 
                     //controllo vita dei due tamagolem
                     controllaVita2TamaGUI(partita);
@@ -533,6 +553,10 @@ public class FinestraPrincipale extends JFrame {
         menu_principale.setBackground(Color.LIGHT_GRAY);
         testo_panel.setBackground(Color.DARK_GRAY);
         testo.setForeground(Color.WHITE);
+        conferma1.setBackground(Color.DARK_GRAY);
+        conferma1.setForeground(Color.WHITE);
+        conferma2.setBackground(Color.DARK_GRAY);
+        conferma2.setForeground(Color.WHITE);
     }
 
     private void inizializzaFinestra() {
@@ -585,11 +609,13 @@ public class FinestraPrincipale extends JFrame {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama.setValue(partita.getSquadra_uno().getTamagolems().size());
                     numeroTama.setString(partita.getSquadra_uno().getTamagolems().size() + "");
+                    JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
                     abilitaBottoniP1();
                 } else {
                     JOptionPane.showMessageDialog(this, " " + squadra.getCombattente().getNome_combattente() + " il tuo tamagolem e' stato sconfitto, presto caricane un altro con nuove pietre", "Tama Sconfitto", JOptionPane.WARNING_MESSAGE);
                     numeroTama2.setValue(partita.getSquadra_due().getTamagolems().size());
                     numeroTama2.setString(partita.getSquadra_due().getTamagolems().size() + "");
+                    JOptionPane.showMessageDialog(null, INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, AVVISO, JOptionPane.INFORMATION_MESSAGE);
                     abilitaBottoniP2();
                 }
             }
@@ -599,10 +625,17 @@ public class FinestraPrincipale extends JFrame {
     private void visualizzaStoria() {
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
-        textPane.setText("<h1>Storia</h1><p>Il delicato <b>Equilibrio del Mondo</b> si basa da sempre sull’interazione fra le diverse forze naturali, dalle più miti " +
+        textPane.setText("<h1>Storia</h1>" +
+                "<font size=\"5\">" +
+                "<p>" +
+                "Il delicato <b>Equilibrio del Mondo</b> si basa da sempre sull’interazione fra le diverse forze naturali, dalle più miti " +
                 "alle più distruttive. Ogni elemento in natura ha i suoi punti forti e le sue debolezze, caratteristiche che " +
                 "mantengono il nostro Universo stabile e sicuro." +
-                "<p> Esistono in tutto 10 elementi:<ul><li><font color=\"red\"><b>FUOCO</b></font></li>" +
+                "</p>" +
+                "</font>" +
+                "<font size=\"5\"><p> Esistono in tutto 10 elementi:" +
+                "<ul>" +
+                "<li><font color=\"red\"><b>FUOCO</b></font></li>" +
                 "<li><font color=\"blue\"><b>ACQUA</b></font></li>" +
                 "<li><font color=\"#99ccff\"><b>ARIA</b></font></li>" +
                 "<li><font color=\"#663300\"><b>TERRA</b></font></li>" +
@@ -611,17 +644,26 @@ public class FinestraPrincipale extends JFrame {
                 "<li><font color=\"black\"><b>BUIO</b></font></li>" +
                 "<li><font color=\"green\"><b>ERBA</b></font></li>" +
                 "<li><font color=\"gray\"><b>MAGNETICO</b></font></li>" +
-                "<li><font color=\"#ff3399\"><b>PSICO</b></font></li></ul></p>" +
-                "<p>Da migliaia di anni, L’Accademia studia le tecniche per governare tali elementi: utilizzando alcune pietre " +
+                "<li><font color=\"#ff3399\"><b>PSICO</b></font></li>" +
+                "</ul>" +
+                "</p></font><hr>" +
+                "<font size=\"5\"><p>" +
+                "Da migliaia di anni, L’Accademia studia le tecniche per governare tali elementi: utilizzando alcune pietre " +
                 "particolari e dandole in pasto a strane creature denominate TamaGolem, infatti, è possibile conservare il " +
-                "potere degli elementi per liberarlo al bisogno.</p>" +
-                "<p>Gli allievi dell’Accademia, per questo motivo, sono soliti sfidarsi in combattimenti clandestini fra " +
+                "potere degli elementi per liberarlo al bisogno." +
+                "</p></font>" +
+                "<font size=\"5\"><p>" +
+                "Gli allievi dell’Accademia, per questo motivo, sono soliti sfidarsi in combattimenti clandestini fra " +
                 "<b>TamaGolem</b>. L’abilità dei combattenti, in questo caso, sta nella scelta delle giuste Pietre degli Elementi in " +
                 "modo che lo scontro abbia il risultato sperato. Tale scelta non è scontata, poiché gli Equilibri del Mondo " +
-                "sono mutevoli, e possono modificarsi radicalmente da una battaglia all’altra.</p>" +
-                "<p>Solamente il TamaGolem che resiste fino alla fine decreta la vittoria del proprio combattente.</p>");
+                "sono mutevoli, e possono modificarsi radicalmente da una battaglia all’altra." +
+                "</p></font>" +
+                "<font size=\"5\">" +
+                "<p>Solamente il TamaGolem che resiste fino alla fine decreta la vittoria del proprio combattente.</p>" +
+                "<br></font>");
+
         JScrollPane scrollPane = new JScrollPane(textPane);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
+        scrollPane.setPreferredSize(new Dimension(400, 400));
         JOptionPane.showMessageDialog(this, scrollPane, "Storia!", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -754,7 +796,7 @@ public class FinestraPrincipale extends JFrame {
         nomeGiocatore1 = new JLabel();
         Font nomeGiocatore1Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore1.getFont());
         if (nomeGiocatore1Font != null) nomeGiocatore1.setFont(nomeGiocatore1Font);
-        nomeGiocatore1.setText("HP");
+        nomeGiocatore1.setText("Player1");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -799,11 +841,13 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(freccia_destra, gbc);
         pietra1 = new JLabel();
+        Font pietra1Font = this.$$$getFont$$$("Eras Demi ITC", -1, 19, pietra1.getFont());
+        if (pietra1Font != null) pietra1.setFont(pietra1Font);
         pietra1.setText("Pietra");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 30;
         gbc.ipady = 10;
         panel1.add(pietra1, gbc);
@@ -821,6 +865,13 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 3;
         panel1.add(spacer6, gbc);
+        final JPanel spacer7 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipadx = 250;
+        panel1.add(spacer7, gbc);
         p2 = new JPanel();
         p2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -857,40 +908,40 @@ public class FinestraPrincipale extends JFrame {
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         p2_ui.add(progressBar_2, gbc);
-        final JPanel spacer7 = new JPanel();
+        final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 40.0;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
-        p2_ui.add(spacer7, gbc);
-        final JPanel spacer8 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 10;
         p2_ui.add(spacer8, gbc);
         final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 10;
         p2_ui.add(spacer9, gbc);
         final JPanel spacer10 = new JPanel();
         gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipadx = 10;
+        p2_ui.add(spacer10, gbc);
+        final JPanel spacer11 = new JPanel();
+        gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 10;
-        p2_ui.add(spacer10, gbc);
+        p2_ui.add(spacer11, gbc);
         nomeGiocatore2 = new JLabel();
         Font nomeGiocatore2Font = this.$$$getFont$$$("Eras Demi ITC", Font.BOLD, 18, nomeGiocatore2.getFont());
         if (nomeGiocatore2Font != null) nomeGiocatore2.setFont(nomeGiocatore2Font);
         nomeGiocatore2.setHorizontalAlignment(11);
-        nomeGiocatore2.setText("HP");
+        nomeGiocatore2.setText("Player2");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -920,12 +971,12 @@ public class FinestraPrincipale extends JFrame {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(freccia_sinistra2, gbc);
-        final JPanel spacer11 = new JPanel();
+        final JPanel spacer12 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel2.add(spacer11, gbc);
+        panel2.add(spacer12, gbc);
         freccia_destra2 = new JButton();
         freccia_destra2.setText(">");
         gbc = new GridBagConstraints();
@@ -934,11 +985,13 @@ public class FinestraPrincipale extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(freccia_destra2, gbc);
         pietra2 = new JLabel();
+        Font pietra2Font = this.$$$getFont$$$("Eras Demi ITC", -1, 19, pietra2.getFont());
+        if (pietra2Font != null) pietra2.setFont(pietra2Font);
         pietra2.setText("Pietra");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 30;
         gbc.ipady = 10;
         panel2.add(pietra2, gbc);
@@ -949,13 +1002,20 @@ public class FinestraPrincipale extends JFrame {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(conferma2, gbc);
-        final JPanel spacer12 = new JPanel();
+        final JPanel spacer13 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 3;
-        panel2.add(spacer12, gbc);
+        panel2.add(spacer13, gbc);
+        final JPanel spacer14 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipadx = 250;
+        panel2.add(spacer14, gbc);
         menu_principale = new JToolBar();
         menu_principale.setBorderPainted(false);
         menu_principale.setFloatable(false);
@@ -970,7 +1030,7 @@ public class FinestraPrincipale extends JFrame {
         final JToolBar.Separator toolBar$Separator1 = new JToolBar.Separator();
         menu_principale.add(toolBar$Separator1);
         menu = new JButton();
-        menu.setText("Nuova Partita");
+        menu.setText(NUOVA_PARTITA);
         menu_principale.add(menu);
         final JToolBar.Separator toolBar$Separator2 = new JToolBar.Separator();
         menu_principale.add(toolBar$Separator2);
@@ -992,6 +1052,8 @@ public class FinestraPrincipale extends JFrame {
         gbc.ipady = 50;
         mainPanel.add(testo_panel, gbc);
         testo = new JLabel();
+        Font testoFont = this.$$$getFont$$$("Eras Demi ITC", -1, 18, testo.getFont());
+        if (testoFont != null) testo.setFont(testoFont);
         testo.setText("...");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
