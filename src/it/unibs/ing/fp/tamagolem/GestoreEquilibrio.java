@@ -20,7 +20,7 @@ public class GestoreEquilibrio {
     di VALORE_MAX_RANDOM_NUM e quindi il valore finale non può essere mai maggiore di un determinato numero.
 
     I valori massimi che puo' raggiungere V matematicamente (in base alla dimensione della matrice e a VALORE_MAX_RANDOM_NUM=3) sono:
-    Matrice:3 = V:9, 4=24, 5=42, 6=67, 7=90, 8=126, 9=152, 10=185
+    Matrice:3 = V:9, 4=24, 5=42, 6=67, 7=97, 8=126, 9=152, 10=185
 
     */
 
