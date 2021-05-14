@@ -160,6 +160,25 @@ public class GestoreEquilibrio {
         }
     }
 
+    /**
+     * Trova il valore massimo della matrice
+     * @author Thomas Causetti
+     * @param matrice matrice generale
+     */
+    public int maxValMatrice(int[][] matrice) {
+        //Visualizza
+        int max=0;
+        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
+                if(max<matrice[i][j]) {
+                    max = matrice[i][j];
+                }
+            }
+
+        }
+        return max;
+    }
+
 
 
     //Nuovo generatore Test
