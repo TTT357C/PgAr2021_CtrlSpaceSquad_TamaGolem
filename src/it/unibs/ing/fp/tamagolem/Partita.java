@@ -338,6 +338,9 @@ public class Partita {
             int pietra_scelta;
             do {
                 pietra_scelta = InputDati.leggiIntero("Scegli il numero della pietra da mettere nel golem: ", 0, scorta_comune.size() - 1);
+                if(scorta_comune.get(pietra_scelta).getQuantita_pietra()==0){
+                    System.out.println("ERRORE: Non ci sono piu' pietre disponibili per il tipo "+scorta_comune.get(pietra_scelta).getTipo_pietra().name());
+                }
             }while(scorta_comune.get(pietra_scelta).getQuantita_pietra()< 1);
             squadra.getTamagolem().addTipoPietra(new Pietra(scorta_comune.get(pietra_scelta).getTipo_pietra()));
             scorta_comune.get(pietra_scelta).decrementaQuantitaPietra();
@@ -354,7 +357,13 @@ public class Partita {
         System.out.println("\tNUMERO \t NOME \t\t QUANTITA'");
         for (int i = 0; i < scorta_comune.size(); i++) {
 
-            System.out.println("\t"+i+" \t\t "+ scorta_comune.get(i).getTipo_pietra().name() + " \t\t " + scorta_comune.get(i).getQuantita_pietra());
+            if(scorta_comune.get(i).getTipo_pietra().name().equals("ELETTRO") || scorta_comune.get(i).getTipo_pietra().name().equals("MAGNETICO")){
+                System.out.println("\t"+i+" \t\t "+ scorta_comune.get(i).getTipo_pietra().name() + " \t\t " + scorta_comune.get(i).getQuantita_pietra());
+            }
+            else{
+                System.out.println("\t"+i+" \t\t "+ scorta_comune.get(i).getTipo_pietra().name() + " \t\t\t " + scorta_comune.get(i).getQuantita_pietra());
+            }
+
         }
         System.out.println("======================================================");
     }
