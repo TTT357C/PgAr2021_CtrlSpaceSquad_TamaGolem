@@ -32,33 +32,117 @@ public class FinestraPrincipale extends JFrame {
     //=========================================================================================
     //Componenti interfaccia
     //=========================================================================================
+    /**
+     * mainPanel contiene tutto il resto della GUI
+     */
     private JPanel mainPanel;
+    /**
+     * Pannello che contiene tutto cio' che riguarda il Player 1
+     */
     private JPanel p1;
+    /**
+     * Pannello che contiene tutto cio' che riguarda il Player 2
+     */
     private JPanel p2;
+    /**
+     * Immagine Tamagolem 1
+     */
     private JLabel player1_img;
+    /**
+     * Immagine Tamagolem 2
+     */
     private JLabel player2_img;
-    private JProgressBar progressBar_2;
+    /**
+     * Vita Tama 1
+     */
     private JProgressBar progressBar_1;
+    /**
+     * Vita Tama 2
+     */
+    private JProgressBar progressBar_2;
+    /**
+     * Tasto di attacco, gestisce tutto lo scontro
+     */
     private JButton attack1;
+    /**
+     * Freccia per scelta della pietra del Player 1
+     */
     private JButton freccia_destra;
+    /**
+     * Freccia per scelta della pietra del Player 1
+     */
     private JButton freccia_sinistra;
+    /**
+     * Freccia per scelta della pietra del Player 2
+     */
     private JButton freccia_destra2;
+    /**
+     * Freccia per scelta della pietra del Player 2
+     */
     private JButton freccia_sinistra2;
-    private JLabel nomeGiocatore2;
+    /**
+     * Label con il nome del giocatore 1
+     */
     private JLabel nomeGiocatore1;
+    /**
+     * Label con il nome del giocatore 2
+     */
+    private JLabel nomeGiocatore2;
+    /**
+     * Parte alta GUI Player 1
+     */
     private JPanel p1_ui;
+    /**
+     * Parte alta GUI Player 2
+     */
     private JPanel p2_ui;
+    /**
+     * Toolbar con i bottoni del menu
+     */
     private JToolBar menu_principale;
+    /**
+     * Immagine e testo pietra 1
+     */
     private JLabel pietra1;
+    /**
+     * Immagine e testo pietra 2
+     */
     private JLabel pietra2;
+    /**
+     * Area sotto con i commenti riguardanti la partita
+     */
     private JLabel testo;
+    /**
+     * Contenitore di testo
+     */
     private JPanel testo_panel;
+    /**
+     * Tasto menu Nuova partita
+     */
     private JButton menu;
+    /**
+     * Tasto menu storia
+     */
     private JButton menu2;
+    /**
+     * Tasto menu crediti
+     */
     private JButton menu3;
+    /**
+     * Conferma scelta pietra Player 1
+     */
     private JButton conferma1;
+    /**
+     * Conferma scelta pietra Player 2
+     */
     private JButton conferma2;
+    /**
+     * Numero tamagolem rimasti Player 1
+     */
     private JProgressBar numeroTama;
+    /**
+     * Numero tamagolem rimasti Player 2
+     */
     private JProgressBar numeroTama2;
     //=========================================================================================
 
@@ -544,6 +628,12 @@ public class FinestraPrincipale extends JFrame {
         });
     }
 
+    /**
+     * Metodo per l' inserimento dei nomi dei giocatori (con controllo)
+     * @param messaggio messaggio da visualizzare JOptionPane
+     * @return stringa
+     * @author Thomas Causetti
+     */
     private String input(String messaggio) {
         String input;
         Boolean controllo;
@@ -559,6 +649,10 @@ public class FinestraPrincipale extends JFrame {
         return input;
     }
 
+    /**
+     * Metodo per aggiornare le immagini delle pietre e il loro testo
+     * @author Thomas Causetti
+     */
     private void aggiornaPietre() {
         setPietraP1Img(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
         pietra1.setText(" " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name());
@@ -566,34 +660,58 @@ public class FinestraPrincipale extends JFrame {
         pietra2.setText(" " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name());
     }
 
+    /**
+     * Visualizzazione JOptionPane vincitore
+     * @author Thomas Causetti
+     */
     private void visualizzaVincitore() {
         ImageIcon imageIcon = new ImageIcon("Immagini/Trofeo.gif");
         JOptionPane.showMessageDialog(null, " Il vincitore e' " + partita.getCombattenteVincente().getNome_combattente(), "Tamagolem", JOptionPane.INFORMATION_MESSAGE, imageIcon);
     }
 
+    /**
+     * Visualizzazione JOptionPane tutorial per la scelta delle pietre
+     * @author Thomas Causetti
+     */
     private void tutorialSceltaPietre() {
         ImageIcon imageIcon = new ImageIcon("Immagini/Tutorial.gif");
         JOptionPane.showMessageDialog(null, "", INSERIRE_LE_PIETRE_NEL_TAMAGOLEM, JOptionPane.INFORMATION_MESSAGE, imageIcon);
     }
 
+    /**
+     * Creazione di una nuova partita chiude la finestra corrente dopo averne generata un altra in modo da fare un reset
+     * @author Thomas Causetti
+     */
     private void creaNuova() {
         inizializzaTema("Metal");
         FinestraPrincipale finestraPrincipale = new FinestraPrincipale();
         this.dispose();
     }
 
+    /**
+     * abilita i bottoni per il Player 1
+     * @author Thomas Causetti
+     */
     private void abilitaBottoniP1() {
         freccia_sinistra.setEnabled(true);
         freccia_destra.setEnabled(true);
         conferma1.setEnabled(true);
     }
 
+    /**
+     * abilita i bottoni per il Player 2
+     * @author Thomas Causetti
+     */
     private void abilitaBottoniP2() {
         freccia_sinistra2.setEnabled(true);
         freccia_destra2.setEnabled(true);
         conferma2.setEnabled(true);
     }
 
+    /**
+     * Metodo che setta i bordi di alcuni componenti della GUI
+     * @author Thomas Causetti
+     */
     private void setBordi() {
         Border line = BorderFactory.createLineBorder(Color.gray);
         pietra1.setBorder(line);
@@ -601,6 +719,10 @@ public class FinestraPrincipale extends JFrame {
         testo_panel.setBorder(line);
     }
 
+    /**
+     * Metodo che setta i colori di alcuni componenti della GUI
+     * @author Thomas Causetti
+     */
     private void setColori() {
         mainPanel.setBackground(Color.GRAY);
         progressBar_1.setForeground(Color.RED);
@@ -618,6 +740,10 @@ public class FinestraPrincipale extends JFrame {
         conferma2.setForeground(Color.WHITE);
     }
 
+    /**
+     * Metodo che inizializza la finestra
+     * @author Thomas Causetti
+     */
     private void inizializzaFinestra() {
         this.setMinimumSize(new Dimension(1200, 800));
 
@@ -630,6 +756,11 @@ public class FinestraPrincipale extends JFrame {
         this.setTitle("TamaGolem");
     }
 
+    /**
+     * Metodo che setta il tema desiderato
+     * @param stringa Nome del tema
+     * @author Thomas Causetti
+     */
     public void inizializzaTema(String stringa) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -644,7 +775,12 @@ public class FinestraPrincipale extends JFrame {
         }
     }
 
-
+    /**
+     * Metodo utilizzato nella fase di evocazione di un nuovo Tamagolem
+     * @author Thomas Causetti
+     * @param squadra squadra
+     * @param pietra_scelta pietra scelta
+     */
     private void evocazioneGUI(Squadra squadra, int pietra_scelta) {
         testo.setText(" Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
         squadra.getTamagolem().addTipoPietra(new Pietra(scorta_comune.get(pietra_scelta).getTipo_pietra()));
@@ -652,11 +788,22 @@ public class FinestraPrincipale extends JFrame {
         testo.setText(" Pietra aggiunta (Tot:" + (cont_pietre + 1) + ")");
     }
 
+    /**
+     * Metodo che richiama 2 volte controlloVitaGUI
+     * @author Thomas Causetti
+     * @param partita partita
+     */
     public void controllaVita2TamaGUI(Partita partita) {
         controlloVitaGUI(partita.getSquadra_uno(), 1);
         controlloVitaGUI(partita.getSquadra_due(), 2);
     }
 
+    /**
+     * Metodo che richiama 2 volte controlloVitaGUI
+     * @author Thomas Causetti
+     * @param squadra squadra
+     * @param numero numero squadra (1 o 2)
+     */
     private void controlloVitaGUI(Squadra squadra, int numero) {
         if (squadra.getTamagolem().getSalute() <= 0) {
             squadra.removeTama();
@@ -689,6 +836,10 @@ public class FinestraPrincipale extends JFrame {
         }
     }
 
+    /**
+     * Metodo crea un JOptionPane formattato attraverso HTML della storia del gioco
+     * @author Thomas Causetti
+     */
     private void visualizzaStoria() {
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
@@ -734,6 +885,10 @@ public class FinestraPrincipale extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "Storia!", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Metodo setta le immagini dei Tamagolem
+     * @author Thomas Causetti
+     */
     private void setImgTama() {
         ImageIcon img1 = new ImageIcon("Immagini/1__.gif");
         player1_img.setIcon(img1);
@@ -742,28 +897,52 @@ public class FinestraPrincipale extends JFrame {
         player2_img.setIcon(img2);
     }
 
+    /**
+     * Metodo che setta l' immagine della pietra Player 1
+     * @author Thomas Causetti
+     * @param nome nome pietra i file si chiamano (nome_pietra).gif
+     */
     private void setPietraP1Img(String nome) {
         String nomefile = "Immagini/pietre/" + nome + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra1.setIcon(img);
     }
 
+    /**
+     * Metodo che setta l' immagine della pietra e il testo richiama setPietraP1Img (Player 1)
+     * @author Thomas Causetti
+     * @param nome nome pietra
+     */
     private void setPietraP1(String nome) {
         setPietraP1Img(nome);
         pietra1.setText(" " + scorta_comune.get(pietra_attuale).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale).getQuantita_pietra() + "");
     }
 
+    /**
+     * Metodo che setta l' immagine della pietra Player 2
+     * @author Thomas Causetti
+     * @param nome nome pietra i file si chiamano (nome_pietra).gif
+     */
     private void setPietraP2Img(String nome) {
         String nomefile = "Immagini/pietre/" + nome + ".gif";
         ImageIcon img = new ImageIcon(nomefile);
         pietra2.setIcon(img);
     }
 
+    /**
+     * Metodo che setta l' immagine della pietra e il testo richiama setPietraP2Img (Player 2)
+     * @author Thomas Causetti
+     * @param nome nome pietra i file si chiamano (nome_pietra).gif
+     */
     private void setPietraP2(String nome) {
         setPietraP2Img(nome);
         pietra2.setText(" " + scorta_comune.get(pietra_attuale2).getTipo_pietra().name() + " " + scorta_comune.get(pietra_attuale2).getQuantita_pietra() + "");
     }
 
+    /**
+     * Metodo disabilita tutti i bottoni
+     * @author Thomas Causetti
+     */
     private void disableAllButtons() {
         freccia_sinistra.setEnabled(false);
         freccia_destra.setEnabled(false);
