@@ -4,12 +4,20 @@ import java.util.Collections;
 import java.util.Random;
 
 
-
+/**
+ * <h1>GestoreEquilibrio classe che gestisce l' equilibrio degli elementi</h1>
+ * <p>Metodo Pricipale: equilibrio</p>
+ * @author Thomas Causetti
+ */
 public class GestoreEquilibrio {
 
     private final int NUMERO_ELEMENTI; //Mai Minore di 5
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
+    /**
+     * Costruttore
+     * @param numero_elementi numero elementi
+     */
     public GestoreEquilibrio(int numero_elementi) {
         NUMERO_ELEMENTI = numero_elementi;
     }
@@ -19,17 +27,17 @@ public class GestoreEquilibrio {
      * @param args
      */
     public static void main(String[] args) {
-       // ArrayList<Tipo> tipi = equilibrio();
 
         GestoreEquilibrio g_equilibrio = new GestoreEquilibrio(5);
 
         int matrice[][];
         int cont=0;
         for (int i = 0; i < 1000; i++) {
-            //TODO controllo disattivato per efficienza
+
             matrice=g_equilibrio.equilibrioMatrice();
             g_equilibrio.visualizzaMatrice(matrice);
-            //Controllo
+
+            //Controllo disattivato per efficienza
             /*int somma1;
             for (int k = 0; k < g_equilibrio.NUMERO_ELEMENTI; k++) {
                 somma1=0;
@@ -51,6 +59,7 @@ public class GestoreEquilibrio {
             if(matrice[0][0]==-1){
                cont++;
             }*/
+
         }
         System.out.println(cont);
 
@@ -70,8 +79,6 @@ public class GestoreEquilibrio {
         int matrice[][];
 
         matrice = equilibrioMatrice();
-
-
 
         //tutti
         ArrayList<Tipo> tipi_temp = new ArrayList<>();
@@ -102,12 +109,6 @@ public class GestoreEquilibrio {
                 }
             }
         }
-
-
-
-        /*for (Tipo dir : tipi) {
-            System.out.println(dir);
-        }*/
 
         return tipi;
     }
@@ -147,7 +148,7 @@ public class GestoreEquilibrio {
 
 
     //Nuovo generatore Test
-    public int[][] equilibrioMatrice() {
+    private int[][] equilibrioMatrice() {
 
         //=================================================
         //Inizializzo generatore N random

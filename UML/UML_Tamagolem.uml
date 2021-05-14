@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.unibs.ing.fp.mylib.MyMenu</OriginalElement>
+  <nodes>
+    <node x="374.242708333333" y="401.0">it.unibs.ing.fp.tamagolem.Tipo</node>
+    <node x="377.24999999999994" y="2057.0">it.unibs.ing.fp.tamagolem.Squadra</node>
+    <node x="306.12395833333306" y="3550.0">it.unibs.ing.fp.gui.FinestraPrincipale</node>
+    <node x="591.3932291666661" y="1746.5">it.unibs.ing.fp.tamagolem.Combattente</node>
+    <node x="746.25" y="2386.0">it.unibs.ing.fp.tamagolem.Partita</node>
+    <node x="1060.3739583333331" y="1212.5">it.unibs.ing.fp.tamagolem.GestoreEquilibrio</node>
+    <node x="414.12395833333306" y="6246.0">it.unibs.ing.fp.gui.MainGUI</node>
+    <node x="63.25" y="1616.0">it.unibs.ing.fp.tamagolem.TamaGolem</node>
+    <node x="545.242708333333" y="0.0">it.unibs.ing.fp.tamagolem.Arco</node>
+    <node x="42.242708333332985" y="1212.0">it.unibs.ing.fp.tamagolem.Pietra</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.GestoreEquilibrio" relationship="CREATE">
+      <point x="195.55555555555554" y="-1323.0" />
+      <point x="721.6795138888886" y="3529.0" />
+      <point x="1307.7489583333331" y="3529.0" />
+      <point x="1307.7489583333331" y="1595.0" />
+      <point x="1267.3739583333331" y="1595.0" />
+      <point x="0.0" y="175.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Partita" relationship="TO_ONE">
+      <point x="97.77777777777777" y="-1323.0" />
+      <point x="623.9017361111108" y="3509.0" />
+      <point x="879.0" y="3509.0" />
+      <point x="-132.75" y="546.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Partita" target="it.unibs.ing.fp.tamagolem.Squadra" relationship="TO_ONE">
+      <point x="-132.75" y="-546.0" />
+      <point x="879.0" y="2355.0" />
+      <point x="638.25" y="2355.0" />
+      <point x="87.0" y="138.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Combattente" relationship="CREATE">
+      <point x="48.888888888888914" y="-1323.0" />
+      <point x="575.012847222222" y="3499.0" />
+      <point x="735.75" y="3499.0" />
+      <point x="735.75" y="2036.0" />
+      <point x="802.8932291666661" y="2036.0" />
+      <point x="70.5" y="64.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.TamaGolem" relationship="DEPENDENCY">
+      <point x="-97.77777777777783" y="-1323.0" />
+      <point x="428.34618055555524" y="3509.0" />
+      <point x="203.64322916666612" y="3509.0" />
+      <point x="203.64322916666612" y="2026.0" />
+      <point x="136.5" y="2026.0" />
+      <point x="-73.25" y="194.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Partita" target="it.unibs.ing.fp.tamagolem.Tipo" relationship="DEPENDENCY">
+      <point x="132.75" y="-546.0" />
+      <point x="1144.5" y="2355.0" />
+      <point x="1049.8739583333331" y="2355.0" />
+      <point x="1049.8739583333331" y="1191.0" />
+      <point x="1023.5984374999999" y="1191.0" />
+      <point x="1023.5984374999999" y="1181.0" />
+      <point x="584.992708333333" y="1181.0" />
+      <point x="70.25" y="379.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Squadra" target="it.unibs.ing.fp.tamagolem.TamaGolem" relationship="TO_MANY">
+      <point x="-43.5" y="-138.5" />
+      <point x="507.74999999999994" y="2026.0" />
+      <point x="283.0" y="2026.0" />
+      <point x="73.25" y="194.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Squadra" target="it.unibs.ing.fp.tamagolem.TamaGolem" relationship="CREATE">
+      <point x="-130.5" y="-138.5" />
+      <point x="420.74999999999994" y="2036.0" />
+      <point x="203.64322916666612" y="2036.0" />
+      <point x="203.64322916666612" y="2026.0" />
+      <point x="136.5" y="2026.0" />
+      <point x="-73.25" y="194.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Pietra" relationship="TO_MANY">
+      <point x="-146.66666666666674" y="-1323.0" />
+      <point x="379.4572916666663" y="3519.0" />
+      <point x="52.75" y="3519.0" />
+      <point x="52.75" y="1595.0" />
+      <point x="94.625" y="1595.0" />
+      <point x="94.625" y="1585.0" />
+      <point x="126.24270833333298" y="1585.0" />
+      <point x="-84.0" y="176.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.GestoreEquilibrio" target="it.unibs.ing.fp.tamagolem.Arco" relationship="CREATE">
+      <point x="103.5" y="-175.5" />
+      <point x="1370.8739583333331" y="371.0" />
+      <point x="740.242708333333" y="371.0" />
+      <point x="65.0" y="175.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Partita" relationship="CREATE">
+      <point x="146.66666666666663" y="-1323.0" />
+      <point x="672.7906249999996" y="3519.0" />
+      <point x="1144.5" y="3519.0" />
+      <point x="132.75" y="546.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Squadra" relationship="CREATE">
+      <point x="0.0" y="-1323.0" />
+      <point x="526.1239583333331" y="3529.0" />
+      <point x="531.3932291666661" y="3529.0" />
+      <point x="531.3932291666661" y="2355.0" />
+      <point x="464.24999999999994" y="2355.0" />
+      <point x="-87.0" y="138.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.GestoreEquilibrio" target="it.unibs.ing.fp.tamagolem.Tipo" relationship="DEPENDENCY">
+      <point x="-103.5" y="-175.5" />
+      <point x="1163.8739583333331" y="1191.0" />
+      <point x="1023.5984374999999" y="1191.0" />
+      <point x="1023.5984374999999" y="1181.0" />
+      <point x="584.992708333333" y="1181.0" />
+      <point x="70.25" y="379.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Squadra" target="it.unibs.ing.fp.tamagolem.Combattente" relationship="TO_ONE">
+      <point x="43.5" y="-138.5" />
+      <point x="594.75" y="2036.0" />
+      <point x="661.8932291666661" y="2036.0" />
+      <point x="-70.5" y="64.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.MainGUI" target="it.unibs.ing.fp.gui.FinestraPrincipale" relationship="CREATE">
+      <point x="0.0" y="-64.0" />
+      <point x="0.0" y="1323.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.TamaGolem" target="it.unibs.ing.fp.tamagolem.Pietra" relationship="TO_MANY">
+      <point x="-73.25" y="-194.5" />
+      <point x="136.5" y="1595.0" />
+      <point x="94.625" y="1595.0" />
+      <point x="94.625" y="1585.0" />
+      <point x="126.24270833333298" y="1585.0" />
+      <point x="-84.0" y="176.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Partita" target="it.unibs.ing.fp.tamagolem.Pietra" relationship="CREATE">
+      <point x="44.25" y="-546.0" />
+      <point x="1056.0" y="2365.0" />
+      <point x="1018.875" y="2365.0" />
+      <point x="1018.875" y="1595.0" />
+      <point x="392.0182291666661" y="1595.0" />
+      <point x="392.0182291666661" y="1585.0" />
+      <point x="294.242708333333" y="1585.0" />
+      <point x="84.0" y="176.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Partita" target="it.unibs.ing.fp.tamagolem.Combattente" relationship="DEPENDENCY">
+      <point x="-44.25" y="-546.0" />
+      <point x="967.5" y="2365.0" />
+      <point x="1007.875" y="2365.0" />
+      <point x="1007.875" y="2036.0" />
+      <point x="802.8932291666661" y="2036.0" />
+      <point x="70.5" y="64.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Partita" target="it.unibs.ing.fp.tamagolem.Squadra" relationship="DEPENDENCY">
+      <point x="-221.25" y="-546.0" />
+      <point x="790.5" y="2365.0" />
+      <point x="531.3932291666661" y="2365.0" />
+      <point x="531.3932291666661" y="2355.0" />
+      <point x="464.24999999999994" y="2355.0" />
+      <point x="-87.0" y="138.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Pietra" target="it.unibs.ing.fp.tamagolem.Tipo" relationship="TO_ONE">
+      <point x="-84.0" y="-176.0" />
+      <point x="126.24270833333298" y="1191.0" />
+      <point x="78.99270833333298" y="1191.0" />
+      <point x="78.99270833333298" y="1181.0" />
+      <point x="444.492708333333" y="1181.0" />
+      <point x="-70.25" y="379.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.TamaGolem" target="it.unibs.ing.fp.tamagolem.Pietra" relationship="DEPENDENCY">
+      <point x="73.25" y="-194.5" />
+      <point x="283.0" y="1595.0" />
+      <point x="392.0182291666661" y="1595.0" />
+      <point x="392.0182291666661" y="1585.0" />
+      <point x="294.242708333333" y="1585.0" />
+      <point x="84.0" y="176.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Pietra" relationship="CREATE">
+      <point x="-48.888888888888914" y="-1323.0" />
+      <point x="477.23506944444415" y="3499.0" />
+      <point x="366.74999999999994" y="3499.0" />
+      <point x="366.74999999999994" y="1595.0" />
+      <point x="392.0182291666661" y="1595.0" />
+      <point x="392.0182291666661" y="1585.0" />
+      <point x="294.242708333333" y="1585.0" />
+      <point x="84.0" y="176.0" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Pietra" target="it.unibs.ing.fp.tamagolem.Tipo" relationship="DEPENDENCY">
+      <point x="84.0" y="-176.0" />
+      <point x="294.242708333333" y="1191.0" />
+      <point x="1023.5984374999999" y="1191.0" />
+      <point x="1023.5984374999999" y="1181.0" />
+      <point x="584.992708333333" y="1181.0" />
+      <point x="70.25" y="379.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Tipo" target="it.unibs.ing.fp.tamagolem.Arco" relationship="TO_MANY">
+      <point x="-70.25" y="-379.5" />
+      <point x="444.492708333333" y="371.0" />
+      <point x="610.242708333333" y="371.0" />
+      <point x="-65.0" y="175.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Partita" target="it.unibs.ing.fp.tamagolem.GestoreEquilibrio" relationship="CREATE">
+      <point x="221.25000000000006" y="-546.0" />
+      <point x="1233.0" y="2365.0" />
+      <point x="1267.3739583333331" y="2365.0" />
+      <point x="0.0" y="175.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.gui.FinestraPrincipale" target="it.unibs.ing.fp.tamagolem.Tipo" relationship="TO_MANY">
+      <point x="-195.55555555555566" y="-1323.0" />
+      <point x="330.5684027777774" y="3529.0" />
+      <point x="0.0" y="3529.0" />
+      <point x="0.0" y="1191.0" />
+      <point x="78.99270833333298" y="1191.0" />
+      <point x="78.99270833333298" y="1181.0" />
+      <point x="444.492708333333" y="1181.0" />
+      <point x="-70.25" y="379.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Tipo" target="it.unibs.ing.fp.tamagolem.Arco" relationship="DEPENDENCY">
+      <point x="70.25" y="-379.5" />
+      <point x="584.992708333333" y="381.0" />
+      <point x="1370.8739583333331" y="381.0" />
+      <point x="1370.8739583333331" y="371.0" />
+      <point x="740.242708333333" y="371.0" />
+      <point x="65.0" y="175.5" />
+    </edge>
+    <edge source="it.unibs.ing.fp.tamagolem.Squadra" target="it.unibs.ing.fp.tamagolem.Combattente" relationship="DEPENDENCY">
+      <point x="130.5" y="-138.5" />
+      <point x="681.75" y="2036.0" />
+      <point x="802.8932291666661" y="2036.0" />
+      <point x="70.5" y="64.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.3999999999999999" showDependencies="true" x="1101.0" y="566.2500000000002" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
