@@ -75,8 +75,8 @@ public class Partita {
         ArrayList<Pietra> scorta_comune = generaScortaComune(tipi);
 
         //Evoluzione del primo tamagolem delle due squadre
-        evoluzione(squadra_uno,scorta_comune, PIETRE_PER_GOLEM);
-        evoluzione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
+        evocazione(squadra_uno,scorta_comune, PIETRE_PER_GOLEM);
+        evocazione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
 
         //Inizio scontro Todo
         boolean check_finisch;
@@ -101,7 +101,7 @@ public class Partita {
                         j++;
                     }while(!trova);
                 }
-                evoluzione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
+                evocazione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
 
                 check = getElementiUguali()==squadra_due.getTamagolem().getPietreArray().size();
 
@@ -271,7 +271,7 @@ public class Partita {
         if (squadra.getTamagolem().getSalute() <= 0) {
             squadra.removeTama();
             if (squadra.getTamagolems().size() > 0) {
-                evoluzione(squadra, scorta_comune, p);
+                evocazione(squadra, scorta_comune, p);
             }
         }
     }
@@ -331,7 +331,7 @@ public class Partita {
      * @param scorta_comune ArrayList con la scorta di pietre che è possibile scegliere
      * @param p Numero di pietre per ogni golem
      */
-    private void evoluzione(Squadra squadra, ArrayList<Pietra> scorta_comune, int p) {
+    private void evocazione(Squadra squadra, ArrayList<Pietra> scorta_comune, int p) {
         System.out.println("Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
         for (int i = 0; i < p; i++) {
             stampaScorte(scorta_comune);

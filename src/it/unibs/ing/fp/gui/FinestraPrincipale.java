@@ -333,7 +333,7 @@ public class FinestraPrincipale extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (scorta_comune.get(pietra_attuale).getQuantita_pietra() > 0) {
 
-                    evoluzioneGUI(partita.getSquadra_uno(), pietra_attuale);
+                    evocazioneGUI(partita.getSquadra_uno(), pietra_attuale);
                     setPietraP1(tipi.get(pietra_attuale).name());
                     cont_pietre++;
                     //Se tutte pietre sono state inserite
@@ -366,7 +366,7 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (scorta_comune.get(pietra_attuale2).getQuantita_pietra() > 0) {
-                    evoluzioneGUI(partita.getSquadra_due(), pietra_attuale2);
+                    evocazioneGUI(partita.getSquadra_due(), pietra_attuale2);
                     setPietraP2(tipi.get(pietra_attuale2).name());
                     cont_pietre++;
                     //Se tutte pietre sono state inserite
@@ -617,7 +617,7 @@ public class FinestraPrincipale extends JFrame {
     }
 
 
-    private void evoluzioneGUI(Squadra squadra, int pietra_scelta) {
+    private void evocazioneGUI(Squadra squadra, int pietra_scelta) {
         testo.setText(" Evoluzione del golem da parte di " + squadra.getCombattente().getNome_combattente());
         squadra.getTamagolem().addTipoPietra(new Pietra(scorta_comune.get(pietra_scelta).getTipo_pietra()));
         scorta_comune.get(pietra_scelta).decrementaQuantitaPietra();
