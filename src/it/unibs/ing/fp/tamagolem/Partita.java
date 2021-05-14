@@ -14,10 +14,10 @@ import java.util.Scanner;
  */
 public class Partita {
 
-    public static int NUMERO_ELEMENTI = 5; //Mai Minore di 5
-    public static int PIETRE_PER_GOLEM = 0;
-    public static int GOLEM_PER_PLAYER = 0;
-    public static int ELEMENTI_IN_SCORTA = 0;
+    public static int numero_elementi = 5; //Mai Minore di 5
+    public static int pietre_per_golem = 0;
+    public static int golem_per_player = 0;
+    public static int elementi_in_scorta = 0;
     public static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
 
     private Squadra squadra_uno;
@@ -37,14 +37,14 @@ public class Partita {
         //Metodo che calcola costati di gioco
         calcoloCostatiDiGioco();
         //inizializzazione tamagolem
-        inizializzaTama(GOLEM_PER_PLAYER);
+        inizializzaTama(golem_per_player);
     }
 
     public void inizializzazioneGUI(int numero_elementi){
         //Metodo che calcola costati di gioco
         calcoloCostatiDiGiocoGUI(numero_elementi);
         //inizializzazione tamagolem
-        inizializzaTama(GOLEM_PER_PLAYER);
+        inizializzaTama(golem_per_player);
     }
 
     public ArrayList<Pietra> generaScortaComune(ArrayList<Tipo> tipi){
@@ -53,7 +53,7 @@ public class Partita {
         //TIPI INDICA L'ARRAYLIST con i TIPI PRESENTI
         for (Tipo appoggio : tipi) {
             if(appoggio.getM()){
-                scorta_comune.add(new Pietra(appoggio,(ELEMENTI_IN_SCORTA /NUMERO_ELEMENTI)));
+                scorta_comune.add(new Pietra(appoggio,(elementi_in_scorta / numero_elementi)));
             }
         }
 
@@ -69,14 +69,14 @@ public class Partita {
         inizializzazione();
 
         // CREARE EQUILIBRIO PASSANDO NUMERO_ELEMENTI Todo
-        GestoreEquilibrio generatore = new GestoreEquilibrio(NUMERO_ELEMENTI);
+        GestoreEquilibrio generatore = new GestoreEquilibrio(numero_elementi);
         ArrayList<Tipo> tipi = generatore.equilibrio();
 
         ArrayList<Pietra> scorta_comune = generaScortaComune(tipi);
 
         //Evoluzione del primo tamagolem delle due squadre
-        evocazione(squadra_uno,scorta_comune, PIETRE_PER_GOLEM);
-        evocazione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
+        evocazione(squadra_uno,scorta_comune, pietre_per_golem);
+        evocazione(squadra_due,scorta_comune, pietre_per_golem);
 
         //Inizio scontro Todo
         boolean check_finisch;
@@ -85,7 +85,7 @@ public class Partita {
             while(check){
                 System.out.println(squadra_due.getCombattente().getNome_combattente() + " HAI SCELTO GLI STESSI TIPI DI " + squadra_uno.getCombattente().getNome_combattente() + " PER FAVORE CAMBIA");
 
-                for (int i = 0; i < ELEMENTI_IN_SCORTA /NUMERO_ELEMENTI; i++) {
+                for (int i = 0; i < elementi_in_scorta / numero_elementi; i++) {
                     int j=0;
                     boolean trova=false;
                     do{
@@ -101,7 +101,7 @@ public class Partita {
                         j++;
                     }while(!trova);
                 }
-                evocazione(squadra_due,scorta_comune, PIETRE_PER_GOLEM);
+                evocazione(squadra_due,scorta_comune, pietre_per_golem);
 
                 check = getElementiUguali()==squadra_due.getTamagolem().getPietreArray().size();
 
@@ -166,8 +166,8 @@ public class Partita {
     }
 
     public void controllaVita2Tama(ArrayList<Pietra> scorta_comune) {
-        controlloVita(scorta_comune, PIETRE_PER_GOLEM, squadra_uno);
-        controlloVita(scorta_comune, PIETRE_PER_GOLEM, squadra_due);
+        controlloVita(scorta_comune, pietre_per_golem, squadra_uno);
+        controlloVita(scorta_comune, pietre_per_golem, squadra_due);
     }
 
     /**
@@ -221,13 +221,13 @@ public class Partita {
      */
     private void calcoloCostatiDiGioco() {
         //NUMERO_ELEMENTI = Numero di elementi nell'equilibrio
-        NUMERO_ELEMENTI = setN();
+        numero_elementi = setN();
         //P Numero di pietre per ogni golem
-        PIETRE_PER_GOLEM = ((NUMERO_ELEMENTI+1)/3)+1;
+        pietre_per_golem = ((numero_elementi +1)/3)+1;
         // G Numero di golem per partita
-        GOLEM_PER_PLAYER =  (NUMERO_ELEMENTI - 1)*(NUMERO_ELEMENTI - 2) / (2 * PIETRE_PER_GOLEM);
+        golem_per_player =  (numero_elementi - 1)*(numero_elementi - 2) / (2 * pietre_per_golem);
         //S Quantita di pietre nella scorta comune
-        ELEMENTI_IN_SCORTA = ((2 * GOLEM_PER_PLAYER * PIETRE_PER_GOLEM) / NUMERO_ELEMENTI) * NUMERO_ELEMENTI +NUMERO_ELEMENTI;
+        elementi_in_scorta = ((2 * golem_per_player * pietre_per_golem) / numero_elementi) * numero_elementi + numero_elementi;
     }
 
     /**
@@ -235,13 +235,13 @@ public class Partita {
      */
     private void calcoloCostatiDiGiocoGUI(int numero_elementi) {
         //NUMERO_ELEMENTI = Numero di elementi nell'equilibrio
-        NUMERO_ELEMENTI = numero_elementi;
+        Partita.numero_elementi = numero_elementi;
         //P Numero di pietre per ogni golem
-        PIETRE_PER_GOLEM = ((NUMERO_ELEMENTI+1)/3)+1;
+        pietre_per_golem = ((Partita.numero_elementi +1)/3)+1;
         // G Numero di golem per partita
-        GOLEM_PER_PLAYER =  (NUMERO_ELEMENTI - 1)*(NUMERO_ELEMENTI - 2) / (2 * PIETRE_PER_GOLEM);
+        golem_per_player =  (Partita.numero_elementi - 1)*(Partita.numero_elementi - 2) / (2 * pietre_per_golem);
         //S Quantita di pietre nella scorta comune
-        ELEMENTI_IN_SCORTA = ((2 * GOLEM_PER_PLAYER * PIETRE_PER_GOLEM) / NUMERO_ELEMENTI) * NUMERO_ELEMENTI +NUMERO_ELEMENTI;
+        elementi_in_scorta = ((2 * golem_per_player * pietre_per_golem) / Partita.numero_elementi) * Partita.numero_elementi + Partita.numero_elementi;
     }
 
     /**
@@ -252,7 +252,7 @@ public class Partita {
      */
     public int posPietra(ArrayList<Tipo> tipi, Squadra squadra) {
         int pos=0;
-        for (int i = 0; i < NUMERO_ELEMENTI; i++) {
+        for (int i = 0; i < numero_elementi; i++) {
             if (squadra.getTamagolem().getPietre().getTipo_pietra().name().equals(tipi.get(i).name())) {
                 pos=i;
             }
