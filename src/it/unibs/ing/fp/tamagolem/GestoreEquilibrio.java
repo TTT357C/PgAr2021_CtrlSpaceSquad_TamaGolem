@@ -13,6 +13,16 @@ public class GestoreEquilibrio {
 
     private final int NUMERO_ELEMENTI; //Mai Minore di 5
     private static final int VALORE_MAX_RANDOM_NUM = 3; //incide solo sui numeri random, ma non su quelli calcolati
+    /*
+    Per il parametro V: il mio metodo controlla il VALORE_MAX_RANDOM_NUM solo dei random, ma comunque essendo
+    che i valori calcolati dipendono dai numeri random (perche' e' necessario bilanciare la matrice, sono somme e sottrazioni),
+    ho deciso di non implementare V come variabile, visto che matematicamente, i random possono avere un valore massimo
+    di VALORE_MAX_RANDOM_NUM e quindi il valore finale non può essere mai maggiore di un determinato numero.
+
+    I valori massimi che puo' raggiungere V (in base alla dimensione della matrice e a VALORE_MAX_RANDOM_NUM) sono:
+    Matrice:3 = V:9, 4=24, 5=42, 6=67, 7=90, 8=126, 9=152, 10=185
+
+    */
 
     /**
      * Costruttore
