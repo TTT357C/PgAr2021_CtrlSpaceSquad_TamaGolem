@@ -423,7 +423,7 @@ public class FinestraPrincipale extends JFrame {
                     setPietraP1(tipi.get(pietra_attuale).name());
                     cont_pietre++;
                     //Se tutte pietre sono state inserite
-                    if (cont_pietre == Partita.PIETRE_PER_GOLEM) {
+                    if (cont_pietre == Partita.pietre_per_golem) {
                         freccia_sinistra.setEnabled(false);
                         freccia_destra.setEnabled(false);
                         conferma1.setEnabled(false);
@@ -456,7 +456,7 @@ public class FinestraPrincipale extends JFrame {
                     setPietraP2(tipi.get(pietra_attuale2).name());
                     cont_pietre++;
                     //Se tutte pietre sono state inserite
-                    if (cont_pietre == Partita.PIETRE_PER_GOLEM) {
+                    if (cont_pietre == Partita.pietre_per_golem) {
                         freccia_sinistra2.setEnabled(false);
                         freccia_destra2.setEnabled(false);
                         conferma2.setEnabled(false);
@@ -491,7 +491,7 @@ public class FinestraPrincipale extends JFrame {
                 //Controllo pietre uguali
                 //=======================================================================
                 int cont = 0;
-                for (int i = 0; i < Partita.PIETRE_PER_GOLEM; i++) {
+                for (int i = 0; i < Partita.pietre_per_golem; i++) {
                     int posp_test = partita.posPietra(tipi, partita.getSquadra_uno());
                     int posq_test = partita.posPietra(tipi, partita.getSquadra_due());
 
@@ -506,13 +506,13 @@ public class FinestraPrincipale extends JFrame {
                 //=======================================================================
                 //Se pietre uguali, altrimenti continua programma...
                 //=======================================================================
-                if (cont == Partita.PIETRE_PER_GOLEM) {
+                if (cont == Partita.pietre_per_golem) {
                     //Visualizzo messaggio
                     JOptionPane.showMessageDialog(null, " I tamagolem hanno le stesse pietre " + partita.getSquadra_uno().getCombattente().getNome_combattente() + " reinserisci le tue", "Errore stesse pietre", JOptionPane.WARNING_MESSAGE);
 
                     //Rimetto gli elemeti in scorta e chiedo al Player1 di reinserire le pietre
 
-                    for (int i = 0; i < Partita.ELEMENTI_IN_SCORTA / Partita.NUMERO_ELEMENTI; i++) {
+                    for (int i = 0; i < Partita.elementi_in_scorta / Partita.numero_elementi; i++) {
                         int j = 0;
                         boolean trova = false;
                         do {
