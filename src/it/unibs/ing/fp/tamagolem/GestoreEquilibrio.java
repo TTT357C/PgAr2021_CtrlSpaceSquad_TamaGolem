@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * <h1>GestoreEquilibrio classe che gestisce l' equilibrio degli elementi</h1>
- * <p>Metodo Pricipale: equilibrio</p>
+ * <p>Metodo Principale: equilibrio</p>
  * @author Thomas Causetti
  */
 public class GestoreEquilibrio {
@@ -16,6 +16,7 @@ public class GestoreEquilibrio {
 
     /**
      * Costruttore
+     * @author Thomas Causetti
      * @param numero_elementi numero elementi
      */
     public GestoreEquilibrio(int numero_elementi) {
@@ -25,6 +26,7 @@ public class GestoreEquilibrio {
     /**
      * Test main
      * @param args
+     * @author Thomas Causetti
      */
     public static void main(String[] args) {
 
@@ -71,6 +73,9 @@ public class GestoreEquilibrio {
      * <h1> equilibrio </h1>
      * @author Thomas Causetti
      * <b> Metodo di generazione dell' equilibrio </b>
+     * <p>Metodo che crea equilibrio, richiamando il metodo che genera la matrice di un grafo, assegna la matrice ad
+     *  Arraylist di tipi e salva i dati all' interno dei TreeMap di Arco in ogni Tipo</p>
+     *  @author Thomas Causetti
      */
     public ArrayList<Tipo> equilibrio(){
 
@@ -114,7 +119,13 @@ public class GestoreEquilibrio {
     }
 
 
-
+    /**
+     * <h1>Controllo Numero Collegamenti</h1>
+     * <p>Controlla che il numero di collegamenti sia corretto, altrimenti mette -1 a Matrice[0][0]</p>
+     * <p>(Utilizzato solo in testing)</p>
+     * @author Thomas Causetti
+     * @param matrice_adia matrice di adiacenza
+     */
     private void controlloNumeroCollegamenti(int[][] matrice_adia) {
         int somma;
         somma=0;
@@ -135,6 +146,11 @@ public class GestoreEquilibrio {
         }
     }
 
+    /**
+     * Visualizza una matrice utile per debug
+     * @author Thomas Causetti
+     * @param matrice matrice generale
+     */
     private void visualizzaMatrice(int[][] matrice) {
         //Visualizza
         for (int i = 0; i < NUMERO_ELEMENTI; i++) {
@@ -148,6 +164,22 @@ public class GestoreEquilibrio {
 
 
     //Nuovo generatore Test
+
+    /**
+     * <h1> equilibrioMatrice </h1>
+     * <p> Metodo che crea la matrice (di adiacenza per generare il grafo)</p>
+     *  es:
+     *  0	0	2	0	1
+     *  2	0	0	0	4
+     *  0	3	0	1	0
+     *  1	3	0	0	0
+     *  0	0	2	3	0
+     *
+     * <p>Nota: I for sono ottimizzati in modo che, singolarmente, non passino per tutta la matrice visto che non è necessario</p>
+     * <p>Nota 2: terza versione, nella repository e' possibile trovare le vecchie versioni in Altro\EquilibrioOld.txt</p>
+     * @author Thomas Causetti
+     * @return matrice adiacenza
+     */
     private int[][] equilibrioMatrice() {
 
         //=================================================
@@ -167,6 +199,7 @@ public class GestoreEquilibrio {
             matrice[i][i] = 0;
 
 
+            //somma valori precedenti
             for (int j = 0; j < (i + 1); j++) {
                 temp_somma -= matrice[i][j];
             }
@@ -176,10 +209,13 @@ public class GestoreEquilibrio {
 
             for (int k = 1 + i; k < NUMERO_ELEMENTI - 2; k++) {
                 int temp;
+                //Genero random diverso da 0
                 do {
                     temp = rand.nextInt((2 * VALORE_MAX_RANDOM_NUM) + 1) - VALORE_MAX_RANDOM_NUM;
                     temp_somma += temp;
                 } while (temp == 0);
+
+                //li genero sia positivi che negativi per scegliere se inserirli nel triangolo superiore o inferiore
                 if (temp < 0) {
                     matrice[i][k] = Math.abs(temp);
                     matrice[k][i] = 0;
@@ -197,6 +233,7 @@ public class GestoreEquilibrio {
                 do {
                     temp_somma1 = temp_somma;
 
+                    //Genero random diverso da 0
                     do {
                         temp = rand.nextInt((2 * VALORE_MAX_RANDOM_NUM) + 1) - VALORE_MAX_RANDOM_NUM;
                         temp_somma1 += temp;
@@ -227,10 +264,32 @@ public class GestoreEquilibrio {
         }
 
         //Caso particolare fixer
+        /*
+            Prima:
+             0	 0	 0	 0	 8
+             3	 0	 0	 1	 0
+             2	 2	 0	 2	 0
+             3	 0	 0	 0	|0|
+             0	 2	 6	|0|	 0
+
+            Dopo:
+             0	 0	 0	 0	 9
+             3	 0	 0	 1	 0
+             2	 2	 0	 2	 0
+             4	 0	 0	 0	|0|
+             0	 2	 6	|1|  0
+
+            i due |0|.
+
+            Questo metodo e' in grado di sistemarlo senza rigenerare la matrice
+        */
+
         if (matrice[NUMERO_ELEMENTI - 2][NUMERO_ELEMENTI - 1]==0 && matrice[NUMERO_ELEMENTI - 1][NUMERO_ELEMENTI - 2]==0) {
 
             int temp_somma;
             do {
+                //Capisce se il valore da modificare si trova nella parte superiore o inferiore
+                //il valore non centra con i 2 zeri, ma e' per bilanciare la matrice
                 if (matrice[NUMERO_ELEMENTI - 2][0] == 0) {
                     matrice[0][NUMERO_ELEMENTI - 2]++;
                 } else if (matrice[0][NUMERO_ELEMENTI - 2] == 0) {
@@ -239,6 +298,7 @@ public class GestoreEquilibrio {
 
                 temp_somma = 0;
 
+                //Calcolo somma per bilanciare matrice
                 for (int j = 0; j < NUMERO_ELEMENTI - 1; j++) {
                     temp_somma -= matrice[0][j];
                 }
@@ -258,6 +318,7 @@ public class GestoreEquilibrio {
 
             temp_somma=0;
 
+            //Calcolo somma per bilanciare matrice
             for (int j = 0; j < NUMERO_ELEMENTI-1; j++) {
                 temp_somma -= matrice[NUMERO_ELEMENTI-2][j];
             }
@@ -275,7 +336,8 @@ public class GestoreEquilibrio {
             }
         }
 
-        //TODO controlla
+        //Disabilitato il controllo che mette matrice[0][0]=-1 se non corretto
+        //Per efficienza
         //controlloNumeroCollegamenti(matrice);
         return matrice;
 

@@ -160,6 +160,7 @@ public class FinestraPrincipale extends JFrame {
                 menu.setEnabled(false);
 
                 int scelta = 1;
+                //Nomi partita precedente se disponibili
                 if (nomegiocatore1 != null) {
                     scelta = JOptionPane.showConfirmDialog(null, NOMI_DELLA_PARTITA_PRECEDENTE, NUOVA_PARTITA, JOptionPane.YES_NO_OPTION);
                 }
@@ -197,6 +198,7 @@ public class FinestraPrincipale extends JFrame {
                 int returnValue = JOptionPane.showOptionDialog(null, "Seleziona difficolta':", NUOVA_PARTITA, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
                 System.out.println(returnValue);
 
+                //Conversione difficolta' in numero
                 int numero_ele;
                 switch (returnValue) {
                     case 0:
@@ -397,7 +399,13 @@ public class FinestraPrincipale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //=======================================================================
+                //Parte dello scontro
+                //=======================================================================
 
+                //=======================================================================
+                //Controllo pietre uguali
+                //=======================================================================
                 int cont = 0;
                 for (int i = 0; i < Partita.PIETRE_PER_GOLEM; i++) {
                     int posp_test = partita.posPietra(tipi, partita.getSquadra_uno());
@@ -409,14 +417,21 @@ public class FinestraPrincipale extends JFrame {
 
                     partita.cambioPietre();
                 }
+                //=======================================================================
+
+                //=======================================================================
+                //Se pietre uguali, altrimenti continua programma...
+                //=======================================================================
                 if (cont == Partita.PIETRE_PER_GOLEM) {
+                    //Visualizzo messaggio
                     JOptionPane.showMessageDialog(null, " I tamagolem hanno le stesse pietre " + partita.getSquadra_uno().getCombattente().getNome_combattente() + " reinserisci le tue", "Errore stesse pietre", JOptionPane.WARNING_MESSAGE);
+
+                    //Rimetto gli elemeti in scorta e chiedo al Player1 di reinserire le pietre
 
                     for (int i = 0; i < Partita.ELEMENTI_IN_SCORTA / Partita.NUMERO_ELEMENTI; i++) {
                         int j = 0;
                         boolean trova = false;
                         do {
-                            //todo controlla java.util.NoSuchElementException
                             try {
                                 if (scorta_comune.get(j).getTipo_pietra().name().equals(partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name())) {
                                     scorta_comune.get(j).aumentaQuantitaPietra();
@@ -429,24 +444,31 @@ public class FinestraPrincipale extends JFrame {
                             j++;
                         } while (!trova);
                     }
+                    //setto le immagini a default
                     setPietraP1Img(-1 + "");
                     pietra1.setText("Scegli Pietra");
                     setPietraP2Img(-1 + "");
                     pietra2.setText("Pietre");
+                    //visualizzo tutorial
                     tutorialSceltaPietre();
+                    //abilito solo bottoni necessari
                     disableAllButtons();
                     abilitaBottoniP1();
+
                 } else {
+                    //nel caso in cui i due set di pietre sono diversi
                     boolean check_finish;
 
                     int posp = partita.posPietra(tipi, partita.getSquadra_uno());
                     int posq = partita.posPietra(tipi, partita.getSquadra_due());
+
+                    //Controllo efficacia
                     if (tipi.get(posp).name().equals(tipi.get(posq).name())) {
                         testo.setText(AVETE_USATO_LO_STESSO_TIPO);
                     } else {
                         if (tipi.get(posp).getArchi().get(posq).getSenso()) {
                             //uno predomina
-                            //System.out.println("TOLGO A DUE : "+  tipi.get(posp).getArchi().get(posq).getValore());
+                            //setto immagini
                             ImageIcon img1 = new ImageIcon("Immagini/1_.gif");
                             player1_img.setIcon(img1);
                             ImageIcon img2 = new ImageIcon("Immagini/2__.gif");
@@ -455,7 +477,7 @@ public class FinestraPrincipale extends JFrame {
                         }
                         if (!(tipi.get(posp).getArchi().get(posq).getSenso())) {
                             //due predomina
-                            //System.out.println("TOLGO A UNO : "+tipi.get(posp).getArchi().get(posq).getValore());
+                            //setto immagini
                             ImageIcon img1 = new ImageIcon("Immagini/1__.gif");
                             player1_img.setIcon(img1);
                             ImageIcon img2 = new ImageIcon("Immagini/2_.gif");
@@ -463,11 +485,12 @@ public class FinestraPrincipale extends JFrame {
                             partita.getSquadra_uno().getTamagolem().setSaluteDanno(tipi.get(posp).getArchi().get(posq).getValore());
                         }
                     }
+                    //area di testo sottostante
                     testo.setText(partita.getSquadra_uno().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_uno().getTamagolem().getPietre().getTipo_pietra().name() + "  -  "
                             + partita.getSquadra_due().getCombattente().getNome_combattente() + " ha usato " + partita.getSquadra_due().getTamagolem().getPietre().getTipo_pietra().name() + "");
                     aggiornaPietre();
 
-
+                    //setto progress bar
                     progressBar_1.setValue((partita.getSquadra_uno().getTamagolem().getSalute() * 100) / TamaGolem.SALUTE);
                     progressBar_2.setValue((partita.getSquadra_due().getTamagolem().getSalute() * 100) / TamaGolem.SALUTE);
 
@@ -478,7 +501,12 @@ public class FinestraPrincipale extends JFrame {
                     //controllo vita dei due tamagolem
                     controllaVita2TamaGUI(partita);
 
+                    //=======================================================================
+                    //controllo vittoria
+                    //=======================================================================
+
                     check_finish = partita.isTerminata();
+
 
                     if (check_finish) {
                         int a_zero = 0;
