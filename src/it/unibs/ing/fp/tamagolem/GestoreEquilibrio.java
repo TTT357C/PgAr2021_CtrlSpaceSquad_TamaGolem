@@ -71,7 +71,6 @@ public class GestoreEquilibrio {
 
     /**
      * <h1> equilibrio </h1>
-     * @author Thomas Causetti
      * <b> Metodo di generazione dell' equilibrio </b>
      * <p>Metodo che crea equilibrio, richiamando il metodo che genera la matrice di un grafo, assegna la matrice ad
      *  Arraylist di tipi e salva i dati all' interno dei TreeMap di Arco in ogni Tipo</p>
